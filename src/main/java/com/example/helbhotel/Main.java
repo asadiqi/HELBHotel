@@ -7,9 +7,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Pass the stage to the view for it to handle the scene and stage display
-        HELBHOTEL_View view = new HELBHOTEL_View(stage);
-        new HELBHotel_Controller(view); // Assumed controller initialization
+        HELBHOTEL_View view = HELBHOTEL_View.getInstance(stage);
+        HELBHotel_Controller controller = HELBHotel_Controller.getInstance(view);
     }
 
     public static void main(String[] args) {

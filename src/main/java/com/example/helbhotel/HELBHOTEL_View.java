@@ -1,31 +1,28 @@
 package com.example.helbhotel;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class HELBHOTEL_View {
 
     private VBox root;
+    private static HELBHOTEL_View instance;
 
-    public HELBHOTEL_View(Stage stage) {
+    private HELBHOTEL_View(Stage stage) {
         root = new VBox();
 
-        // Example UI element - a Button
-        Button button = new Button("Click Me");
-        button.setOnAction(event -> {
-            System.out.println("Button clicked!");
-        });
+        stage.setTitle("HELBHotel");
 
-        // Add the button to the root layout
-        root.getChildren().add(button);
-
-        // Create the Scene
-        Scene scene = new Scene(root, 320, 240);
-
-        // Set the Scene on the Stage and display the Stage
+        Scene scene = new Scene(root, 750, 550);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static HELBHOTEL_View getInstance(Stage stage) {
+        if (instance == null) {
+            instance = new HELBHOTEL_View(stage);
+        }
+        return instance;
     }
 }
