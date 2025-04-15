@@ -86,11 +86,11 @@ public class HELBHOTEL_View {
 
         while (parser.hasNextRequest()) {
             ReservationRequest request = parser.getNextReservationRequest();
-            String displayText = String.format("%s %s, %d personnes, %s, %s, %d enfants",
-                    request.nom, request.prenom, request.nombreDePersonnes,
-                    request.fumeur ? "Fumeur" : "Non-fumeur", request.motifSejour, request.nombreEnfants);
+            // Affichage avec l'initiale du prénom et le nom de famille
+            String displayText = String.format("%s.%s", request.prenom.charAt(0), request.nom);
             listView.getItems().add(displayText);
         }
+
 
         rightPanel.getChildren().add(listView);
         mainContent.getChildren().addAll(leftPanel, rightPanel);
