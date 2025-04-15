@@ -63,9 +63,11 @@ public class HELBHOTEL_View {
 
         while (parser.hasNextRequest()) {
             ReservationRequest request = parser.getNextReservationRequest();
-            String displayText = String.format("%s %s, %d people, %s, %s, %d children",
+            String displayText = String.format("%s %s, %d personnes, %s, %s, %d enfants",
                     request.nom, request.prenom, request.nombreDePersonnes,
-                    request.fumeur ? "Smoker" : "Non-smoker", request.motifSejour, request.nombreEnfants);
+                    request.fumeur ? "Fumeur" : "Non-fumeur", request.motifSejour, request.nombreEnfants);
+
+
             listView.getItems().add(displayText);
         }
 
