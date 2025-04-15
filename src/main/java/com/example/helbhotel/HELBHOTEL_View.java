@@ -1,11 +1,10 @@
 package com.example.helbhotel;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class HELBHOTEL_View {
 
@@ -16,16 +15,52 @@ public class HELBHOTEL_View {
         root = new VBox();
         stage.setTitle("HELBHotel");
 
-        // Create a ListView to display the reservation requests
+        // Espace du haut (pour les boutons à venir)
+        Region topSpace = new Region();
+        topSpace.setPrefHeight(80);
+        root.getChildren().add(topSpace);
+
+        // Section principale
+        HBox mainContent = new HBox();
+        mainContent.setSpacing(20);
+        mainContent.setPadding(new Insets(20));
+        VBox.setVgrow(mainContent, Priority.ALWAYS);
+
+        // === Cadre 1 ===
+        Region leftPanel = new Region();
+        leftPanel.setStyle("""
+                -fx-background-color: #FFFFFF;
+                -fx-border-color: #CCCCCC;
+                -fx-border-radius: 15;
+                -fx-background-radius: 15;
+                """);
+        leftPanel.setMinWidth(300);
+        HBox.setHgrow(leftPanel, Priority.ALWAYS);
+
+        // === Cadre 2 ===
+        VBox rightPanel = new VBox();
+        rightPanel.setStyle("""
+                -fx-background-color: #FFFFFF;
+                -fx-border-color: #CCCCCC;
+                -fx-border-radius: 15;
+                -fx-background-radius: 15;
+                """);
+        HBox.setHgrow(rightPanel, Priority.ALWAYS);
+        VBox.setVgrow(rightPanel, Priority.ALWAYS);
+
+        // === ListView ===
         ListView<String> listView = new ListView<>();
+        listView.setStyle("""
+                -fx-background-color: #FFFFFF;
+                -fx-border-radius: 15;
+                -fx-background-radius: 15;
+                """);
+        VBox.setVgrow(listView, Priority.ALWAYS);
 
-        // Path to your CSV file
+        // Charger les réservations
         String csvFilePath = "C:\\Users\\sadiq\\Desktop\\Cours_Q4\\Java\\HELBHotel\\src\\main\\java\\com\\example\\helbhotel\\reservation.csv";
-
-        // Initialize the ReservationRequestParser and parse the CSV file
         ReservationRequestParser parser = new ReservationRequestParser(csvFilePath);
 
-        // Loop through the parsed data and populate the ListView
         while (parser.hasNextRequest()) {
             ReservationRequest request = parser.getNextReservationRequest();
             String displayText = String.format("%s %s, %d people, %s, %s, %d children",
@@ -34,11 +69,11 @@ public class HELBHOTEL_View {
             listView.getItems().add(displayText);
         }
 
-        // Add the ListView to the root layout
-        root.getChildren().add(listView);
+        rightPanel.getChildren().add(listView);
+        mainContent.getChildren().addAll(leftPanel, rightPanel);
+        root.getChildren().add(mainContent);
 
-        // Set the scene and show the stage
-        Scene scene = new Scene(root, 750, 550);
+        Scene scene = new Scene(root, 800, 600);
         stage.setScene(scene);
         stage.show();
     }
