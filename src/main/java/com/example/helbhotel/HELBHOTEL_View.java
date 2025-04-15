@@ -2,8 +2,9 @@ package com.example.helbhotel;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -72,13 +73,9 @@ public class HELBHOTEL_View {
         VBox.setVgrow(rightPanel, Priority.ALWAYS);
 
         // === Liste des réservations ===
-        ListView<String> listView = new ListView<>();
-        listView.setStyle("""
-            -fx-background-color: #FFFFFF;
-            -fx-border-radius: 15;
-            -fx-background-radius: 15;
-        """);
-        VBox.setVgrow(listView, Priority.ALWAYS);
+        VBox buttonPanel = new VBox();
+        buttonPanel.setSpacing(10);
+        VBox.setVgrow(buttonPanel, Priority.ALWAYS);
 
         // Charger les réservations
         String csvFilePath = "C:\\Users\\sadiq\\Desktop\\Cours_Q4\\Java\\HELBHotel\\src\\main\\java\\com\\example\\helbhotel\\reservation.csv";
@@ -88,11 +85,27 @@ public class HELBHOTEL_View {
             ReservationRequest request = parser.getNextReservationRequest();
             // Affichage avec l'initiale du prénom et le nom de famille
             String displayText = String.format("%s.%s", request.prenom.charAt(0), request.nom);
-            listView.getItems().add(displayText);
+
+            // Création d'un bouton pour chaque réservation
+            Button reservationButton = new Button(displayText);
+            reservationButton.setStyle("""
+                -fx-background-color: #4CAF50;
+                -fx-text-fill: white;
+                -fx-font-size: 14px;
+                -fx-padding: 10px;
+                -fx-border-radius: 5;
+            """);
+
+            // Ajout de l'événement de clic pour afficher le popup
+            reservationButton.setOnAction(event -> {
+                // Affichage du prénom et nom dans un popup
+                showReservationPopup(request.prenom, request.nom);
+            });
+
+            buttonPanel.getChildren().add(reservationButton);
         }
 
-
-        rightPanel.getChildren().add(listView);
+        rightPanel.getChildren().add(buttonPanel);
         mainContent.getChildren().addAll(leftPanel, rightPanel);
 
         // Ajouter tout au wrapper
@@ -105,6 +118,15 @@ public class HELBHOTEL_View {
         Scene scene = new Scene(root, 900, 650);
         stage.setScene(scene);
         stage.show();
+    }
+
+    // Méthode pour afficher le popup avec le prénom et le nom
+    private void showReservationPopup(String prenom, String nom) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informations de Réservation");
+        alert.setHeaderText(null);
+        alert.setContentText("Prénom: " + prenom + "\nNom: " + nom);
+        alert.showAndWait();
     }
 
     // Méthode pour créer une légende : texte + carré coloré
