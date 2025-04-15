@@ -2,6 +2,7 @@ package com.example.helbhotel;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -15,46 +16,68 @@ public class HELBHOTEL_View {
         root = new VBox();
         stage.setTitle("HELBHotel");
 
-        // Espace du haut (pour les boutons à venir)
-        Region topSpace = new Region();
-        topSpace.setPrefHeight(80);
-        root.getChildren().add(topSpace);
+        // === Grand cadre principal avec bord noir ===
+        VBox mainWrapper = new VBox();
+        mainWrapper.setPadding(new Insets(20));
+        mainWrapper.setSpacing(20);
+        mainWrapper.setStyle("""
+            -fx-background-color: #F8F8F8;
+            -fx-border-color: black;
+            -fx-border-width: 2;
+            -fx-border-radius: 25;
+            -fx-background-radius: 25;
+        """);
 
-        // Section principale
+        // === Légendes ===
+        HBox legendBox = new HBox(30);
+        legendBox.setPadding(new Insets(10));
+        legendBox.setStyle("-fx-alignment: center-left;");
+
+        // Luxe
+        HBox luxeLegend = createLegend("Luxe", "#D8C4EC");
+        HBox businessLegend = createLegend("Business", "#BFDFFF");
+        HBox ecoLegend = createLegend("Economique", "#FFE5B4");
+
+        legendBox.getChildren().addAll(luxeLegend, businessLegend, ecoLegend);
+        mainWrapper.getChildren().add(legendBox);
+
+        // === Section principale avec les deux cadres gauche/droite ===
         HBox mainContent = new HBox();
         mainContent.setSpacing(20);
-        mainContent.setPadding(new Insets(20));
+        mainContent.setPadding(new Insets(10));
         VBox.setVgrow(mainContent, Priority.ALWAYS);
 
-        // === Cadre 1 ===
+        // === Cadre gauche ===
         Region leftPanel = new Region();
         leftPanel.setStyle("""
-                -fx-background-color: #FFFFFF;
-                -fx-border-color: #CCCCCC;
-                -fx-border-radius: 15;
-                -fx-background-radius: 15;
-                """);
+            -fx-background-color: #FFFFFF;
+            -fx-border-color: black;
+            -fx-border-width: 2;
+            -fx-border-radius: 15;
+            -fx-background-radius: 15;
+        """);
         leftPanel.setMinWidth(300);
         HBox.setHgrow(leftPanel, Priority.ALWAYS);
 
-        // === Cadre 2 ===
+        // === Cadre droit ===
         VBox rightPanel = new VBox();
         rightPanel.setStyle("""
-                -fx-background-color: #FFFFFF;
-                -fx-border-color: #CCCCCC;
-                -fx-border-radius: 15;
-                -fx-background-radius: 15;
-                """);
+            -fx-background-color: #FFFFFF;
+            -fx-border-color: black;
+            -fx-border-width: 2;
+            -fx-border-radius: 15;
+            -fx-background-radius: 15;
+        """);
         HBox.setHgrow(rightPanel, Priority.ALWAYS);
         VBox.setVgrow(rightPanel, Priority.ALWAYS);
 
-        // === ListView ===
+        // === Liste des réservations ===
         ListView<String> listView = new ListView<>();
         listView.setStyle("""
-                -fx-background-color: #FFFFFF;
-                -fx-border-radius: 15;
-                -fx-background-radius: 15;
-                """);
+            -fx-background-color: #FFFFFF;
+            -fx-border-radius: 15;
+            -fx-background-radius: 15;
+        """);
         VBox.setVgrow(listView, Priority.ALWAYS);
 
         // Charger les réservations
@@ -66,18 +89,42 @@ public class HELBHOTEL_View {
             String displayText = String.format("%s %s, %d personnes, %s, %s, %d enfants",
                     request.nom, request.prenom, request.nombreDePersonnes,
                     request.fumeur ? "Fumeur" : "Non-fumeur", request.motifSejour, request.nombreEnfants);
-
-
             listView.getItems().add(displayText);
         }
 
         rightPanel.getChildren().add(listView);
         mainContent.getChildren().addAll(leftPanel, rightPanel);
-        root.getChildren().add(mainContent);
 
-        Scene scene = new Scene(root, 800, 600);
+        // Ajouter tout au wrapper
+        mainWrapper.getChildren().add(mainContent);
+
+        // Ajouter le wrapper au root
+        root.getChildren().add(mainWrapper);
+
+        // Scene
+        Scene scene = new Scene(root, 900, 650);
         stage.setScene(scene);
         stage.show();
+    }
+
+    // Méthode pour créer une légende : texte + carré coloré
+    private HBox createLegend(String text, String color) {
+        HBox box = new HBox(8);
+        Label label = new Label(text);
+        label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+
+        Region colorBox = new Region();
+        colorBox.setPrefSize(20, 20);
+        colorBox.setStyle(String.format("""
+            -fx-background-color: %s;
+            -fx-border-color: black;
+            -fx-border-width: 1;
+            -fx-border-radius: 4;
+            -fx-background-radius: 4;
+        """, color));
+
+        box.getChildren().addAll(label, colorBox);
+        return box;
     }
 
     public static HELBHOTEL_View getInstance(Stage stage) {
