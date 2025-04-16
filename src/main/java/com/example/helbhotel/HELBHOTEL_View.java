@@ -10,6 +10,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class HELBHOTEL_View {
 
     private VBox root;
@@ -30,9 +32,9 @@ public class HELBHOTEL_View {
     private final String BUTTON_BACKGROUND_COLOR = "#4CAF50";
     private final String BUTTON_TEXT_FILL = "white";
     private final String CSV_FILE_PATH = "C:\\Users\\sadiq\\Desktop\\Cours_Q4\\Java\\HELBHotel\\src\\main\\java\\com\\example\\helbhotel\\reservation.csv";
-    private final double BUTTON_PREF_WIDTH = 100;  // Largeur fixe pour les boutons
-    private final double BUTTON_PREF_HEIGHT = 40;  // Hauteur fixe pour les boutons
-
+    private final String HCONFIG_FILE_PATH = "C:\\Users\\sadiq\\Desktop\\Cours_Q4\\Java\\HELBHotel\\src\\main\\java\\com\\example\\helbhotel\\hconfig";
+    private final double BUTTON_PREF_WIDTH = 100;
+    private final double BUTTON_PREF_HEIGHT = 40;
     private final double WINDOW_HEIGHT = 650;
 
     // Espacement entre les composants
@@ -50,13 +52,11 @@ public class HELBHOTEL_View {
     private final double SCROLLPANE_PREF_HEIGHT = 400;
     private final double HBOX_SPACING = 8;
 
-
     private HELBHOTEL_View(Stage stage) {
         root = new VBox();
         stage.setTitle("HELBHotel");
         root.setPadding(new Insets(GENERAL_PADDING));
 
-        // === Grand cadre principal ===
         VBox mainWrapper = new VBox();
         mainWrapper.setPadding(new Insets(GENERAL_PADDING));
         mainWrapper.setSpacing(MAIN_WRPPER_SPACING);
@@ -71,7 +71,6 @@ public class HELBHOTEL_View {
         mainWrapper.setMaxHeight(Double.MAX_VALUE);
         VBox.setVgrow(mainWrapper, Priority.ALWAYS);
 
-        // === Légendes ===
         HBox legendBox = new HBox(LEGEND_BOX_SPACING);
         legendBox.setPadding(new Insets(LEGEND_PADDING));
         legendBox.setStyle("-fx-alignment: center-left;");
@@ -83,14 +82,13 @@ public class HELBHOTEL_View {
         legendBox.getChildren().addAll(luxeLegend, businessLegend, ecoLegend);
         mainWrapper.getChildren().add(legendBox);
 
-        // === Section principale ===
         HBox mainContent = new HBox();
         mainContent.setSpacing(MAIN_CONTENT_SPACING);
         mainContent.setPadding(new Insets(MAIN_CONTENT_PADDING));
         VBox.setVgrow(mainContent, Priority.ALWAYS);
 
-        // === Cadre gauche ===
-        Region leftPanel = new Region();
+        // === Cadre gauche : plan des chambres ===
+        VBox leftPanel = new VBox();
         leftPanel.setStyle(String.format("""
             -fx-background-color: white;
             -fx-border-color: %s;
@@ -100,9 +98,37 @@ public class HELBHOTEL_View {
         """, BORDER_COLOR, BORDER_WIDTH));
         leftPanel.setMinWidth(PANEL_MIN_WIDTH);
         leftPanel.setPrefHeight(PANEL_PREF_HEIGHT);
-        HBox.setHgrow(leftPanel, Priority.ALWAYS);
+        leftPanel.setAlignment(Pos.CENTER);
 
-        // === Cadre droit ===
+        HotelConfigParser configParser = new HotelConfigParser(HCONFIG_FILE_PATH);
+        ArrayList<ArrayList<String>> config = configParser.getChambreConfig();
+
+        GridPane grid = new GridPane();
+        grid.setHgap(5);
+        grid.setVgap(5);
+        grid.setPadding(new Insets(10));
+
+        for (int row = 0; row < config.size(); row++) {
+            ArrayList<String> ligne = config.get(row);
+            for (int col = 0; col < ligne.size(); col++) {
+                String type = ligne.get(col);
+                Label chambreLabel = new Label(type);
+                chambreLabel.setPrefSize(35, 35);
+                chambreLabel.setAlignment(Pos.CENTER);
+                chambreLabel.setStyle(String.format("""
+                    -fx-border-color: %s;
+                    -fx-border-width: 1;
+                    -fx-border-radius: 4;
+                    -fx-background-radius: 4;
+                    -fx-font-size: 14px;
+                """, BORDER_COLOR));
+                grid.add(chambreLabel, col, row);
+            }
+        }
+
+        leftPanel.getChildren().add(grid);
+
+        // === Cadre droit : Réservations ===
         VBox rightPanel = new VBox();
         rightPanel.setStyle(String.format("""
             -fx-background-color: white;
@@ -115,7 +141,6 @@ public class HELBHOTEL_View {
         rightPanel.setPrefHeight(PANEL_PREF_HEIGHT);
         HBox.setHgrow(rightPanel, Priority.ALWAYS);
 
-        // === Liste des réservations ===
         VBox buttonPanel = new VBox();
         buttonPanel.setSpacing(BUTTON_PANEL_SPACING);
         buttonPanel.setAlignment(Pos.CENTER);
@@ -135,8 +160,8 @@ public class HELBHOTEL_View {
                 -fx-border-radius: 5;
             """, BUTTON_BACKGROUND_COLOR, BUTTON_TEXT_FILL, BUTTON_FONT_SIZE, BUTTON_PADDING));
 
-            reservationButton.setPrefWidth(BUTTON_PREF_WIDTH );  // Largeur fixe pour tous les boutons
-            reservationButton.setPrefHeight(BUTTON_PREF_HEIGHT );
+            reservationButton.setPrefWidth(BUTTON_PREF_WIDTH);
+            reservationButton.setPrefHeight(BUTTON_PREF_HEIGHT);
 
             reservationButton.setOnAction(event -> {
                 showReservationPopup(request.prenom, request.nom);
@@ -145,25 +170,20 @@ public class HELBHOTEL_View {
             buttonPanel.getChildren().add(reservationButton);
         }
 
-        // === Scroll uniquement pour le cadre droit ===
         ScrollPane rightScrollPane = new ScrollPane(buttonPanel);
         rightScrollPane.setFitToWidth(true);
         rightScrollPane.setPrefHeight(SCROLLPANE_PREF_HEIGHT);
         rightPanel.getChildren().add(rightScrollPane);
 
-        // === Assemblage ===
         mainContent.getChildren().addAll(leftPanel, rightPanel);
         mainWrapper.getChildren().add(mainContent);
 
-        // === Scroll principal si besoin ===
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(mainWrapper);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         root.getChildren().add(scrollPane);
 
-        // === Affichage ===
-        // Dimensions de la fenêtre
         double WINDOW_WIDTH = 900;
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
