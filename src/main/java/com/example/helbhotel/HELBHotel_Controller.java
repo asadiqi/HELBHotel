@@ -15,4 +15,14 @@ public class HELBHotel_Controller {
         return instance;
     }
 
+    private String getColorForRoomType(String type) {
+        return switch (type) {
+            case "B" -> "#BFDFFF";    // Business
+            case "L=" -> "#D8C4EC";   // Luxe
+            case "E=" -> "#FFE5B4";   // Économique
+            case "Z" -> "#FFFFFF";    // Vide
+            default -> "#FFFFFF";     // Par défaut (inconnu)
+        };
+    }
+
 }

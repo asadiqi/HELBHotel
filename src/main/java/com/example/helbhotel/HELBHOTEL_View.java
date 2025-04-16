@@ -115,13 +115,24 @@ public class HELBHOTEL_View {
                 Label chambreLabel = new Label(type);
                 chambreLabel.setPrefSize(35, 35);
                 chambreLabel.setAlignment(Pos.CENTER);
+
+                String backgroundColor;
+                switch (type) {
+                    case "B" -> backgroundColor = "#BFDFFF";   // Business
+                    case "E" -> backgroundColor = "#FFE5B4";   // Economique
+                    case "L" -> backgroundColor = "#D8C4EC";   // Luxe
+                    default -> backgroundColor = "white";      // Z ou autres
+                }
+
                 chambreLabel.setStyle(String.format("""
+                    -fx-background-color: %s;
                     -fx-border-color: %s;
                     -fx-border-width: 1;
                     -fx-border-radius: 4;
                     -fx-background-radius: 4;
                     -fx-font-size: 14px;
-                """, BORDER_COLOR));
+                """, backgroundColor, BORDER_COLOR));
+
                 grid.add(chambreLabel, col, row);
             }
         }
