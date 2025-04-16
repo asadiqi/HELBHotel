@@ -112,6 +112,11 @@ public class HELBHOTEL_View {
             ArrayList<String> ligne = config.get(row);
             for (int col = 0; col < ligne.size(); col++) {
                 String type = ligne.get(col);
+
+                if (type.equals("Z")) {
+                    continue; // Ne pas afficher les chambres "Z"
+                }
+
                 Label chambreLabel = new Label(type);
                 chambreLabel.setPrefSize(35, 35);
                 chambreLabel.setAlignment(Pos.CENTER);
@@ -121,21 +126,22 @@ public class HELBHOTEL_View {
                     case "B" -> backgroundColor = "#BFDFFF";   // Business
                     case "E" -> backgroundColor = "#FFE5B4";   // Economique
                     case "L" -> backgroundColor = "#D8C4EC";   // Luxe
-                    default -> backgroundColor = "white";      // Z ou autres
+                    default -> backgroundColor = "white";
                 }
 
                 chambreLabel.setStyle(String.format("""
-                    -fx-background-color: %s;
-                    -fx-border-color: %s;
-                    -fx-border-width: 1;
-                    -fx-border-radius: 4;
-                    -fx-background-radius: 4;
-                    -fx-font-size: 14px;
-                """, backgroundColor, BORDER_COLOR));
+            -fx-background-color: %s;
+            -fx-border-color: %s;
+            -fx-border-width: 1;
+            -fx-border-radius: 4;
+            -fx-background-radius: 4;
+            -fx-font-size: 14px;
+        """, backgroundColor, BORDER_COLOR));
 
                 grid.add(chambreLabel, col, row);
             }
         }
+
 
         leftPanel.getChildren().add(grid);
 
