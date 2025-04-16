@@ -108,6 +108,8 @@ public class HELBHOTEL_View {
         grid.setVgap(5);
         grid.setPadding(new Insets(10));
 
+        int compteur = 1;
+
         for (int row = 0; row < config.size(); row++) {
             ArrayList<String> ligne = config.get(row);
             for (int col = 0; col < ligne.size(); col++) {
@@ -117,7 +119,10 @@ public class HELBHOTEL_View {
                     continue; // Ne pas afficher les chambres "Z"
                 }
 
-                Label chambreLabel = new Label(type);
+                String labelText = compteur + type; // Ex: 1B, 2E, ...
+                compteur++;
+
+                Label chambreLabel = new Label(labelText);
                 chambreLabel.setPrefSize(35, 35);
                 chambreLabel.setAlignment(Pos.CENTER);
 
@@ -141,6 +146,7 @@ public class HELBHOTEL_View {
                 grid.add(chambreLabel, col, row);
             }
         }
+
 
 
         leftPanel.getChildren().add(grid);
