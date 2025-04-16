@@ -7,8 +7,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class ReservationRequestParser {
+
+    private static final String DELIMITER = ",";  // Séparateur de colonnes dans le fichier CSV
+    private static final String FUMEUR = "Fumeur";  // Valeur pour identifier un fumeur
+    private static final int MAX_COLUMN_COUNT = 6;  // Nombre de colonnes attendues dans le fichier CSV
+    private static final int INDEX_NOM = 0;
+    private static final int INDEX_PRENOM = 1;
+    private static final int INDEX_NOMBRE_DE_PERSONNES = 2;
+    private static final int INDEX_FUMEUR = 3;
+    private static final int INDEX_MOTIF_SEJOUR = 4;
+    private static final int INDEX_NOMBRE_ENFANTS = 5;
 
     private ArrayList<ReservationRequest> reservationRequestList = new ArrayList<>();
     private int currentIndex = 0;
@@ -32,14 +41,18 @@ public class ReservationRequestParser {
     }
 
     private ReservationRequest getReservationRequestFromLineString(String line) {
-        String[] parts = line.split(",");
+        String[] parts = line.split(DELIMITER);
 
-        String nom = parts[0].trim();
-        String prenom = parts[1].trim();
-        int nombreDePersonnes = Integer.parseInt(parts[2].trim());
-        boolean fumeur = parts[3].trim().equalsIgnoreCase("Fumeur");
-        String motifSejour = parts[4].trim();
-        int nombreEnfants = Integer.parseInt(parts[5].trim());
+        if (parts.length != MAX_COLUMN_COUNT) {
+            throw new IllegalArgumentException("Invalid line format, expected " + MAX_COLUMN_COUNT + " columns");
+        }
+
+        String nom = parts[INDEX_NOM].trim();
+        String prenom = parts[INDEX_PRENOM].trim();
+        int nombreDePersonnes = Integer.parseInt(parts[INDEX_NOMBRE_DE_PERSONNES].trim());
+        boolean fumeur = parts[INDEX_FUMEUR].trim().equalsIgnoreCase(FUMEUR);
+        String motifSejour = parts[INDEX_MOTIF_SEJOUR].trim();
+        int nombreEnfants = Integer.parseInt(parts[INDEX_NOMBRE_ENFANTS].trim());
 
         return new ReservationRequest(nom, prenom, nombreDePersonnes, fumeur, motifSejour, nombreEnfants);
     }
