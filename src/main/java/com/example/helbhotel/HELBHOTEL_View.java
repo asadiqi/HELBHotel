@@ -139,7 +139,7 @@ public class HELBHOTEL_View {
         """, BORDER_COLOR, BORDER_WIDTH));
         rightPanel.setMinWidth(PANEL_MIN_WIDTH);
         rightPanel.setPrefHeight(PANEL_PREF_HEIGHT);
-        HBox.setHgrow(rightPanel, Priority.ALWAYS);
+        HBox.setHgrow(leftPanel, Priority.ALWAYS);
 
         VBox buttonPanel = new VBox();
         buttonPanel.setSpacing(BUTTON_PANEL_SPACING);
