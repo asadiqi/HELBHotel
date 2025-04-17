@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class HELBHOTEL_View {
+public class HELBHotel_View {
 
     private final double WINDOW_WIDTH            = 900;
     private final double WINDOW_HEIGHT           = 650;
@@ -53,7 +53,7 @@ public class HELBHOTEL_View {
     private VBox      buttonPanel;
     private HELBHotel_Controller controller;
 
-    public HELBHOTEL_View(Stage stage, HELBHotel_Controller controller) {
+    public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
 
         // Racine et fenêtre

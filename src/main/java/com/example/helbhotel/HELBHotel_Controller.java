@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HELBHotel_Controller {
-    private HELBHOTEL_View view;
+    private HELBHotel_View view;
     private HotelConfigParser configParser;
     private ReservationRequestParser requestParser;
 
@@ -19,7 +19,7 @@ public class HELBHotel_Controller {
         requestParser = new ReservationRequestParser(CSV_FILE_PATH);
 
         // 2) Création de la vue
-        view = new HELBHOTEL_View(stage, this);
+        view = new HELBHotel_View(stage, this);
 
         // 3) Injection des données dans la vue
         view.setupLegend();
