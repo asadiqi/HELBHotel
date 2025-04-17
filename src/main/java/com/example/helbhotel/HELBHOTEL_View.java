@@ -104,9 +104,10 @@ public class HELBHOTEL_View {
         ArrayList<ArrayList<String>> config = configParser.getChambreConfig();
 
         GridPane grid = new GridPane();
-        grid.setHgap(5);
-        grid.setVgap(5);
+        grid.setHgap(18);
+        grid.setVgap(20);
         grid.setPadding(new Insets(10));
+        grid.setAlignment(Pos.CENTER);  // Centrer le contenu dans le GridPane
 
         int compteur = 1;
 
@@ -123,7 +124,7 @@ public class HELBHOTEL_View {
                 compteur++;
 
                 Label chambreLabel = new Label(labelText);
-                chambreLabel.setPrefSize(35, 35);
+                chambreLabel.setPrefSize(70, 70);
                 chambreLabel.setAlignment(Pos.CENTER);
 
                 String backgroundColor;
@@ -147,9 +148,13 @@ public class HELBHOTEL_View {
             }
         }
 
+        StackPane gridWrapper = new StackPane();
+        gridWrapper.setPrefHeight(PANEL_PREF_HEIGHT);
+        gridWrapper.setPrefWidth(PANEL_MIN_WIDTH);
+        gridWrapper.setPadding(new Insets(10));  // Ajout de padding pour éloigner les bords
+        gridWrapper.getChildren().add(grid);
 
-
-        leftPanel.getChildren().add(grid);
+        leftPanel.getChildren().add(gridWrapper);
 
         // === Cadre droit : Réservations ===
         VBox rightPanel = new VBox();
