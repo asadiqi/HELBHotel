@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 public class HotelConfigParser {
 
@@ -18,9 +19,14 @@ public class HotelConfigParser {
         return nombreEtages;
     }
 
-    public ArrayList<ArrayList<String>> getChambreConfig() {
-        return chambreConfig;
+    public List<List<String>> getChambreConfig() {
+        List<List<String>> config = new ArrayList<>();
+        for (ArrayList<String> ligne : chambreConfig) {
+            config.add(new ArrayList<>(ligne)); // chaque ligne est convertie en List<String>
+        }
+        return config;
     }
+
 
     private void parse(String filename) {
         try (Scanner scanner = new Scanner(new File(filename))) {
