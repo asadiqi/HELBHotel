@@ -13,8 +13,8 @@ public class HELBHotel_Controller {
     private HConfigParser configParser;
     private ReservationParser requestParser;
 
-    private static final String CSV_FILE_PATH = "C:\\Users\\sadiq\\Desktop\\Cours_Q4\\Java\\HELBHotel\\src\\main\\java\\com\\example\\helbhotel\\Parser\\reservation.csv";
-    private static final String HCONFIG_FILE_PATH = "C:\\Users\\sadiq\\Desktop\\Cours_Q4\\Java\\HELBHotel\\src\\main\\java\\com\\example\\helbhotel\\Parser\\hconfig";
+    private static final String CSV_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/reservation.csv";
+    private static final String HCONFIG_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/hconfig";
 
     public HELBHotel_Controller(Stage stage) {
         // 1) Initialisation du "modèle"
