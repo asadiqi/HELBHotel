@@ -1,4 +1,4 @@
-package com.example.helbhotel;
+package com.example.helbhotel.Parser;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
 
-public class HotelConfigParser {
+public class HConfigParser {
 
     private int nombreEtages;
     private ArrayList<ArrayList<String>> chambreConfig = new ArrayList<>();
 
-    public HotelConfigParser(String filename) {
+    public HConfigParser(String filename) {
         parse(filename);
     }
 

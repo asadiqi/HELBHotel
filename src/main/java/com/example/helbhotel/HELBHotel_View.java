@@ -1,6 +1,7 @@
 // HELBHOTEL_View.java
 package com.example.helbhotel;
 
+import com.example.helbhotel.Parser.Reservation;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -199,8 +200,8 @@ public class HELBHotel_View {
     }
 
     /** Construit la liste de boutons de réservation */
-    public void setupReservations(List<ReservationRequest> reqs) {
-        for (ReservationRequest r : reqs) {
+    public void setupReservations(List<Reservation> reqs) {
+        for (Reservation r : reqs) {
             String text = String.format("%s.%s", r.prenom.charAt(0), r.nom);
             Button btn = new Button(text);
             btn.setStyle(String.format(

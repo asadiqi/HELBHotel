@@ -1,13 +1,11 @@
-package com.example.helbhotel;
-
-import com.example.helbhotel.ReservationRequest;
+package com.example.helbhotel.Parser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ReservationRequestParser {
+public class ReservationParser {
 
     private static final String DELIMITER = ",";  // Séparateur de colonnes dans le fichier CSV
     private static final String FUMEUR = "Fumeur";  // Valeur pour identifier un fumeur
@@ -19,28 +17,28 @@ public class ReservationRequestParser {
     private static final int INDEX_MOTIF_SEJOUR = 4;
     private static final int INDEX_NOMBRE_ENFANTS = 5;
 
-    private ArrayList<ReservationRequest> reservationRequestList = new ArrayList<>();
+    private ArrayList<Reservation> reservationList = new ArrayList<>();
     private int currentIndex = 0;
     private int maxIndex = 0;
 
-    public ReservationRequestParser(String filename) {
+    public ReservationParser(String filename) {
         parse(filename);
-        maxIndex = reservationRequestList.size();
+        maxIndex = reservationList.size();
     }
 
     public boolean hasNextRequest() {
         return (currentIndex < maxIndex);
     }
 
-    public ReservationRequest getNextReservationRequest() {
+    public Reservation getNextReservationRequest() {
         if (hasNextRequest()) {
-            return reservationRequestList.get(currentIndex++);
+            return reservationList.get(currentIndex++);
         } else {
             throw new IndexOutOfBoundsException("No more requests available");
         }
     }
 
-    private ReservationRequest getReservationRequestFromLineString(String line) {
+    private Reservation getReservationRequestFromLineString(String line) {
         String[] parts = line.split(DELIMITER);
 
         if (parts.length != MAX_COLUMN_COUNT) {
@@ -54,7 +52,7 @@ public class ReservationRequestParser {
         String motifSejour = parts[INDEX_MOTIF_SEJOUR].trim();
         int nombreEnfants = Integer.parseInt(parts[INDEX_NOMBRE_ENFANTS].trim());
 
-        return new ReservationRequest(nom, prenom, nombreDePersonnes, fumeur, motifSejour, nombreEnfants);
+        return new Reservation(nom, prenom, nombreDePersonnes, fumeur, motifSejour, nombreEnfants);
     }
 
     private boolean isLineCorrect(String line) {
@@ -73,8 +71,8 @@ public class ReservationRequestParser {
                 }
 
                 if (isLineCorrect(line)) {
-                    ReservationRequest request = getReservationRequestFromLineString(line);
-                    reservationRequestList.add(request);
+                    Reservation request = getReservationRequestFromLineString(line);
+                    reservationList.add(request);
                 }
             }
         } catch (IOException e) {

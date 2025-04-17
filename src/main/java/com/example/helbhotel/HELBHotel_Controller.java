@@ -1,5 +1,8 @@
 package com.example.helbhotel;
 
+import com.example.helbhotel.Parser.HConfigParser;
+import com.example.helbhotel.Parser.Reservation;
+import com.example.helbhotel.Parser.ReservationParser;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -7,16 +10,16 @@ import java.util.List;
 
 public class HELBHotel_Controller {
     private HELBHotel_View view;
-    private HotelConfigParser configParser;
-    private ReservationRequestParser requestParser;
+    private HConfigParser configParser;
+    private ReservationParser requestParser;
 
     private static final String CSV_FILE_PATH = "C:\\Users\\sadiq\\Desktop\\Cours_Q4\\Java\\HELBHotel\\src\\main\\java\\com\\example\\helbhotel\\reservation.csv";
     private static final String HCONFIG_FILE_PATH = "C:\\Users\\sadiq\\Desktop\\Cours_Q4\\Java\\HELBHotel\\src\\main\\java\\com\\example\\helbhotel\\hconfig";
 
     public HELBHotel_Controller(Stage stage) {
         // 1) Initialisation du "modèle"
-        configParser  = new HotelConfigParser(HCONFIG_FILE_PATH);
-        requestParser = new ReservationRequestParser(CSV_FILE_PATH);
+        configParser  = new HConfigParser(HCONFIG_FILE_PATH);
+        requestParser = new ReservationParser(CSV_FILE_PATH);
 
         // 2) Création de la vue
         view = new HELBHotel_View(stage, this);
@@ -28,8 +31,8 @@ public class HELBHotel_Controller {
     }
 
     // Récupère toutes les demandes de réservation
-    private List<ReservationRequest> fetchAllRequests() {
-        List<ReservationRequest> list = new ArrayList<>();
+    private List<Reservation> fetchAllRequests() {
+        List<Reservation> list = new ArrayList<>();
         while (requestParser.hasNextRequest()) {
             list.add(requestParser.getNextReservationRequest());
         }
@@ -37,7 +40,7 @@ public class HELBHotel_Controller {
     }
 
     // Méthode appelée par la vue quand on clique sur un bouton
-    public void handleReservationSelection(ReservationRequest req) {
+    public void handleReservationSelection(Reservation req) {
         view.showReservationPopup(req.prenom, req.nom);
     }
 }

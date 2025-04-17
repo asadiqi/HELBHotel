@@ -1,6 +1,6 @@
-package com.example.helbhotel;
+package com.example.helbhotel.Parser;
 
-public class ReservationRequest {
+public class Reservation {
     public String nom;
     public String prenom;
     public int nombreDePersonnes;
@@ -8,7 +8,7 @@ public class ReservationRequest {
     public String motifSejour;
     public int nombreEnfants;
 
-    public ReservationRequest(String nom, String prenom, int nombreDePersonnes, boolean fumeur, String motifSejour, int nombreEnfants) {
+    public Reservation(String nom, String prenom, int nombreDePersonnes, boolean fumeur, String motifSejour, int nombreEnfants) {
         this.nom = nom;
         this.prenom = prenom;
         this.nombreDePersonnes = nombreDePersonnes;
