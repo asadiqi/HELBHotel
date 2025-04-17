@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class HELBHOTEL_View {
 
     private VBox root;
-    private static HELBHOTEL_View instance;
 
     // === Définition des constantes ===
     private final String BACKGROUND_COLOR = "#F8F8F8";
@@ -52,7 +51,8 @@ public class HELBHOTEL_View {
     private final double SCROLLPANE_PREF_HEIGHT = 400;
     private final double HBOX_SPACING = 8;
 
-    private HELBHOTEL_View(Stage stage) {
+    // Constructeur public pour permettre l'instanciation externe
+    public HELBHOTEL_View(Stage stage) {
         root = new VBox();
         stage.setTitle("HELBHotel");
         root.setPadding(new Insets(GENERAL_PADDING));
@@ -257,12 +257,5 @@ public class HELBHOTEL_View {
 
         box.getChildren().addAll(label, colorBox);
         return box;
-    }
-
-    public static HELBHOTEL_View getInstance(Stage stage) {
-        if (instance == null) {
-            instance = new HELBHOTEL_View(stage);
-        }
-        return instance;
     }
 }

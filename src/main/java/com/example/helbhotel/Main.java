@@ -7,8 +7,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        HELBHOTEL_View view = HELBHOTEL_View.getInstance(stage);
-        HELBHotel_Controller controller = HELBHotel_Controller.getInstance(view);
+        HELBHOTEL_View view = new HELBHOTEL_View(stage);
+        HELBHotel_Controller controller = new HELBHotel_Controller(view);
     }
 
     public static void main(String[] args) {
