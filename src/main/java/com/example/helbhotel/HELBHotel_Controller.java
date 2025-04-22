@@ -3,6 +3,7 @@ package com.example.helbhotel;
 import com.example.helbhotel.Parser.HConfigParser;
 import com.example.helbhotel.Parser.Reservation;
 import com.example.helbhotel.Parser.ReservationParser;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -43,4 +44,21 @@ public class HELBHotel_Controller {
     public void handleReservationSelection(Reservation req) {
         view.showReservationPopup(req.prenom, req.nom);
     }
+    public void updateEtageAffiche(int etageIndex) {
+        List<List<String>> toutesConfigs = configParser.getChambreConfig();
+
+        int lignesParEtage = toutesConfigs.size() / configParser.getNombreEtages();
+        int debut = etageIndex * lignesParEtage;
+        int fin = debut + lignesParEtage;
+
+        List<List<String>> configEtage = toutesConfigs.subList(debut, fin);
+
+        // Nettoyer l’ancienne grille
+        ((StackPane)view.leftPanel.getChildren().get(0)).getChildren().clear();
+        view.setupEtageSelector(configParser.getNombreEtages());
+
+        // Générer la nouvelle
+        view.setupRoomGrid(configEtage);
+    }
+
 }

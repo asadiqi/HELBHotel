@@ -5,10 +5,7 @@ import com.example.helbhotel.Parser.Reservation;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -49,10 +46,11 @@ public class HELBHotel_View {
     private VBox      root;
     private VBox      mainWrapper;
     private HBox      mainContent;
-    private VBox      leftPanel;
+    public VBox      leftPanel;
     private VBox      rightPanel;
     private VBox      buttonPanel;
     private HELBHotel_Controller controller;
+    private ComboBox<String> etageSelector;
 
     public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
@@ -79,6 +77,20 @@ public class HELBHotel_View {
         mainWrapper.setMaxWidth(Double.MAX_VALUE);
         mainWrapper.setMaxHeight(Double.MAX_VALUE);
         VBox.setVgrow(mainWrapper, Priority.ALWAYS);
+
+        etageSelector = new ComboBox<>();
+        etageSelector.setPromptText("Choisir un étage");
+
+        etageSelector.setOnAction(e -> {
+            String selected = etageSelector.getValue();
+            if (selected != null) {
+                int etageIndex = etageSelector.getItems().indexOf(selected);
+                controller.updateEtageAffiche(etageIndex);
+            }
+        });
+
+        mainWrapper.getChildren().add(0, etageSelector); // Ajouter avant le reste du contenu
+
 
         // Contenu central (gauche : plan, droite : réservations)
         mainContent = new HBox();
@@ -157,6 +169,15 @@ public class HELBHotel_View {
         // On insère la légende avant le contenu principal
         mainWrapper.getChildren().add(0, legendBox);
     }
+    public void setupEtageSelector(int nombreEtages) {
+        etageSelector.getItems().clear();
+        for (int i = 0; i < nombreEtages; i++) {
+            // Exemple : E0, E1, E2...
+            etageSelector.getItems().add("E" + i);
+        }
+        etageSelector.getSelectionModel().selectFirst();
+    }
+
 
     /** Construit la grille des chambres à partir de la configuration */
     public void setupRoomGrid(List<List<String>> config) {
