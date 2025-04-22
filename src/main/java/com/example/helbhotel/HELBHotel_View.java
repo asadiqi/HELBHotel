@@ -51,6 +51,7 @@ public class HELBHotel_View {
     private VBox      buttonPanel;
     private HELBHotel_Controller controller;
     private ComboBox<String> floorSelector;
+    private ComboBox<String> sortSelector;
 
     public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
@@ -142,6 +143,9 @@ public class HELBHotel_View {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
+
+        setupSortSelector();
+
     }
 
     /** Ajoute la légende en haut du mainWrapper */
@@ -308,6 +312,45 @@ public class HELBHotel_View {
         // Ajoute d'abord le label, puis la ComboBox dans le HBox
         selectorBox.getChildren().addAll(floorLabel, floorSelector);
         mainWrapper.getChildren().add(1, selectorBox);
+    }
+
+    public void setupSortSelector() {
+        HBox sortBoxWrapper = new HBox();
+        sortBoxWrapper.setPadding(new Insets(10));
+        sortBoxWrapper.setAlignment(Pos.CENTER_RIGHT);  // aligne à droite
+
+        Label sortLabel = new Label("Sort by:");
+        sortLabel.setStyle(
+                "-fx-font-weight: bold;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-border-color: black;" +
+                        "-fx-border-width: 1;" +
+                        "-fx-border-radius: 5;" +
+                        "-fx-padding: 5 10 5 10;" +
+                        "-fx-background-radius: 5;"
+        );
+        ComboBox<String> sortSelector = new ComboBox<>();
+        sortSelector.getItems().addAll("Name", "Room (order by floor)");
+        sortSelector.getSelectionModel().selectFirst();
+
+        sortSelector.setOnAction(e -> {
+            String selected = sortSelector.getSelectionModel().getSelectedItem();
+            controller.handleSortSelection(selected);
+        });
+
+        HBox sortBox = new HBox(10, sortLabel, sortSelector);
+        sortBox.setAlignment(Pos.CENTER_RIGHT);
+
+        sortBoxWrapper.getChildren().add(sortBox);
+
+        // Ajouter ce wrapper sous mainContent dans mainWrapper
+        mainWrapper.getChildren().add(0,sortBoxWrapper);
+    }
+
+
+    public void refreshReservations(List<Reservation> newReservations) {
+        buttonPanel.getChildren().clear(); // Supprime les anciens boutons
+        setupReservations(newReservations); // Recharge les nouveaux
     }
 
 
