@@ -15,20 +15,27 @@ public class HELBHotel_Controller {
 
     private static final String CSV_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/reservation.csv";
     private static final String HCONFIG_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/hconfig";
+    private List<Reservation> allReservations;
+
+
 
     public HELBHotel_Controller(Stage stage) {
+
+
         // 1) Initialisation du "modèle"
         configParser  = new HConfigParser(HCONFIG_FILE_PATH);
         requestParser = new ReservationParser(CSV_FILE_PATH);
 
         // 2) Création de la vue
+        allReservations = fetchAllRequests();
+
         view = new HELBHotel_View(stage, this);
 
         // 3) Injection des données dans la vue
         view.setupLegend();
         view.setupRoomGrid( configParser.getChambreConfig() );
         view.setupFloorSelector(configParser.getNombreEtages());
-        view.setupReservations( fetchAllRequests() );
+        view.setupReservations(allReservations);
     }
 
     // Récupère toutes les demandes de réservation
@@ -69,24 +76,25 @@ public class HELBHotel_Controller {
     }
 
     public void handleSortSelection(String sortType) {
-        List<Reservation> sortedList = fetchAllRequests(); // Recharge toutes les réservations
+        List<Reservation> sortedList = new ArrayList<>(allReservations); // copie
 
         if (sortType.equals("Name")) {
-            sortedList.sort((a, b) -> a.nom.compareToIgnoreCase(b.nom));
-        } else if (sortType.equals("Room (order by floor)")) {
+            // trie par chambre (à la place de nom)
             sortedList.sort((a, b) -> {
-                String roomA = getAssignedRoom(a); // ex: "101L"
+                String roomA = getAssignedRoom(a);
                 String roomB = getAssignedRoom(b);
 
-                int floorA = extractFloor(roomA); // ex: 101 -> 1
+                int floorA = extractFloor(roomA);
                 int floorB = extractFloor(roomB);
 
                 if (floorA != floorB) {
                     return Integer.compare(floorA, floorB);
                 }
-                // Si même étage, trier par numéro chambre
                 return roomA.compareTo(roomB);
             });
+        } else if (sortType.equals("Room (order by floor)")) {
+            // trie par nom (à la place de chambre)
+            sortedList.sort((a, b) -> a.nom.compareToIgnoreCase(b.nom));
         }
 
         view.refreshReservations(sortedList);
