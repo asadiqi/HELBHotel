@@ -277,9 +277,9 @@ public class HELBHotel_View {
         selectorBox.setAlignment(Pos.CENTER_LEFT);
         selectorBox.setPadding(new Insets(10));
 
-        Label floorLabel = new Label("Floor:");
+        Label floorLabel = new Label("Floor :");
         floorLabel.setPrefWidth(100);  // largeur fixe
-        floorLabel.setAlignment(Pos.CENTER_LEFT); // aligne le texte à gauche verticalement centré
+        floorLabel.setAlignment(Pos.CENTER); // aligne le texte à gauche verticalement centré
         floorLabel.setStyle(
                 "-fx-font-weight: bold;" +
                         "-fx-font-size: 14px;" +
@@ -319,7 +319,9 @@ public class HELBHotel_View {
         sortBoxWrapper.setPadding(new Insets(10));
         sortBoxWrapper.setAlignment(Pos.CENTER_RIGHT);  // aligne à droite
 
-        Label sortLabel = new Label("Sort by:");
+        Label sortLabel = new Label("Sort by :");
+        sortLabel.setPrefWidth(100);  // largeur fixe
+        sortLabel.setAlignment(Pos.CENTER);
         sortLabel.setStyle(
                 "-fx-font-weight: bold;" +
                         "-fx-font-size: 14px;" +
