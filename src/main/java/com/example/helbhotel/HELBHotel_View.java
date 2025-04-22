@@ -50,7 +50,7 @@ public class HELBHotel_View {
     private VBox      rightPanel;
     private VBox      buttonPanel;
     private HELBHotel_Controller controller;
-    private ComboBox<String> etageSelector;
+    private ComboBox<String> floorSelector;
 
     public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
@@ -78,18 +78,6 @@ public class HELBHotel_View {
         mainWrapper.setMaxHeight(Double.MAX_VALUE);
         VBox.setVgrow(mainWrapper, Priority.ALWAYS);
 
-        etageSelector = new ComboBox<>();
-        etageSelector.setPromptText("Choisir un étage");
-
-        etageSelector.setOnAction(e -> {
-            String selected = etageSelector.getValue();
-            if (selected != null) {
-                int etageIndex = etageSelector.getItems().indexOf(selected);
-                controller.updateEtageAffiche(etageIndex);
-            }
-        });
-
-        mainWrapper.getChildren().add(0, etageSelector); // Ajouter avant le reste du contenu
 
 
         // Contenu central (gauche : plan, droite : réservations)
@@ -169,14 +157,7 @@ public class HELBHotel_View {
         // On insère la légende avant le contenu principal
         mainWrapper.getChildren().add(0, legendBox);
     }
-    public void setupEtageSelector(int nombreEtages) {
-        etageSelector.getItems().clear();
-        for (int i = 0; i < nombreEtages; i++) {
-            // Exemple : E0, E1, E2...
-            etageSelector.getItems().add("E" + i);
-        }
-        etageSelector.getSelectionModel().selectFirst();
-    }
+
 
 
     /** Construit la grille des chambres à partir de la configuration */
@@ -286,4 +267,48 @@ public class HELBHotel_View {
         box.getChildren().addAll(lbl, colorBox);
         return box;
     }
+
+    public void setupFloorSelector(int nombreEtages) {
+        HBox selectorBox = new HBox(10);
+        selectorBox.setAlignment(Pos.CENTER_LEFT);
+        selectorBox.setPadding(new Insets(10));
+
+        Label floorLabel = new Label("Floor:");
+        floorLabel.setPrefWidth(100);  // largeur fixe
+        floorLabel.setAlignment(Pos.CENTER_LEFT); // aligne le texte à gauche verticalement centré
+        floorLabel.setStyle(
+                "-fx-font-weight: bold;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-border-color: black;" +      // couleur de la bordure
+                        "-fx-border-width: 1;" +
+                        "-fx-border-radius: 4;" +
+                        "-fx-background-radius: 4;" +
+                        "-fx-padding: 5 10 5 10;"         // padding interne pour le texte
+        );
+        floorSelector = new ComboBox<>();
+
+        for (int i = 0; i < nombreEtages; i++) {
+            String label;
+            if (i < 26) {
+                char letter = (char) ('A' + i);
+                label = letter + String.valueOf(i + 1);
+            } else {
+                label = HELBHotel_Controller.getFloorLabel(i);
+            }
+            floorSelector.getItems().add(label);
+        }
+
+        floorSelector.getSelectionModel().selectFirst();
+
+        floorSelector.setOnAction(e -> {
+            int selectedIndex = floorSelector.getSelectionModel().getSelectedIndex();
+            controller.handleEtageSelection(selectedIndex);
+        });
+
+        // Ajoute d'abord le label, puis la ComboBox dans le HBox
+        selectorBox.getChildren().addAll(floorLabel, floorSelector);
+        mainWrapper.getChildren().add(1, selectorBox);
+    }
+
+
 }

@@ -3,7 +3,6 @@ package com.example.helbhotel;
 import com.example.helbhotel.Parser.HConfigParser;
 import com.example.helbhotel.Parser.Reservation;
 import com.example.helbhotel.Parser.ReservationParser;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ public class HELBHotel_Controller {
         // 3) Injection des données dans la vue
         view.setupLegend();
         view.setupRoomGrid( configParser.getChambreConfig() );
+        view.setupFloorSelector(configParser.getNombreEtages());
         view.setupReservations( fetchAllRequests() );
     }
 
@@ -44,21 +44,30 @@ public class HELBHotel_Controller {
     public void handleReservationSelection(Reservation req) {
         view.showReservationPopup(req.prenom, req.nom);
     }
-    public void updateEtageAffiche(int etageIndex) {
-        List<List<String>> toutesConfigs = configParser.getChambreConfig();
+    public void handleEtageSelection(int index) {
+        // Exemple : chaque étage est une portion consécutive de la config
+        List<List<String>> fullConfig = configParser.getChambreConfig();
 
-        int lignesParEtage = toutesConfigs.size() / configParser.getNombreEtages();
-        int debut = etageIndex * lignesParEtage;
-        int fin = debut + lignesParEtage;
+        int etageHeight = fullConfig.size() / configParser.getNombreEtages();
+        int start = index * etageHeight;
+        int end = start + etageHeight;
+        List<List<String>> etageConfig = fullConfig.subList(start, end);
 
-        List<List<String>> configEtage = toutesConfigs.subList(debut, fin);
+        view.setupRoomGrid(etageConfig);
 
-        // Nettoyer l’ancienne grille
-        ((StackPane)view.leftPanel.getChildren().get(0)).getChildren().clear();
-        view.setupEtageSelector(configParser.getNombreEtages());
 
-        // Générer la nouvelle
-        view.setupRoomGrid(configEtage);
     }
+    public static String getFloorLabel(int n) {
+        StringBuilder sb = new StringBuilder();
+        n++; // Passage de 0-based à 1-based
+        while (n > 0) {
+            n--;
+            sb.insert(0, (char) ('A' + (n % 26)));
+            n /= 26;
+        }
+        return sb.toString();
+    }
+
+
 
 }
