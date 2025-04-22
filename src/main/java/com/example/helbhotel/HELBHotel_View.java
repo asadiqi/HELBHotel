@@ -306,7 +306,7 @@ public class HELBHotel_View {
 
         floorSelector.setOnAction(e -> {
             int selectedIndex = floorSelector.getSelectionModel().getSelectedIndex();
-            controller.handleEtageSelection(selectedIndex);
+            controller.handleFloorSelection(selectedIndex);
         });
 
         // Ajoute d'abord le label, puis la ComboBox dans le HBox

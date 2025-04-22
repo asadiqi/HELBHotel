@@ -51,7 +51,7 @@ public class HELBHotel_Controller {
     public void handleReservationSelection(Reservation req) {
         view.showReservationPopup(req.prenom, req.nom);
     }
-    public void handleEtageSelection(int index) {
+    public void handleFloorSelection(int index) {
         // Exemple : chaque étage est une portion consécutive de la config
         List<List<String>> fullConfig = configParser.getChambreConfig();
 
