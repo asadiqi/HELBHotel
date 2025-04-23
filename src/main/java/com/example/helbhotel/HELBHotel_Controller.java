@@ -75,50 +75,8 @@ public class HELBHotel_Controller {
         return sb.toString();
     }
 
-    public void handleSortSelection(String sortType) {
-        List<Reservation> sortedList = new ArrayList<>(allReservations); // copie
 
-        if (sortType.equals("Name")) {
-            // trie par chambre (à la place de nom)
-            sortedList.sort((a, b) -> {
-                String roomA = getAssignedRoom(a);
-                String roomB = getAssignedRoom(b);
 
-                int floorA = extractFloor(roomA);
-                int floorB = extractFloor(roomB);
-
-                if (floorA != floorB) {
-                    return Integer.compare(floorA, floorB);
-                }
-                return roomA.compareTo(roomB);
-            });
-        } else if (sortType.equals("Room (order by floor)")) {
-            // trie par nom (à la place de chambre)
-            sortedList.sort((a, b) -> a.nom.compareToIgnoreCase(b.nom));
-        }
-
-        view.refreshReservations(sortedList);
-    }
-
-    private String getAssignedRoom(Reservation r) {
-        // TODO: Retourne la chambre assignée à la réservation r (ex: "101L", "305B", ...)
-        // Cela dépend de ta logique ou structure actuelle
-        return ""; // placeholder
-    }
-
-    private int extractFloor(String room) {
-        // Extraire les chiffres en début de string et prendre les premiers digits comme étage
-        // Exemple: "101L" -> étage 1, "305B" -> étage 3
-        StringBuilder digits = new StringBuilder();
-        for (char c : room.toCharArray()) {
-            if (Character.isDigit(c)) digits.append(c);
-            else break;
-        }
-        if (digits.length() == 0) return 0;
-        // Par exemple 101 -> étage 1 (le premier chiffre)
-        // Ou si étage = premier chiffre(s), adapter selon ta logique
-        return Integer.parseInt(digits.toString()) / 100; // Si chambre 101, étage = 1
-    }
 
 
 }
