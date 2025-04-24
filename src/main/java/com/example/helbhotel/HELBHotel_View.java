@@ -49,6 +49,7 @@ public class HELBHotel_View {
 
         double BUTTON_PREF_WIDTH = 100;
         double BUTTON_PREF_HEIGHT = 40;
+
     }
 
     private final VBox root;
@@ -60,6 +61,7 @@ public class HELBHotel_View {
     private final HELBHotel_Controller controller;
     private ComboBox<String> floorSelector;
     private ComboBox<String> modeSelector;
+    private Label floorLetterLabel;
 
     public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
@@ -180,17 +182,33 @@ public class HELBHotel_View {
         box.setPadding(new Insets(10));
 
         Label floorLabel = createStyledLabel("Floor :", StyleConstants.LABEL_WIDTH, Pos.CENTER, true);
-
         floorSelector = new ComboBox<>();
         int nombreEtages = controller.getNombreEtages();
 
         for (int i = 0; i < nombreEtages; i++) {
-            floorSelector.getItems().add(HELBHotel_Controller.getFloorLabel(i));
+            String label = (i < 26) ? (char) ('A' + i) + String.valueOf(i + 1) : HELBHotel_Controller.getFloorLabel(i);
+            floorSelector.getItems().add(label);
         }
         floorSelector.getSelectionModel().selectFirst();
 
-        box.getChildren().addAll(floorLabel, floorSelector);
+
+        floorLetterLabel = new Label();
+        floorLetterLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        floorLetterLabel.setPrefWidth(50);
+        floorLetterLabel.setAlignment(Pos.CENTER_LEFT);
+
+        floorLetterLabel.setText(floorSelector.getSelectionModel().getSelectedItem().substring(0, 1));
+
+        box.getChildren().addAll(floorLabel, floorSelector,floorLetterLabel);
         return box;
+    }
+
+    public void updateRoomGrid(List<List<String>> config, String floorPrefix) {
+        setupRoomGrid(config, floorPrefix);
+    }
+
+    public ComboBox<String> getFloorSelector() {
+        return floorSelector;
     }
 
     private HBox createVerifyAndSortBox() {
@@ -372,7 +390,5 @@ public class HELBHotel_View {
         return box;
     }
 
-    public ComboBox<String> getFloorSelector() {
-        return floorSelector;
-    }
+
 }

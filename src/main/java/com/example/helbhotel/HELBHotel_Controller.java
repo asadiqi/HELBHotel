@@ -36,6 +36,16 @@ public class HELBHotel_Controller {
                 view.showInfoAlert("Mode Selection", "HELLO");
             }
         });
+
+
+        view.getFloorSelector().setOnAction(e -> {
+            String selectedFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
+            if (selectedFloor != null && !selectedFloor.isEmpty()) {
+                String floorPrefix = selectedFloor.substring(0, 1);
+                view.updateRoomGrid(configParser.getChambreConfig(), floorPrefix);
+            }
+        });
+
     }
 
     private List<Reservation> fetchAllRequests() {
