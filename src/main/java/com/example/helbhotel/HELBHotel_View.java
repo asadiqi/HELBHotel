@@ -51,7 +51,6 @@ public class HELBHotel_View {
     private VBox      buttonPanel;
     private HELBHotel_Controller controller;
     private ComboBox<String> floorSelector;
-    private ComboBox<String> sortSelector;
 
     public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
@@ -78,8 +77,6 @@ public class HELBHotel_View {
         mainWrapper.setMaxWidth(Double.MAX_VALUE);
         mainWrapper.setMaxHeight(Double.MAX_VALUE);
         VBox.setVgrow(mainWrapper, Priority.ALWAYS);
-
-
 
         // Contenu central (gauche : plan, droite : réservations)
         mainContent = new HBox();
@@ -132,10 +129,52 @@ public class HELBHotel_View {
 
         HBox.setHgrow(leftPanel, Priority.ALWAYS);
         mainContent.getChildren().addAll(leftPanel, rightPanel);
-        // Container pour le bouton en dessous du panneau droit
+
+        // --- Selector Box ---
+        HBox selectorBox = new HBox(10);
+        selectorBox.setAlignment(Pos.CENTER_LEFT);
+        selectorBox.setPadding(new Insets(10));
+
+        Label floorLabel = new Label("Floor :");
+        floorLabel.setPrefWidth(100);  // largeur fixe
+        floorLabel.setAlignment(Pos.CENTER); // aligne le texte à gauche verticalement centré
+        floorLabel.setStyle(
+                "-fx-font-weight: bold;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-border-color: black;" +      // couleur de la bordure
+                        "-fx-border-width: 1;" +
+                        "-fx-border-radius: 4;" +
+                        "-fx-background-radius: 4;" +
+                        "-fx-padding: 5 10 5 10;"         // padding interne pour le texte
+        );
+        floorSelector = new ComboBox<>();
+
+        // Par exemple 3 étages pour test, tu peux changer
+        for (int i = 0; i < 3; i++) {
+            String label;
+            if (i < 26) {
+                char letter = (char) ('A' + i);
+                label = letter + String.valueOf(i + 1);
+            } else {
+                label = HELBHotel_Controller.getFloorLabel(i);
+            }
+            floorSelector.getItems().add(label);
+        }
+
+        floorSelector.getSelectionModel().selectFirst();
+
+        floorSelector.setOnAction(e -> {
+            int selectedIndex = floorSelector.getSelectionModel().getSelectedIndex();
+            controller.handleFloorSelection(selectedIndex);
+        });
+
+        selectorBox.getChildren().addAll(floorLabel, floorSelector);
+
+        // --- Verify Button Box ---
         HBox verifyButtonBox = new HBox();
-        verifyButtonBox.setAlignment(Pos.CENTER_RIGHT); // aligné à droite sous le panneau droit
-        verifyButtonBox.setPadding(new Insets(0, 10, 0, 0)); // un petit padding à droite
+        verifyButtonBox.setAlignment(Pos.CENTER_RIGHT); // aligné à droite
+        verifyButtonBox.setPadding(new Insets(0, 10, 0, 0)); // padding droite
+        verifyButtonBox.setSpacing(0);
 
         Button verifyButton = new Button("Verify Code");
         verifyButton.setStyle(String.format(
@@ -149,7 +188,6 @@ public class HELBHotel_View {
         ));
         verifyButton.setPrefSize(BUTTON_PREF_WIDTH, BUTTON_PREF_HEIGHT);
 
-// Action du bouton : popup simple
         verifyButton.setOnAction(e -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Verification");
@@ -160,13 +198,23 @@ public class HELBHotel_View {
 
         verifyButtonBox.getChildren().add(verifyButton);
 
-// Ajout sous le mainContent
-        mainWrapper.getChildren().add( verifyButtonBox); // juste après mainContent (index 1 = selector, 2 = ici)
+        // --- Top box contenant selectorBox à gauche et verifyButtonBox à droite ---
+        HBox topBox = new HBox();
+        topBox.setSpacing(20);
+        topBox.setPadding(new Insets(0, 0, 10, 0));  // padding bottom
+        topBox.setMaxWidth(Double.MAX_VALUE);
+        topBox.setAlignment(Pos.CENTER_LEFT);
 
-        mainWrapper.getChildren().add(mainContent);
+        // selectorBox va grandir, verifyButtonBox reste à droite
+        HBox.setHgrow(selectorBox, Priority.ALWAYS);
+        selectorBox.setMaxWidth(Double.MAX_VALUE);
 
+        verifyButtonBox.setAlignment(Pos.CENTER_RIGHT);
 
+        topBox.getChildren().addAll(selectorBox, verifyButtonBox);
 
+        // Ajouter topBox et mainContent dans mainWrapper
+        mainWrapper.getChildren().addAll(topBox, mainContent);
 
         // Scroll global
         ScrollPane outerScroll = new ScrollPane(mainWrapper);
@@ -180,6 +228,8 @@ public class HELBHotel_View {
 
     }
 
+    // ... (le reste de ta classe sans modification)
+
     /** Ajoute la légende en haut du mainWrapper */
     public void setupLegend() {
         HBox legendBox = new HBox(LEGEND_BOX_SPACING);
@@ -190,11 +240,8 @@ public class HELBHotel_View {
                 createLegend("Business",   "#BFDFFF"),
                 createLegend("Economique", "#FFE5B4")
         );
-        // On insère la légende avant le contenu principal
         mainWrapper.getChildren().add(0, legendBox);
     }
-
-
 
     /** Construit la grille des chambres à partir de la configuration */
     public void setupRoomGrid(List<List<String>> config) {
@@ -233,7 +280,6 @@ public class HELBHotel_View {
 
             }
         }
-        // On récupère le StackPane placé en position 0 du leftPanel
         ((StackPane)leftPanel.getChildren().get(0)).getChildren().add(grid);
     }
 
@@ -286,7 +332,7 @@ public class HELBHotel_View {
                 -fx-background-radius: 4;
                 -fx-alignment: center;
                 """, TEXT_FONT_SIZE, BORDER_COLOR
-        ));
+        )) ;
 
         Region colorBox = new Region();
         colorBox.setPrefSize(COLOR_BOX_WIDTH, COLOR_BOX_HEIGHT);
@@ -305,45 +351,7 @@ public class HELBHotel_View {
     }
 
     public void setupFloorSelector(int nombreEtages) {
-        HBox selectorBox = new HBox(10);
-        selectorBox.setAlignment(Pos.CENTER_LEFT);
-        selectorBox.setPadding(new Insets(10));
-
-        Label floorLabel = new Label("Floor :");
-        floorLabel.setPrefWidth(100);  // largeur fixe
-        floorLabel.setAlignment(Pos.CENTER); // aligne le texte à gauche verticalement centré
-        floorLabel.setStyle(
-                "-fx-font-weight: bold;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-border-color: black;" +      // couleur de la bordure
-                        "-fx-border-width: 1;" +
-                        "-fx-border-radius: 4;" +
-                        "-fx-background-radius: 4;" +
-                        "-fx-padding: 5 10 5 10;"         // padding interne pour le texte
-        );
-        floorSelector = new ComboBox<>();
-
-        for (int i = 0; i < nombreEtages; i++) {
-            String label;
-            if (i < 26) {
-                char letter = (char) ('A' + i);
-                label = letter + String.valueOf(i + 1);
-            } else {
-                label = HELBHotel_Controller.getFloorLabel(i);
-            }
-            floorSelector.getItems().add(label);
-        }
-
-        floorSelector.getSelectionModel().selectFirst();
-
-        floorSelector.setOnAction(e -> {
-            int selectedIndex = floorSelector.getSelectionModel().getSelectedIndex();
-            controller.handleFloorSelection(selectedIndex);
-        });
-
-        // Ajoute d'abord le label, puis la ComboBox dans le HBox
-        selectorBox.getChildren().addAll(floorLabel, floorSelector);
-        mainWrapper.getChildren().add(1, selectorBox);
+        // Cette méthode n'est plus utilisée dans ce code, car floorSelector est intégré dans le constructeur.
     }
 
     public void setupRoomGrid(List<List<String>> config, String floorPrefix) {
@@ -383,12 +391,9 @@ public class HELBHotel_View {
             }
         }
 
-        // Nettoyer le précédent contenu du StackPane
         StackPane wrapper = (StackPane) leftPanel.getChildren().get(0);
         wrapper.getChildren().clear();
         wrapper.getChildren().add(grid);
     }
-
-
 
 }
