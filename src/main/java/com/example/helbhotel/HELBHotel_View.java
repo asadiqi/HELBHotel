@@ -207,7 +207,6 @@ public class HELBHotel_View {
         );
         modeSelector.getSelectionModel().selectFirst(); // Option par défaut
 
-// Style optionnel pour rendre ça joli
                 modeSelector.setStyle("""
             -fx-font-size: 12px;
             -fx-background-radius: 5;
@@ -217,7 +216,44 @@ public class HELBHotel_View {
 
         verifyButtonContainer.getChildren().addAll(verifyButton, modeSelector);
 
-// Remplace le contenu du HBox par ce VBox
+        // HBox global pour contenir le cadre + ComboBox
+        HBox sortContainer = new HBox(10);
+        sortContainer.setAlignment(Pos.CENTER_LEFT);
+        sortContainer.setPrefWidth(180); // même largeur que le modeSelector
+        sortContainer.setMaxWidth(180);
+
+        Label sortLabel = new Label("Sort by:");
+        sortLabel.setStyle("-fx-font-size: 13px; -fx-font-weight: bold;");
+        VBox sortLabelBox = new VBox(sortLabel);
+        sortLabelBox.setStyle("""
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5 10;
+""");
+        sortLabelBox.setMinWidth(70); // pour forcer une largeur raisonnable
+        sortLabelBox.setAlignment(Pos.CENTER);
+
+// ComboBox de tri
+        ComboBox<String> sortComboBox = new ComboBox<>();
+        sortComboBox.getItems().addAll(
+                "Name",
+                "Room order"
+        );
+        sortComboBox.setPrefWidth(100); // occupe le reste
+        sortComboBox.getSelectionModel().selectFirst();
+        sortComboBox.setOnAction(e -> {
+
+        });
+
+// Ajouter les deux dans le conteneur
+        sortContainer.getChildren().addAll(sortLabelBox, sortComboBox);
+
+// Ajouter sous le modeSelector
+        verifyButtonContainer.getChildren().add(sortContainer);
+
+
         HBox verifyButtonBox = new HBox();
         verifyButtonBox.setAlignment(Pos.CENTER_RIGHT); // aligné à droite
         verifyButtonBox.setPadding(new Insets(0, 20, 0, 0)); // padding droite
