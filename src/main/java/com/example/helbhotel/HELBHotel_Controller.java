@@ -1,8 +1,8 @@
 package com.example.helbhotel;
 
-import com.example.helbhotel.Parser.HConfigParser;
-import com.example.helbhotel.Parser.Reservation;
-import com.example.helbhotel.Parser.ReservationParser;
+import com.example.helbhotel.parser.HConfigParser;
+import com.example.helbhotel.parser.Reservation;
+import com.example.helbhotel.parser.ReservationParser;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -42,7 +42,6 @@ public class HELBHotel_Controller {
                 view.showInfoAlert("Mode Selection", "HELLO");
             }
         });
-
     }
 
 

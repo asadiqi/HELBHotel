@@ -1,6 +1,6 @@
 package com.example.helbhotel;
 
-import com.example.helbhotel.Parser.Reservation;
+import com.example.helbhotel.parser.Reservation;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

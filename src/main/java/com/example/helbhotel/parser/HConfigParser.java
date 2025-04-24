@@ -1,4 +1,4 @@
-package com.example.helbhotel.Parser;
+package com.example.helbhotel.parser;
 
 import java.io.File;
 import java.io.IOException;

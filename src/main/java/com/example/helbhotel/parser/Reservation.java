@@ -1,4 +1,4 @@
-package com.example.helbhotel.Parser;
+package com.example.helbhotel.parser;
 
 public class Reservation {
     public String nom;
