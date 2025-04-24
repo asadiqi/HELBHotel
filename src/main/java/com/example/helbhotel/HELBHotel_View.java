@@ -60,6 +60,7 @@ public class HELBHotel_View {
     private  VBox buttonPanel;
     private final HELBHotel_Controller controller;
     private ComboBox<String> floorSelector;
+    private ComboBox<String> modeSelector;
 
     public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
@@ -94,6 +95,11 @@ public class HELBHotel_View {
         stage.setScene(scene);
         stage.show();
     }
+
+    public ComboBox<String> getModeSelector() {
+        return modeSelector;
+    }
+
 
     private VBox createMainWrapper() {
         VBox wrapper = new VBox();
@@ -156,7 +162,7 @@ public class HELBHotel_View {
 
     private HBox createTopBar() {
         HBox selectorBox = createSelectorBox();
-        HBox verifyButtonBox = createVerifyButtonBox();
+        HBox verifyButtonBox = createVerifyAndSortBox();
 
         HBox topBox = new HBox(20);
         topBox.setPadding(new Insets(0, 0, 10, 0));
@@ -196,7 +202,7 @@ public class HELBHotel_View {
         return box;
     }
 
-    private HBox createVerifyButtonBox() {
+    private HBox createVerifyAndSortBox() {
         VBox verifyButtonContainer = new VBox(5);
         verifyButtonContainer.setAlignment(Pos.CENTER_RIGHT);
 
@@ -204,7 +210,7 @@ public class HELBHotel_View {
         verifyButton.setPrefSize(180, StyleConstants.BUTTON_PREF_HEIGHT);
         verifyButton.setOnAction(e -> showInfoAlert("Verification", "Button clicked"));
 
-        ComboBox<String> modeSelector = new ComboBox<>();
+        modeSelector = new ComboBox<>();
         modeSelector.getItems().addAll(
                 "Random Assignment",
                 "Quiet Zone",
@@ -214,6 +220,7 @@ public class HELBHotel_View {
         modeSelector.getSelectionModel().selectFirst();
         modeSelector.setStyle("-fx-font-size: 12px; -fx-background-radius: 5; -fx-padding: 4 8;");
         modeSelector.setPrefWidth(180);
+
 
         verifyButtonContainer.getChildren().addAll(verifyButton, modeSelector);
 
@@ -278,7 +285,7 @@ public class HELBHotel_View {
         return btn;
     }
 
-    private void showInfoAlert(String title, String content) {
+    public void showInfoAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);

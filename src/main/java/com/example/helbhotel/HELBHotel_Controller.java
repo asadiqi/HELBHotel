@@ -36,8 +36,16 @@ public class HELBHotel_Controller {
         view.setupRoomGrid( configParser.getChambreConfig() );
         view.setupReservations(allReservations);
 
+        view.getModeSelector().setOnAction(e -> {
+            String selected = view.getModeSelector().getSelectionModel().getSelectedItem();
+            if ("Random Assignment".equals(selected)) {
+                view.showInfoAlert("Mode Selection", "HELLO");
+            }
+        });
 
     }
+
+
 
     // Récupère toutes les demandes de réservation
     private List<Reservation> fetchAllRequests() {
@@ -75,8 +83,6 @@ public class HELBHotel_Controller {
         }
         return sb.toString();
     }
-
-
 
 
     public int getNombreEtages() {
