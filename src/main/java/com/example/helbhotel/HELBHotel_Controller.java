@@ -34,7 +34,6 @@ public class HELBHotel_Controller {
         // 3) Injection des données dans la vue
         view.setupLegend();
         view.setupRoomGrid( configParser.getChambreConfig() );
-        view.setupFloorSelector(configParser.getNombreEtages());
         view.setupReservations(allReservations);
 
 
