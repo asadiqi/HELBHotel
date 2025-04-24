@@ -1,4 +1,4 @@
 package com.example.helbhotel.tiket;
 
-public class Tiket {
+public abstract class Tiket {
 }
