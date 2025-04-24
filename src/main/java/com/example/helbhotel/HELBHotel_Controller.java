@@ -79,5 +79,9 @@ public class HELBHotel_Controller {
 
 
 
+    public int getNombreEtages() {
+        return configParser.getNombreEtages();
+    }
+
 
 }

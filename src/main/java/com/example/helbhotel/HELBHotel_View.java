@@ -179,15 +179,17 @@ public class HELBHotel_View {
         Label floorLabel = createStyledLabel("Floor :", StyleConstants.LABEL_WIDTH, Pos.CENTER, true);
 
         floorSelector = new ComboBox<>();
-        for (int i = 0; i < 3; i++) {
+        int nombreEtages = controller.getNombreEtages();
+
+        for (int i = 0; i < nombreEtages; i++) {
             String label = (i < 26) ? (char) ('A' + i) + String.valueOf(i + 1) : HELBHotel_Controller.getFloorLabel(i);
             floorSelector.getItems().add(label);
         }
         floorSelector.getSelectionModel().selectFirst();
 
         floorSelector.setOnAction(e -> {
-            int selectedIndex = floorSelector.getSelectionModel().getSelectedIndex();
-            controller.handleFloorSelection(selectedIndex);
+            // Ne rien faire à la sélection d'un étage pour le moment
+
         });
 
         box.getChildren().addAll(floorLabel, floorSelector);
