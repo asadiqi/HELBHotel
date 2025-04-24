@@ -132,7 +132,41 @@ public class HELBHotel_View {
 
         HBox.setHgrow(leftPanel, Priority.ALWAYS);
         mainContent.getChildren().addAll(leftPanel, rightPanel);
+        // Container pour le bouton en dessous du panneau droit
+        HBox verifyButtonBox = new HBox();
+        verifyButtonBox.setAlignment(Pos.CENTER_RIGHT); // aligné à droite sous le panneau droit
+        verifyButtonBox.setPadding(new Insets(0, 10, 0, 0)); // un petit padding à droite
+
+        Button verifyButton = new Button("Verify Code");
+        verifyButton.setStyle(String.format(
+                """
+                -fx-background-color: %s;
+                -fx-text-fill: %s;
+                -fx-font-size: %dpx;
+                -fx-padding: %dpx;
+                -fx-border-radius: 5;
+                """, BUTTON_BACKGROUND_COLOR, BUTTON_TEXT_FILL, BUTTON_FONT_SIZE, BUTTON_PADDING
+        ));
+        verifyButton.setPrefSize(BUTTON_PREF_WIDTH, BUTTON_PREF_HEIGHT);
+
+// Action du bouton : popup simple
+        verifyButton.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Verification");
+            alert.setHeaderText(null);
+            alert.setContentText("Button clicked");
+            alert.showAndWait();
+        });
+
+        verifyButtonBox.getChildren().add(verifyButton);
+
+// Ajout sous le mainContent
+        mainWrapper.getChildren().add( verifyButtonBox); // juste après mainContent (index 1 = selector, 2 = ici)
+
         mainWrapper.getChildren().add(mainContent);
+
+
+
 
         // Scroll global
         ScrollPane outerScroll = new ScrollPane(mainWrapper);
@@ -143,7 +177,7 @@ public class HELBHotel_View {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
-        
+
     }
 
     /** Ajoute la légende en haut du mainWrapper */
@@ -310,6 +344,49 @@ public class HELBHotel_View {
         // Ajoute d'abord le label, puis la ComboBox dans le HBox
         selectorBox.getChildren().addAll(floorLabel, floorSelector);
         mainWrapper.getChildren().add(1, selectorBox);
+    }
+
+    public void setupRoomGrid(List<List<String>> config, String floorPrefix) {
+        GridPane grid = new GridPane();
+        grid.setHgap(18);
+        grid.setVgap(20);
+        grid.setPadding(new Insets(10));
+        grid.setAlignment(Pos.CENTER);
+
+        int compteur = 1;
+        for (int row = 0; row < config.size(); row++) {
+            for (int col = 0; col < config.get(row).size(); col++) {
+                String type = config.get(row).get(col);
+                if ("Z".equals(type)) continue;
+                String labelText = floorPrefix + compteur++ + type;
+
+                Label lbl = new Label(labelText);
+                lbl.setPrefSize(70, 70);
+                lbl.setAlignment(Pos.CENTER);
+                String bgColor = switch (type) {
+                    case "B" -> "#BFDFFF";
+                    case "E" -> "#FFE5B4";
+                    case "L" -> "#D8C4EC";
+                    default -> "white";
+                };
+                lbl.setStyle(String.format(
+                        """
+                        -fx-background-color: %s;
+                        -fx-border-color: %s;
+                        -fx-border-width: 1;
+                        -fx-border-radius: 4;
+                        -fx-background-radius: 4;
+                        -fx-font-size: 14px;
+                        """, bgColor, BORDER_COLOR
+                ));
+                grid.add(lbl, col, row);
+            }
+        }
+
+        // Nettoyer le précédent contenu du StackPane
+        StackPane wrapper = (StackPane) leftPanel.getChildren().get(0);
+        wrapper.getChildren().clear();
+        wrapper.getChildren().add(grid);
     }
 
 

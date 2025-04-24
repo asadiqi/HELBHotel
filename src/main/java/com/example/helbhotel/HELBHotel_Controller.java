@@ -36,6 +36,8 @@ public class HELBHotel_Controller {
         view.setupRoomGrid( configParser.getChambreConfig() );
         view.setupFloorSelector(configParser.getNombreEtages());
         view.setupReservations(allReservations);
+
+
     }
 
     // Récupère toutes les demandes de réservation
@@ -51,19 +53,19 @@ public class HELBHotel_Controller {
     public void handleReservationSelection(Reservation req) {
         view.showReservationPopup(req.prenom, req.nom);
     }
-    public void handleFloorSelection(int index) {
-        // Exemple : chaque étage est une portion consécutive de la config
-        List<List<String>> fullConfig = configParser.getChambreConfig();
 
+    public void handleFloorSelection(int index) {
+        List<List<String>> fullConfig = configParser.getChambreConfig();
         int etageHeight = fullConfig.size() / configParser.getNombreEtages();
         int start = index * etageHeight;
         int end = start + etageHeight;
         List<List<String>> etageConfig = fullConfig.subList(start, end);
 
-        view.setupRoomGrid(etageConfig);
-
-
+        String floorLabel = HELBHotel_Controller.getFloorLabel(index);
+        view.setupRoomGrid(etageConfig, floorLabel);
     }
+
+
     public static String getFloorLabel(int n) {
         StringBuilder sb = new StringBuilder();
         n++; // Passage de 0-based à 1-based
