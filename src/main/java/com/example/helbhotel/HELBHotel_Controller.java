@@ -1,5 +1,6 @@
 package com.example.helbhotel;
 
+import com.example.helbhotel.room.Room;
 import com.example.helbhotel.parser.HConfigParser;
 import com.example.helbhotel.parser.Reservation;
 import com.example.helbhotel.parser.ReservationParser;
@@ -17,23 +18,16 @@ public class HELBHotel_Controller {
     private static final String HCONFIG_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/hconfig";
     private List<Reservation> allReservations;
 
-
-
     public HELBHotel_Controller(Stage stage) {
-
-
-        // 1) Initialisation du "modèle"
         configParser  = new HConfigParser(HCONFIG_FILE_PATH);
         requestParser = new ReservationParser(CSV_FILE_PATH);
 
-        // 2) Création de la vue
         allReservations = fetchAllRequests();
 
         view = new HELBHotel_View(stage, this);
 
-        // 3) Injection des données dans la vue
         view.setupLegend();
-        view.setupRoomGrid( configParser.getChambreConfig() );
+        view.setupRoomGrid(configParser.getChambreConfig());
         view.setupReservations(allReservations);
 
         view.getModeSelector().setOnAction(e -> {
@@ -44,9 +38,6 @@ public class HELBHotel_Controller {
         });
     }
 
-
-
-    // Récupère toutes les demandes de réservation
     private List<Reservation> fetchAllRequests() {
         List<Reservation> list = new ArrayList<>();
         while (requestParser.hasNextRequest()) {
@@ -55,26 +46,13 @@ public class HELBHotel_Controller {
         return list;
     }
 
-    // Méthode appelée par la vue quand on clique sur un bouton
     public void handleReservationSelection(Reservation req) {
         view.showReservationPopup(req.prenom, req.nom);
     }
 
-    public void handleFloorSelection(int index) {
-        List<List<String>> fullConfig = configParser.getChambreConfig();
-        int etageHeight = fullConfig.size() / configParser.getNombreEtages();
-        int start = index * etageHeight;
-        int end = start + etageHeight;
-        List<List<String>> etageConfig = fullConfig.subList(start, end);
-
-        String floorLabel = HELBHotel_Controller.getFloorLabel(index);
-        view.setupRoomGrid(etageConfig, floorLabel);
-    }
-
-
     public static String getFloorLabel(int n) {
         StringBuilder sb = new StringBuilder();
-        n++; // Passage de 0-based à 1-based
+        n++;
         while (n > 0) {
             n--;
             sb.insert(0, (char) ('A' + (n % 26)));
@@ -83,7 +61,6 @@ public class HELBHotel_Controller {
         return sb.toString();
     }
 
-
     public int getNombreEtages() {
         return configParser.getNombreEtages();
     }
@@ -91,6 +68,4 @@ public class HELBHotel_Controller {
     public void handleRoomClick(String roomName) {
         view.showInfoAlert("Informations sur la chambre", "Chambre: " + roomName);
     }
-
-
 }

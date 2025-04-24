@@ -12,7 +12,6 @@ import java.util.List;
 
 public class HELBHotel_View {
 
-    // Constantes pour la configuration et styles
     private interface StyleConstants {
         double WINDOW_WIDTH = 900;
         double WINDOW_HEIGHT = 650;
@@ -57,7 +56,7 @@ public class HELBHotel_View {
     private final HBox mainContent;
     public final VBox leftPanel;
     private final VBox rightPanel;
-    private  VBox buttonPanel;
+    private VBox buttonPanel;
     private final HELBHotel_Controller controller;
     private ComboBox<String> floorSelector;
     private ComboBox<String> modeSelector;
@@ -65,7 +64,6 @@ public class HELBHotel_View {
     public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
 
-        // Init root container and stage title
         root = new VBox();
         root.setPadding(new Insets(StyleConstants.PADDING_GENERAL));
         stage.setTitle("HELBHotel");
@@ -99,7 +97,6 @@ public class HELBHotel_View {
     public ComboBox<String> getModeSelector() {
         return modeSelector;
     }
-
 
     private VBox createMainWrapper() {
         VBox wrapper = new VBox();
@@ -188,15 +185,9 @@ public class HELBHotel_View {
         int nombreEtages = controller.getNombreEtages();
 
         for (int i = 0; i < nombreEtages; i++) {
-            String label = (i < 26) ? (char) ('A' + i) + String.valueOf(i + 1) : HELBHotel_Controller.getFloorLabel(i);
-            floorSelector.getItems().add(label);
+            floorSelector.getItems().add(HELBHotel_Controller.getFloorLabel(i));
         }
         floorSelector.getSelectionModel().selectFirst();
-
-        floorSelector.setOnAction(e -> {
-            // Ne rien faire à la sélection d'un étage pour le moment
-
-        });
 
         box.getChildren().addAll(floorLabel, floorSelector);
         return box;
@@ -211,20 +202,13 @@ public class HELBHotel_View {
         verifyButton.setOnAction(e -> showInfoAlert("Verification", "Button clicked"));
 
         modeSelector = new ComboBox<>();
-        modeSelector.getItems().addAll(
-                "Random Assignment",
-                "Quiet Zone",
-                "Stay Purpose",
-                "Sequential Assignment"
-        );
+        modeSelector.getItems().addAll("Random Assignment", "Quiet Zone", "Stay Purpose", "Sequential Assignment");
         modeSelector.getSelectionModel().selectFirst();
         modeSelector.setStyle("-fx-font-size: 12px; -fx-background-radius: 5; -fx-padding: 4 8;");
         modeSelector.setPrefWidth(180);
 
-
         verifyButtonContainer.getChildren().addAll(verifyButton, modeSelector);
 
-        // Sort container with label + comboBox
         HBox sortContainer = new HBox(10);
         sortContainer.setAlignment(Pos.CENTER_LEFT);
         sortContainer.setPrefWidth(180);
@@ -238,14 +222,11 @@ public class HELBHotel_View {
                 "-fx-background-radius: 5;" +
                 "-fx-padding: 5 10;"
         );
-        sortLabel.setAlignment(Pos.CENTER);
 
         ComboBox<String> sortComboBox = new ComboBox<>();
         sortComboBox.getItems().addAll("Name", "Room order");
         sortComboBox.getSelectionModel().selectFirst();
         sortComboBox.setPrefWidth(100);
-        sortComboBox.setOnAction(e -> {
-        });
 
         sortContainer.getChildren().addAll(sortLabel, sortComboBox);
         verifyButtonContainer.getChildren().add(sortContainer);
@@ -293,8 +274,6 @@ public class HELBHotel_View {
         alert.showAndWait();
     }
 
-    // === Méthodes publiques pour mise à jour UI ===
-
     public void setupLegend() {
         HBox legendBox = new HBox(StyleConstants.SPACING_LEGEND_BOX);
         legendBox.setPadding(new Insets(StyleConstants.PADDING_LEGEND));
@@ -327,7 +306,6 @@ public class HELBHotel_View {
                 String roomName = floorPrefix + counter++ + type;
                 Button btn = createRoomButton(roomName, type);
                 grid.add(btn, col, row);
-
             }
         }
 
@@ -394,7 +372,6 @@ public class HELBHotel_View {
         return box;
     }
 
-    // Accesseur public au floorSelector si besoin
     public ComboBox<String> getFloorSelector() {
         return floorSelector;
     }
