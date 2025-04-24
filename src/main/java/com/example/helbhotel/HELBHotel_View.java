@@ -38,7 +38,8 @@ public class HELBHotel_View {
     private final int    TEXT_FONT_SIZE          = 14;
     private final int    BUTTON_FONT_SIZE        = 14;
     private final int    BUTTON_PADDING          = 10;
-    private final String BUTTON_BACKGROUND_COLOR = "#4CAF50";
+    private final String BUTTON_BACKGROUND_COLOR_RESERVATION = "#4CAF50";
+    private final String BUTTON_BACKGROUND_COLOR = "#9E9E9E";
     private final String BUTTON_TEXT_FILL        = "white";
     private final double BUTTON_PREF_WIDTH       = 100;
     private final double BUTTON_PREF_HEIGHT      = 40;
@@ -171,11 +172,11 @@ public class HELBHotel_View {
         selectorBox.getChildren().addAll(floorLabel, floorSelector);
 
         // --- Verify Button Box ---
-        HBox verifyButtonBox = new HBox();
-        verifyButtonBox.setAlignment(Pos.CENTER_RIGHT); // aligné à droite
-        verifyButtonBox.setPadding(new Insets(0, 10, 0, 0)); // padding droite
-        verifyButtonBox.setSpacing(0);
+        // VBox pour empiler le bouton et le label verticalement
+        VBox verifyButtonContainer = new VBox(5);  // 5px d'espacement vertical
+        verifyButtonContainer.setAlignment(Pos.CENTER_RIGHT);
 
+// Bouton Verify Code
         Button verifyButton = new Button("Verify Code");
         verifyButton.setStyle(String.format(
                 """
@@ -186,7 +187,7 @@ public class HELBHotel_View {
                 -fx-border-radius: 5;
                 """, BUTTON_BACKGROUND_COLOR, BUTTON_TEXT_FILL, BUTTON_FONT_SIZE, BUTTON_PADDING
         ));
-        verifyButton.setPrefSize(BUTTON_PREF_WIDTH, BUTTON_PREF_HEIGHT);
+        verifyButton.setPrefSize(180, BUTTON_PREF_HEIGHT);
 
         verifyButton.setOnAction(e -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -196,7 +197,32 @@ public class HELBHotel_View {
             alert.showAndWait();
         });
 
-        verifyButtonBox.getChildren().add(verifyButton);
+        // Crée un ComboBox pour les modes
+        ComboBox<String> modeSelector = new ComboBox<>();
+        modeSelector.getItems().addAll(
+                "Random Assignment",
+                "Quiet Zone",
+                "Stay Purpose",
+                "Sequential Assignment"
+        );
+        modeSelector.getSelectionModel().selectFirst(); // Option par défaut
+
+// Style optionnel pour rendre ça joli
+                modeSelector.setStyle("""
+            -fx-font-size: 12px;
+            -fx-background-radius: 5;
+            -fx-padding: 4 8;
+        """);
+        modeSelector.setPrefWidth(180); // même largeur que le bouton
+
+        verifyButtonContainer.getChildren().addAll(verifyButton, modeSelector);
+
+// Remplace le contenu du HBox par ce VBox
+        HBox verifyButtonBox = new HBox();
+        verifyButtonBox.setAlignment(Pos.CENTER_RIGHT); // aligné à droite
+        verifyButtonBox.setPadding(new Insets(0, 20, 0, 0)); // padding droite
+        verifyButtonBox.getChildren().add(verifyButtonContainer);
+
 
         // --- Top box contenant selectorBox à gauche et verifyButtonBox à droite ---
         HBox topBox = new HBox();
@@ -295,7 +321,7 @@ public class HELBHotel_View {
                     -fx-font-size: %dpx;
                     -fx-padding: %dpx;
                     -fx-border-radius: 5;
-                    """, BUTTON_BACKGROUND_COLOR, BUTTON_TEXT_FILL, BUTTON_FONT_SIZE, BUTTON_PADDING
+                    """, BUTTON_BACKGROUND_COLOR_RESERVATION, BUTTON_TEXT_FILL, BUTTON_FONT_SIZE, BUTTON_PADDING
             ));
             btn.setPrefSize(BUTTON_PREF_WIDTH, BUTTON_PREF_HEIGHT);
             btn.setOnAction(e -> controller.handleReservationSelection(r));
