@@ -324,10 +324,10 @@ public class HELBHotel_View {
                 String type = config.get(row).get(col);
                 if ("Z".equals(type)) continue;
 
-                String labelText = floorPrefix + counter++ + type;
+                String roomName = floorPrefix + counter++ + type;
+                Button btn = createRoomButton(roomName, type);
+                grid.add(btn, col, row);
 
-                Label lbl = createRoomLabel(labelText, type);
-                grid.add(lbl, col, row);
             }
         }
 
@@ -335,10 +335,10 @@ public class HELBHotel_View {
         wrapper.getChildren().setAll(grid);
     }
 
-    private Label createRoomLabel(String text, String type) {
-        Label lbl = new Label(text);
-        lbl.setPrefSize(70, 70);
-        lbl.setAlignment(Pos.CENTER);
+    private Button createRoomButton(String roomName, String type) {
+        Button btn = new Button(roomName);
+        btn.setPrefSize(70, 70);
+        btn.setAlignment(Pos.CENTER);
 
         String bgColor = switch (type) {
             case "B" -> "#BFDFFF";
@@ -347,11 +347,14 @@ public class HELBHotel_View {
             default -> "white";
         };
 
-        lbl.setStyle(String.format(
+        btn.setStyle(String.format(
                 "-fx-background-color: %s; -fx-border-color: %s; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-size: 14px;",
                 bgColor, StyleConstants.COLOR_BORDER
         ));
-        return lbl;
+
+        btn.setOnAction(e -> controller.handleRoomClick(roomName));
+
+        return btn;
     }
 
     public void setupReservations(List<Reservation> reservations) {

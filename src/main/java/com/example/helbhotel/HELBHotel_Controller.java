@@ -88,5 +88,9 @@ public class HELBHotel_Controller {
         return configParser.getNombreEtages();
     }
 
+    public void handleRoomClick(String roomName) {
+        view.showInfoAlert("Informations sur la chambre", "Chambre: " + roomName);
+    }
+
 
 }
