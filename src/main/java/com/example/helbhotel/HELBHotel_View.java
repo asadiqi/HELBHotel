@@ -34,7 +34,7 @@ public class HELBHotel_View {
         int BORDER_WIDTH = 2;
         int BORDER_RADIUS = 25;
 
-        int LABEL_WIDTH = 100;
+        int LABEL_WIDTH = 110;
         int LABEL_HEIGHT = 35;
         int COLOR_BOX_WIDTH = 35;
         int COLOR_BOX_HEIGHT = 28;
