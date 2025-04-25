@@ -28,6 +28,13 @@ public class HELBHotel_Controller {
 
         view.setupLegend();
         view.setupRoomGrid(configParser.getChambreConfig());
+        // Obtenir l'étage sélectionné par défaut
+        String defaultFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
+        if (defaultFloor != null && !defaultFloor.isEmpty()) {
+            String floorPrefix = defaultFloor.replaceAll("[^A-Za-z]", "");
+            view.updateRoomGrid(configParser.getChambreConfig(), floorPrefix);
+        }
+
         view.setupReservations(allReservations);
 
         view.getModeSelector().setOnAction(e -> {
@@ -41,10 +48,15 @@ public class HELBHotel_Controller {
         view.getFloorSelector().setOnAction(e -> {
             String selectedFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
             if (selectedFloor != null && !selectedFloor.isEmpty()) {
-                String floorPrefix = selectedFloor.substring(0, 1);
+                // Extraire uniquement les lettres
+                String floorPrefix = selectedFloor.replaceAll("[^A-Za-z]", "");
+
+                // Mettre à jour la grille avec le préfixe de lettres
                 view.updateRoomGrid(configParser.getChambreConfig(), floorPrefix);
+
             }
         });
+
 
     }
 

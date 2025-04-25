@@ -61,7 +61,6 @@ public class HELBHotel_View {
     private final HELBHotel_Controller controller;
     private ComboBox<String> floorSelector;
     private ComboBox<String> modeSelector;
-    private Label floorLetterLabel;
 
     public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
@@ -190,18 +189,11 @@ public class HELBHotel_View {
             floorSelector.getItems().add(label);
         }
         floorSelector.getSelectionModel().selectFirst();
-
-
-        floorLetterLabel = new Label();
-        floorLetterLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        floorLetterLabel.setPrefWidth(50);
-        floorLetterLabel.setAlignment(Pos.CENTER_LEFT);
-
-        floorLetterLabel.setText(floorSelector.getSelectionModel().getSelectedItem().substring(0, 1));
-
-        box.getChildren().addAll(floorLabel, floorSelector,floorLetterLabel);
+        box.getChildren().addAll(floorLabel, floorSelector);
         return box;
     }
+
+
 
     public void updateRoomGrid(List<List<String>> config, String floorPrefix) {
         setupRoomGrid(config, floorPrefix);
