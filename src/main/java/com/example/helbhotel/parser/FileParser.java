@@ -8,7 +8,10 @@ import java.util.Scanner;
 
 public abstract class FileParser {
 
-    // Method to read lines from a file, optionally skipping the first line
+    protected static final String DELIMITER = ","; // Délimiteur par défaut
+    protected static final int MAX_COLUMN_COUNT = 6; // Nombre de colonnes par défaut (à surcharger si besoin)
+
+    // Lecture de lignes dans un fichier
     protected List<String> readLines(String filename, boolean skipFirstLine) throws IOException {
         List<String> lines = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(filename))) {
@@ -27,7 +30,7 @@ public abstract class FileParser {
         return lines;
     }
 
-    // Method to split a line into a list of strings
+    // Découper une ligne
     protected List<String> splitLine(String line, String delimiter) {
         List<String> partsList = new ArrayList<>();
         String[] parts = line.split(delimiter);
@@ -37,14 +40,14 @@ public abstract class FileParser {
         return partsList;
     }
 
-    // Method to validate the number of columns
+    // Valider le nombre de colonnes
     protected void validateColumnCount(List<String> parts, int expectedColumnCount) {
         if (parts.size() != expectedColumnCount) {
             throw new IllegalArgumentException("Invalid line format, expected " + expectedColumnCount + " columns.");
         }
     }
 
-    // Method to validate the room types
+    // Valider les types de chambre
     protected void validateRoomConfig(List<String> parts) {
         for (String part : parts) {
             if (!isValidRoomType(part)) {
@@ -53,11 +56,45 @@ public abstract class FileParser {
         }
     }
 
-    // Method to check if the room type is valid
     private boolean isValidRoomType(String part) {
         return part.equals("B") || part.equals("E") || part.equals("L") || part.equals("Z");
     }
 
-    // Abstract method that each parser must implement to handle its own content
+    // Parsing utilitaires
+
+    protected int parseIntPositive(String value, String fieldName) {
+        try {
+            int parsed = Integer.parseInt(value.trim());
+            if (parsed < 1) {
+                throw new IllegalArgumentException(fieldName + " must be a positive integer.");
+            }
+            return parsed;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid " + fieldName + ": " + value);
+        }
+    }
+
+    protected int parseNonNegativeInt(String value, String fieldName) {
+        try {
+            int parsed = Integer.parseInt(value.trim());
+            if (parsed < 0) {
+                throw new IllegalArgumentException(fieldName + " must be a non-negative integer.");
+            }
+            return parsed;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid " + fieldName + ": " + value);
+        }
+    }
+
+    protected boolean parseBoolean(String value, String fieldName) {
+        if (value.equalsIgnoreCase("True")) {
+            return true;
+        } else if (value.equalsIgnoreCase("False")) {
+            return false;
+        } else {
+            throw new IllegalArgumentException("Invalid value for " + fieldName + ". Expected 'True' or 'False'.");
+        }
+    }
+
     protected abstract void parse(String filename);
 }
