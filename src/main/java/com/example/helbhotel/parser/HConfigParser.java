@@ -29,21 +29,17 @@ public class HConfigParser {
 
 
     private void parse(String filename) {
-        try (Scanner scanner = new Scanner(new File(filename))) {
-            if (scanner.hasNextLine()) {
-                nombreEtages = Integer.parseInt(scanner.nextLine().trim()); // lire 1e ligne : nb étages
+        try {
+            List<String> lines = FileParserUtils.readLines(filename, false);
+
+            if (!lines.isEmpty()) {
+                nombreEtages = Integer.parseInt(lines.get(0));
+                lines.remove(0);
             }
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
-                if (!line.isEmpty()) {
-                    String[] parts = line.split(",");
-                    ArrayList<String> ligne = new ArrayList<>();
-                    for (String part : parts) {
-                        ligne.add(part.trim());
-                    }
-                    chambreConfig.add(ligne);
-                }
+            for (String line : lines) {
+                ArrayList<String> ligne = new ArrayList<>(FileParserUtils.splitLine(line, ","));
+                chambreConfig.add(ligne);
             }
 
         } catch (IOException e) {
@@ -52,4 +48,5 @@ public class HConfigParser {
             System.err.println("Format incorrect pour le nombre d'étages.");
         }
     }
+
 }

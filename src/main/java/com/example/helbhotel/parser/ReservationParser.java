@@ -3,6 +3,7 @@ package com.example.helbhotel.parser;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ReservationParser {
@@ -60,23 +61,16 @@ public class ReservationParser {
     }
 
     private void parse(String filename) {
-        try (Scanner scanner = new Scanner(new File(filename))) {
-            boolean isFirstLine = true;
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+        try {
+            List<String> lines = FileParserUtils.readLines(filename, true);
 
-                if (isFirstLine) {
-                    isFirstLine = false; // ignore header
-                    continue;
-                }
-
-                if (isLineCorrect(line)) {
-                    Reservation request = getReservationRequestFromLineString(line);
-                    reservationList.add(request);
-                }
+            for (String line : lines) {
+                Reservation request = getReservationRequestFromLineString(line);
+                reservationList.add(request);
             }
         } catch (IOException e) {
             System.err.println("Erreur de lecture du fichier : " + e.getMessage());
         }
     }
+
 }
