@@ -12,44 +12,41 @@ import java.util.List;
 
 public class HELBHotel_View {
 
-    private interface StyleConstants {
-        double WINDOW_WIDTH = 900;
-        double WINDOW_HEIGHT = 650;
-        double PADDING_GENERAL = 20;
-        double SPACING_MAIN_WRAPPER = 20;
-        double SPACING_MAIN_CONTENT = 20;
-        double SPACING_LEGEND_BOX = 30;
-        double SPACING_BUTTON_PANEL = 10;
-        double PADDING_MAIN_CONTENT = 10;
-        double PADDING_LEGEND = 10;
-        double PANEL_MIN_WIDTH = 200;
-        double PANEL_PREF_HEIGHT = 400;
-        double SCROLLPANE_PREF_HEIGHT = 400;
-        double HBOX_SPACING = 8;
+    private final double WINDOW_WIDTH = 900;
+    private final double WINDOW_HEIGHT = 650;
+    private final double PADDING_GENERAL = 20;
+    private final double SPACING_MAIN_WRAPPER = 20;
+    private final double SPACING_MAIN_CONTENT = 20;
+    private final double SPACING_LEGEND_BOX = 30;
+    private final double SPACING_BUTTON_PANEL = 10;
+    private final double PADDING_MAIN_CONTENT = 10;
+    private final double PADDING_LEGEND = 10;
+    private final double PANEL_MIN_WIDTH = 200;
+    private final double PANEL_PREF_HEIGHT = 400;
+    private final double SCROLLPANE_PREF_HEIGHT = 400;
+    private final double HBOX_SPACING = 8;
 
-        String COLOR_BACKGROUND = "#F8F8F8";
-        String COLOR_BORDER = "black";
+    private final String COLOR_BACKGROUND = "#F8F8F8";
+    private final String COLOR_BORDER = "black";
 
-        int BORDER_WIDTH = 2;
-        int BORDER_RADIUS = 25;
+    private final int BORDER_WIDTH = 2;
+    private final int BORDER_RADIUS = 25;
 
-        int LABEL_WIDTH = 110;
-        int LABEL_HEIGHT = 35;
-        int COLOR_BOX_WIDTH = 35;
-        int COLOR_BOX_HEIGHT = 28;
+    private final int LABEL_WIDTH = 110;
+    private final int LABEL_HEIGHT = 35;
+    private final int COLOR_BOX_WIDTH = 35;
+    private final int COLOR_BOX_HEIGHT = 28;
 
-        int FONT_SIZE_BUTTON = 14;
+    private final int FONT_SIZE_BUTTON = 14;
 
-        int BUTTON_PADDING = 10;
+    private final int BUTTON_PADDING = 10;
 
-        String BUTTON_BG_COLOR_RESERVATION = "#4CAF50";
-        String BUTTON_BG_COLOR_DEFAULT = "#9E9E9E";
-        String BUTTON_TEXT_FILL = "white";
+    private final String BUTTON_BG_COLOR_RESERVATION = "#4CAF50";
+    private final String BUTTON_BG_COLOR_DEFAULT = "#9E9E9E";
+    private final String BUTTON_TEXT_FILL = "white";
 
-        double BUTTON_PREF_WIDTH = 100;
-        double BUTTON_PREF_HEIGHT = 40;
-
-    }
+    private final double BUTTON_PREF_WIDTH = 100;
+    private final double BUTTON_PREF_HEIGHT = 40;
 
     private final VBox root;
     private final VBox mainWrapper;
@@ -65,7 +62,7 @@ public class HELBHotel_View {
         this.controller = controller;
 
         root = new VBox();
-        root.setPadding(new Insets(StyleConstants.PADDING_GENERAL));
+        root.setPadding(new Insets(PADDING_GENERAL));
         stage.setTitle("HELBHotel");
 
         mainWrapper = mainWrapper();
@@ -89,7 +86,7 @@ public class HELBHotel_View {
 
         root.getChildren().add(outerScroll);
 
-        Scene scene = new Scene(root, StyleConstants.WINDOW_WIDTH, StyleConstants.WINDOW_HEIGHT);
+        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
     }
@@ -100,15 +97,15 @@ public class HELBHotel_View {
 
     private VBox mainWrapper() {
         VBox wrapper = new VBox();
-        wrapper.setPadding(new Insets(StyleConstants.PADDING_GENERAL));
-        wrapper.setSpacing(StyleConstants.SPACING_MAIN_WRAPPER);
+        wrapper.setPadding(new Insets(PADDING_GENERAL));
+        wrapper.setSpacing(SPACING_MAIN_WRAPPER);
         wrapper.setStyle(String.format(
                 "-fx-background-color: %s; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: %d; -fx-background-radius: %d;",
-                StyleConstants.COLOR_BACKGROUND,
-                StyleConstants.COLOR_BORDER,
-                StyleConstants.BORDER_WIDTH,
-                StyleConstants.BORDER_RADIUS,
-                StyleConstants.BORDER_RADIUS
+                COLOR_BACKGROUND,
+                COLOR_BORDER,
+                BORDER_WIDTH,
+                BORDER_RADIUS,
+                BORDER_RADIUS
         ));
         wrapper.setMaxWidth(Double.MAX_VALUE);
         wrapper.setMaxHeight(Double.MAX_VALUE);
@@ -118,8 +115,8 @@ public class HELBHotel_View {
 
     private HBox mainContent() {
         HBox content = new HBox();
-        content.setSpacing(StyleConstants.SPACING_MAIN_CONTENT);
-        content.setPadding(new Insets(StyleConstants.PADDING_MAIN_CONTENT));
+        content.setSpacing(SPACING_MAIN_CONTENT);
+        content.setPadding(new Insets(PADDING_MAIN_CONTENT));
         VBox.setVgrow(content, Priority.ALWAYS);
         return content;
     }
@@ -128,18 +125,18 @@ public class HELBHotel_View {
         VBox panel = new VBox();
         panel.setStyle(String.format(
                 "-fx-background-color: white; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: 15; -fx-background-radius: 15;",
-                StyleConstants.COLOR_BORDER,
-                StyleConstants.BORDER_WIDTH
+                COLOR_BORDER,
+                BORDER_WIDTH
         ));
-        panel.setMinWidth(StyleConstants.PANEL_MIN_WIDTH);
-        panel.setPrefHeight(StyleConstants.PANEL_PREF_HEIGHT);
+        panel.setMinWidth(PANEL_MIN_WIDTH);
+        panel.setPrefHeight(PANEL_PREF_HEIGHT);
         panel.setAlignment(Pos.CENTER);
         return panel;
     }
 
     private void setupLeftPanel() {
         StackPane gridWrapper = new StackPane();
-        gridWrapper.setPrefSize(StyleConstants.PANEL_MIN_WIDTH, StyleConstants.PANEL_PREF_HEIGHT);
+        gridWrapper.setPrefSize(PANEL_MIN_WIDTH, PANEL_PREF_HEIGHT);
         gridWrapper.setPadding(new Insets(10));
         leftPanel.getChildren().add(gridWrapper);
 
@@ -147,18 +144,18 @@ public class HELBHotel_View {
     }
 
     private void setupRightPanel() {
-        buttonPanel = new VBox(StyleConstants.SPACING_BUTTON_PANEL);
+        buttonPanel = new VBox(SPACING_BUTTON_PANEL);
         buttonPanel.setAlignment(Pos.CENTER);
 
         ScrollPane rightScrollPane = new ScrollPane(buttonPanel);
         rightScrollPane.setFitToWidth(true);
-        rightScrollPane.setPrefHeight(StyleConstants.SCROLLPANE_PREF_HEIGHT);
+        rightScrollPane.setPrefHeight(SCROLLPANE_PREF_HEIGHT);
 
         rightPanel.getChildren().add(rightScrollPane);
     }
 
     private HBox topBar() {
-        HBox selectorBox = selectorBox();
+        HBox selectorBox = floorSelectorBox();
         HBox verifyButtonBox = verifyAndSortBox();
 
         HBox topBox = new HBox(20);
@@ -174,12 +171,12 @@ public class HELBHotel_View {
         return topBox;
     }
 
-    private HBox selectorBox() {
+    private HBox floorSelectorBox() {
         HBox box = new HBox(10);
         box.setAlignment(Pos.CENTER_LEFT);
         box.setPadding(new Insets(10));
 
-        Label floorLabel = createLabel("Floor :", StyleConstants.LABEL_WIDTH, Pos.CENTER, true);
+        Label floorLabel = createLabel("Floor :", LABEL_WIDTH, Pos.CENTER, true);
         floorSelector = new ComboBox<>();
         int nombreEtages = controller.getNombreEtages();
 
@@ -191,8 +188,6 @@ public class HELBHotel_View {
         box.getChildren().addAll(floorLabel, floorSelector);
         return box;
     }
-
-
 
     public void updateRoomGrid(List<List<String>> config, String floorPrefix) {
         setupRoomGrid(config, floorPrefix);
@@ -206,8 +201,8 @@ public class HELBHotel_View {
         VBox verifyButtonContainer = new VBox(5);
         verifyButtonContainer.setAlignment(Pos.CENTER_RIGHT);
 
-        Button verifyButton = createButton("Verify Code", StyleConstants.BUTTON_BG_COLOR_DEFAULT);
-        verifyButton.setPrefSize(180, StyleConstants.BUTTON_PREF_HEIGHT);
+        Button verifyButton = createButton("Verify Code", BUTTON_BG_COLOR_DEFAULT);
+        verifyButton.setPrefSize(180, BUTTON_PREF_HEIGHT);
         verifyButton.setOnAction(e -> showInfoAlert("Verification", "Button clicked"));
 
         modeSelector = new ComboBox<>();
@@ -268,9 +263,9 @@ public class HELBHotel_View {
         btn.setStyle(String.format(
                 "-fx-background-color: %s; -fx-text-fill: %s; -fx-font-size: %dpx; -fx-padding: %dpx; -fx-border-radius: 5;",
                 bgColor,
-                StyleConstants.BUTTON_TEXT_FILL,
-                StyleConstants.FONT_SIZE_BUTTON,
-                StyleConstants.BUTTON_PADDING
+                BUTTON_TEXT_FILL,
+                FONT_SIZE_BUTTON,
+                BUTTON_PADDING
         ));
         return btn;
     }
@@ -284,8 +279,8 @@ public class HELBHotel_View {
     }
 
     public void setupLegend() {
-        HBox legendBox = new HBox(StyleConstants.SPACING_LEGEND_BOX);
-        legendBox.setPadding(new Insets(StyleConstants.PADDING_LEGEND));
+        HBox legendBox = new HBox(SPACING_LEGEND_BOX);
+        legendBox.setPadding(new Insets(PADDING_LEGEND));
         legendBox.setAlignment(Pos.CENTER_LEFT);
         legendBox.getChildren().addAll(
                 createLegend("Luxe", "#D8C4EC"),
@@ -336,7 +331,7 @@ public class HELBHotel_View {
 
         btn.setStyle(String.format(
                 "-fx-background-color: %s; -fx-border-color: %s; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-size: 14px;",
-                bgColor, StyleConstants.COLOR_BORDER
+                bgColor, COLOR_BORDER
         ));
 
         btn.setOnAction(e -> controller.handleRoomClick(roomName));
@@ -353,8 +348,8 @@ public class HELBHotel_View {
 
     private Button createReservationButton(Reservation r) {
         String text = String.format("%s.%s", r.prenom.charAt(0), r.nom);
-        Button btn = createButton(text, StyleConstants.BUTTON_BG_COLOR_RESERVATION);
-        btn.setPrefSize(StyleConstants.BUTTON_PREF_WIDTH, StyleConstants.BUTTON_PREF_HEIGHT);
+        Button btn = createButton(text, BUTTON_BG_COLOR_RESERVATION);
+        btn.setPrefSize(BUTTON_PREF_WIDTH, BUTTON_PREF_HEIGHT);
         btn.setOnAction(e -> controller.handleReservationSelection(r));
         return btn;
     }
@@ -364,14 +359,14 @@ public class HELBHotel_View {
     }
 
     private HBox createLegend(String text, String color) {
-        HBox box = new HBox(StyleConstants.HBOX_SPACING);
+        HBox box = new HBox(HBOX_SPACING);
         box.setAlignment(Pos.CENTER);
 
-        Label lbl = createLabel(text, StyleConstants.LABEL_WIDTH, Pos.CENTER, true);
-        lbl.setMinHeight(StyleConstants.LABEL_HEIGHT);
+        Label lbl = createLabel(text, LABEL_WIDTH, Pos.CENTER, true);
+        lbl.setMinHeight(LABEL_HEIGHT);
 
         Region colorBox = new Region();
-        colorBox.setPrefSize(StyleConstants.COLOR_BOX_WIDTH, StyleConstants.COLOR_BOX_HEIGHT);
+        colorBox.setPrefSize(COLOR_BOX_WIDTH, COLOR_BOX_HEIGHT);
         colorBox.setStyle(String.format(
                 "-fx-background-color: %s; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4;",
                 color
@@ -380,6 +375,4 @@ public class HELBHotel_View {
         box.getChildren().addAll(lbl, colorBox);
         return box;
     }
-
-
 }
