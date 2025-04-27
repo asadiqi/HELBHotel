@@ -8,13 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class HELBHotel_View {
-
     private final double WINDOW_WIDTH = 900;
     private final double WINDOW_HEIGHT = 650;
     private final double PADDING_GENERAL = 20;
@@ -28,28 +26,20 @@ public class HELBHotel_View {
     private final double PANEL_PREF_HEIGHT = 400;
     private final double SCROLLPANE_PREF_HEIGHT = 400;
     private final double HBOX_SPACING = 8;
-
     private final String COLOR_BACKGROUND = "#F8F8F8";
     private final String COLOR_BORDER = "black";
-
     private final int BORDER_WIDTH = 2;
     private final int BORDER_RADIUS = 25;
-
     private final int LABEL_WIDTH = 110;
     private final int LABEL_HEIGHT = 35;
     private final int COLOR_BOX_WIDTH = 35;
     private final int COLOR_BOX_HEIGHT = 28;
-
     private final int FONT_SIZE_BUTTON = 14;
-
     private final int BUTTON_PADDING = 10;
-
     private final String BUTTON_BG_COLOR_DEFAULT = "D9E1E8";
     private final String BUTTON_TEXT_FILL = "black";
-
     private final double BUTTON_PREF_WIDTH = 100;
     private final double BUTTON_PREF_HEIGHT = 60;
-
     private final VBox root;
     private final VBox mainWrapper;
     private final HBox mainContent;
@@ -62,32 +52,22 @@ public class HELBHotel_View {
 
     public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
         this.controller = controller;
-
         root = new VBox();
         root.setPadding(new Insets(PADDING_GENERAL));
         stage.setTitle("HELBHotel");
-
         mainWrapper = mainWrapper();
         mainContent = mainContent();
-
         leftPanel = createPanel();
         rightPanel = createPanel();
-
         setupLeftPanel();
         setupRightPanel();
-
         mainContent.getChildren().addAll(leftPanel, rightPanel);
-
         HBox topBox = topBar();
-
         mainWrapper.getChildren().addAll(topBox, mainContent);
-
         ScrollPane outerScroll = new ScrollPane(mainWrapper);
         outerScroll.setFitToWidth(true);
         outerScroll.setFitToHeight(true);
-
         root.getChildren().add(outerScroll);
-
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
         stage.show();
@@ -103,11 +83,7 @@ public class HELBHotel_View {
         wrapper.setSpacing(SPACING_MAIN_WRAPPER);
         wrapper.setStyle(String.format(
                 "-fx-background-color: %s; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: %d; -fx-background-radius: %d;",
-                COLOR_BACKGROUND,
-                COLOR_BORDER,
-                BORDER_WIDTH,
-                BORDER_RADIUS,
-                BORDER_RADIUS
+                COLOR_BACKGROUND, COLOR_BORDER, BORDER_WIDTH, BORDER_RADIUS, BORDER_RADIUS
         ));
         wrapper.setMaxWidth(Double.MAX_VALUE);
         wrapper.setMaxHeight(Double.MAX_VALUE);
@@ -127,8 +103,7 @@ public class HELBHotel_View {
         VBox panel = new VBox();
         panel.setStyle(String.format(
                 "-fx-background-color: white; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: 15; -fx-background-radius: 15;",
-                COLOR_BORDER,
-                BORDER_WIDTH
+                COLOR_BORDER, BORDER_WIDTH
         ));
         panel.setMinWidth(PANEL_MIN_WIDTH);
         panel.setPrefHeight(PANEL_PREF_HEIGHT);
@@ -141,34 +116,27 @@ public class HELBHotel_View {
         gridWrapper.setPrefSize(PANEL_MIN_WIDTH, PANEL_PREF_HEIGHT);
         gridWrapper.setPadding(new Insets(10));
         leftPanel.getChildren().add(gridWrapper);
-
         HBox.setHgrow(leftPanel, Priority.ALWAYS);
     }
 
     private void setupRightPanel() {
         buttonPanel = new VBox(SPACING_BUTTON_PANEL);
         buttonPanel.setAlignment(Pos.CENTER);
-
         ScrollPane rightScrollPane = new ScrollPane(buttonPanel);
         rightScrollPane.setFitToWidth(true);
         rightScrollPane.setPrefHeight(SCROLLPANE_PREF_HEIGHT);
-
         rightPanel.getChildren().add(rightScrollPane);
     }
 
     private HBox topBar() {
         HBox selectorBox = floorSelectorBox();
         HBox verifyButtonBox = verifyAndSortBox();
-
         HBox topBox = new HBox(20);
         topBox.setPadding(new Insets(0, 0, 10, 0));
         topBox.setAlignment(Pos.CENTER_LEFT);
-
         HBox.setHgrow(selectorBox, Priority.ALWAYS);
         selectorBox.setMaxWidth(Double.MAX_VALUE);
-
         verifyButtonBox.setAlignment(Pos.CENTER_RIGHT);
-
         topBox.getChildren().addAll(selectorBox, verifyButtonBox);
         return topBox;
     }
@@ -177,11 +145,9 @@ public class HELBHotel_View {
         HBox box = new HBox(10);
         box.setAlignment(Pos.CENTER_LEFT);
         box.setPadding(new Insets(10));
-
         Label floorLabel = createLabel("Floor :", LABEL_WIDTH, Pos.CENTER, true);
         floorSelector = new ComboBox<>();
         int nombreEtages = controller.getNombreEtages();
-
         for (int i = 0; i < nombreEtages; i++) {
             String label = (i < 26) ? (char) ('A' + i) + String.valueOf(i + 1) : HELBHotel_Controller.getFloorLabel(i);
             floorSelector.getItems().add(label);
@@ -202,24 +168,19 @@ public class HELBHotel_View {
     private HBox verifyAndSortBox() {
         VBox verifyButtonContainer = new VBox(5);
         verifyButtonContainer.setAlignment(Pos.CENTER_RIGHT);
-
-        Button verifyButton = createButton("Verify Code", "",true);
+        Button verifyButton = createButton("Verify Code", "", true);
         verifyButton.setPrefSize(180, BUTTON_PREF_HEIGHT);
         verifyButton.setOnAction(e -> showInfoAlert("Verification", "Button clicked"));
-
         modeSelector = new ComboBox<>();
         modeSelector.getItems().addAll("Random Assignment", "Quiet Zone", "Stay Purpose", "Sequential Assignment");
         modeSelector.getSelectionModel().selectFirst();
         modeSelector.setStyle("-fx-font-size: 12px; -fx-background-radius: 5; -fx-padding: 4 8;");
         modeSelector.setPrefWidth(180);
-
         verifyButtonContainer.getChildren().addAll(verifyButton, modeSelector);
-
         HBox sortContainer = new HBox(10);
         sortContainer.setAlignment(Pos.CENTER_LEFT);
         sortContainer.setPrefWidth(180);
         sortContainer.setMaxWidth(180);
-
         Label sortLabel = createLabel("Sort by:", 70, Pos.CENTER, true);
         sortLabel.setStyle(sortLabel.getStyle() +
                 "-fx-font-size: 13px;" +
@@ -228,20 +189,16 @@ public class HELBHotel_View {
                 "-fx-background-radius: 5;" +
                 "-fx-padding: 5 10;"
         );
-
         ComboBox<String> sortComboBox = new ComboBox<>();
         sortComboBox.getItems().addAll("Name", "Room order");
         sortComboBox.getSelectionModel().selectFirst();
         sortComboBox.setPrefWidth(100);
-
         sortContainer.getChildren().addAll(sortLabel, sortComboBox);
         verifyButtonContainer.getChildren().add(sortContainer);
-
         HBox verifyButtonBox = new HBox();
         verifyButtonBox.setAlignment(Pos.CENTER_RIGHT);
         verifyButtonBox.setPadding(new Insets(0, 20, 0, 0));
         verifyButtonBox.getChildren().add(verifyButtonContainer);
-
         return verifyButtonBox;
     }
 
@@ -261,18 +218,17 @@ public class HELBHotel_View {
     }
 
     private Button createButton(String text, String bgColor, boolean isBold) {
-        String fontWeight = isBold ? "-fx-font-weight: bold;" : ""; // Applique "bold" si isBold est true
+        String fontWeight = isBold ? "-fx-font-weight: bold;" : "";
         Button btn = new Button(text);
         btn.setStyle(String.format(
                 "-fx-background-color: transparent; -fx-text-fill: %s; -fx-font-size: %dpx; %s -fx-padding: %dpx; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 1;",
                 BUTTON_TEXT_FILL,
                 FONT_SIZE_BUTTON,
-                fontWeight,  // Appliquer le style gras si nécessaire
+                fontWeight,
                 BUTTON_PADDING
         ));
         return btn;
     }
-
 
     public void showInfoAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -304,19 +260,16 @@ public class HELBHotel_View {
         grid.setVgap(20);
         grid.setPadding(new Insets(10));
         grid.setAlignment(Pos.CENTER);
-
         int counter = 1;
         for (int row = 0; row < config.size(); row++) {
             for (int col = 0; col < config.get(row).size(); col++) {
                 String type = config.get(row).get(col);
                 if ("Z".equals(type)) continue;
-
                 String roomName = floorPrefix + counter++ + type;
                 Button btn = createRoomButton(roomName, type);
                 grid.add(btn, col, row);
             }
         }
-
         StackPane wrapper = (StackPane) leftPanel.getChildren().get(0);
         wrapper.getChildren().setAll(grid);
     }
@@ -325,21 +278,17 @@ public class HELBHotel_View {
         Button btn = new Button(roomName);
         btn.setPrefSize(70, 70);
         btn.setAlignment(Pos.CENTER);
-
         String bgColor = switch (type) {
             case "B" -> "#BFDFFF";
             case "E" -> "#FFE5B4";
             case "L" -> "#D8C4EC";
             default -> "white";
         };
-
         btn.setStyle(String.format(
                 "-fx-background-color: %s; -fx-border-color: %s; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-size: 14px;",
                 bgColor, COLOR_BORDER
         ));
-
         btn.setOnAction(e -> controller.handleRoomClick(roomName));
-
         return btn;
     }
 
@@ -352,7 +301,7 @@ public class HELBHotel_View {
 
     private Button createReservationButton(Reservation r) {
         String text = String.format("%s.%s", r.prenom.charAt(0), r.nom);
-        Button btn = createButton(text, "",false);
+        Button btn = createButton(text, "", false);
         btn.setPrefSize(BUTTON_PREF_WIDTH, BUTTON_PREF_HEIGHT);
         btn.setOnAction(e -> controller.handleReservationSelection(r));
         return btn;
@@ -365,75 +314,43 @@ public class HELBHotel_View {
     private HBox createLegend(String text, String color) {
         HBox box = new HBox(HBOX_SPACING);
         box.setAlignment(Pos.CENTER);
-
         Label lbl = createLabel(text, LABEL_WIDTH, Pos.CENTER, true);
         lbl.setMinHeight(LABEL_HEIGHT);
-
         Region colorBox = new Region();
         colorBox.setPrefSize(COLOR_BOX_WIDTH, COLOR_BOX_HEIGHT);
         colorBox.setStyle(String.format(
                 "-fx-background-color: %s; -fx-border-color: black; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4;",
                 color
         ));
-
         box.getChildren().addAll(lbl, colorBox);
         return box;
     }
 
     public void updateReservationButtonsRandomly(List<String> roomNames, String floorPrefix) {
         Collections.shuffle(roomNames);
-
         List<Reservation> allReservations = controller.getAllReservations();
-
         Platform.runLater(() -> {
             for (int i = 0; i < buttonPanel.getChildren().size(); i++) {
                 Button reservationButton = (Button) buttonPanel.getChildren().get(i);
                 Reservation reservation = allReservations.get(i);
-
                 String assignedRoom = roomNames.get(i);
-
-                // Extraire le type de chambre à partir de la fin du nom de chambre
                 char roomType = assignedRoom.charAt(assignedRoom.length() - 1);
-
-                // Déterminer la couleur selon le type de chambre
                 String bgColor;
-                String textColor = "black"; // Texte en noir pour assurer une bonne lisibilité
+                String textColor = "black";
                 switch (roomType) {
-                    case 'B':
-                        bgColor = "#BFDFFF"; // Business (bleu très clair)
-                        break;
-                    case 'E':
-                        bgColor = "#FFE5B4"; // Économique (jaune pâle)
-                        break;
-                    case 'L':
-                        bgColor = "#D8C4EC"; // Luxe (lavande clair)
-                        break;
-                    default:
-                        bgColor = "#BDC3C7"; // Par défaut (gris clair)
+                    case 'B': bgColor = "#BFDFFF"; break;
+                    case 'E': bgColor = "#FFE5B4"; break;
+                    case 'L': bgColor = "#D8C4EC"; break;
+                    default: bgColor = "#BDC3C7"; break;
                 }
-
-                // Mettre à jour le texte et la couleur du bouton
-                String newText = String.format("%s.%s\n%s%s",
-                        reservation.prenom.charAt(0),
-                        reservation.nom,
-                        floorPrefix,
-                        assignedRoom
-                );
-
-                // Appliquer la couleur de fond et le style du texte
+                String floorPrefixe = "   " + floorPrefix;
+                String newText = String.format("%s.%s\n%s%s", reservation.prenom.charAt(0), reservation.nom, floorPrefixe, assignedRoom);
                 reservationButton.setText(newText);
                 reservationButton.setStyle(String.format(
                         "-fx-background-color: %s; -fx-text-fill: %s; -fx-font-size: %dpx; -fx-padding: %dpx; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 1;",
-                        bgColor,
-                        textColor,
-                        FONT_SIZE_BUTTON,
-                        BUTTON_PADDING
+                        bgColor, textColor, FONT_SIZE_BUTTON, BUTTON_PADDING
                 ));
             }
         });
     }
-
-
-
-
 }
