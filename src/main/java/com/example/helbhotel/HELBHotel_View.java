@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HELBHotel_View {
@@ -46,7 +48,7 @@ public class HELBHotel_View {
     private final String BUTTON_TEXT_FILL = "white";
 
     private final double BUTTON_PREF_WIDTH = 100;
-    private final double BUTTON_PREF_HEIGHT = 40;
+    private final double BUTTON_PREF_HEIGHT = 60;
 
     private final VBox root;
     private final VBox mainWrapper;
@@ -375,4 +377,29 @@ public class HELBHotel_View {
         box.getChildren().addAll(lbl, colorBox);
         return box;
     }
+
+    public void updateReservationButtonsRandomly(List<String> roomNames) {
+        // Mélanger les noms de chambres
+        Collections.shuffle(roomNames);
+
+        // Récupérer les réservations depuis le contrôleur
+        List<Reservation> allReservations = controller.getAllReservations();
+
+        for (int i = 0; i < buttonPanel.getChildren().size(); i++) {
+            Button reservationButton = (Button) buttonPanel.getChildren().get(i);
+            Reservation reservation = allReservations.get(i);
+
+            // Construire le texte : première lettre du prénom + nom + \n + chambre
+            String newText = String.format("%s.%s\n%s",
+                    reservation.prenom.charAt(0),
+                    reservation.nom,
+                    roomNames.get(i)
+            );
+
+            reservationButton.setText(newText);
+        }
+    }
+
+
+
 }

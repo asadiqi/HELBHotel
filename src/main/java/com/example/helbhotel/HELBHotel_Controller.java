@@ -40,9 +40,13 @@ public class HELBHotel_Controller {
         view.getModeSelector().setOnAction(e -> {
             String selected = view.getModeSelector().getSelectionModel().getSelectedItem();
             if ("Random Assignment".equals(selected)) {
-                view.showInfoAlert("Mode Selection", "HELLO");
+                // Récupérer les noms de chambres disponibles
+                List<String> roomNames = fetchAllRoomNames(); // Cette méthode récupère les noms des chambres depuis la configuration
+                // Mettre à jour les boutons de réservation avec des noms mélangés
+                view.updateReservationButtonsRandomly(roomNames);
             }
         });
+
 
 
         view.getFloorSelector().setOnAction(e -> {
@@ -90,4 +94,22 @@ public class HELBHotel_Controller {
     public void handleRoomClick(String roomName) {
         view.showInfoAlert("Informations sur la chambre", "Chambre: " + roomName);
     }
+
+    public List<String> fetchAllRoomNames() {
+        List<String> roomNames = new ArrayList<>();
+        // Parcours de la configuration des chambres
+        for (List<String> row : configParser.getChambreConfig()) {
+            for (String roomType : row) {
+                if (!"Z".equals(roomType)) { // Ignore les chambres non disponibles
+                    String roomName = roomNames.size() + roomType; // Modifier selon ton modèle de nommage des chambres
+                    roomNames.add(roomName);
+                }
+            }
+        }
+        return roomNames;
+    }
+    public List<Reservation> getAllReservations() {
+        return this.allReservations;
+    }
+
 }
