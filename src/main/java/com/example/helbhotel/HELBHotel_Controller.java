@@ -40,7 +40,7 @@ public class HELBHotel_Controller {
         view.getModeSelector().setOnAction(e -> {
             String selected = view.getModeSelector().getSelectionModel().getSelectedItem();
             if ("Random Assignment".equals(selected)) {
-                List<String> roomNames = fetchAllRoomNames();
+                List<String> roomNames = fetchAllFullRoomNames();
 
                 String selectedFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
                 String floorPrefix = "";
@@ -101,19 +101,32 @@ public class HELBHotel_Controller {
         view.showInfoAlert("Informations sur la chambre", "Chambre: " + roomName);
     }
 
-    public List<String> fetchAllRoomNames() {
+    public List<String> fetchAllFullRoomNames() {
         List<String> roomNames = new ArrayList<>();
-        // Parcours de la configuration des chambres
-        for (List<String> row : configParser.getChambreConfig()) {
-            for (String roomType : row) {
-                if (!"Z".equals(roomType)) { // Ignore les chambres non disponibles
-                    String roomName = roomNames.size() + roomType; // Modifier selon ton modèle de nommage des chambres
-                    roomNames.add(roomName);
+
+        int counter = 1;
+        String floorPrefix = "";
+
+        int nombreEtages = getNombreEtages();
+        for (int etage = 0; etage < nombreEtages; etage++) {
+            floorPrefix = getFloorLabel(etage); // Par exemple "A", "B", "C", etc.
+
+            counter = 1; // Reset le numéro de chambre pour chaque étage
+
+            for (List<String> row : configParser.getChambreConfig()) {
+                for (String roomType : row) {
+                    if (!"Z".equals(roomType)) {
+                        String roomName = Room.generateRoomName(counter, roomType, floorPrefix);
+                        roomNames.add(roomName);
+                        counter++;
+                    }
                 }
             }
         }
+
         return roomNames;
     }
+
     public List<Reservation> getAllReservations() {
         return this.allReservations;
     }
