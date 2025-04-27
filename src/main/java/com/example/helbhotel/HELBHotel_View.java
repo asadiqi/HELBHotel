@@ -1,6 +1,7 @@
 package com.example.helbhotel;
 
 import com.example.helbhotel.parser.Reservation;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -43,7 +44,7 @@ public class HELBHotel_View {
 
     private final int BUTTON_PADDING = 10;
 
-    private final String BUTTON_BG_COLOR_RESERVATION = "#4CAF50";
+    private final String BUTTON_BG_COLOR_RESERVATION = "";
     private final String BUTTON_BG_COLOR_DEFAULT = "#9E9E9E";
     private final String BUTTON_TEXT_FILL = "white";
 
@@ -383,49 +384,54 @@ public class HELBHotel_View {
 
         List<Reservation> allReservations = controller.getAllReservations();
 
-        for (int i = 0; i < buttonPanel.getChildren().size(); i++) {
-            Button reservationButton = (Button) buttonPanel.getChildren().get(i);
-            Reservation reservation = allReservations.get(i);
+        Platform.runLater(() -> {
+            for (int i = 0; i < buttonPanel.getChildren().size(); i++) {
+                Button reservationButton = (Button) buttonPanel.getChildren().get(i);
+                Reservation reservation = allReservations.get(i);
 
-            String assignedRoom = roomNames.get(i);
+                String assignedRoom = roomNames.get(i);
 
-            // Extraire le type de chambre à partir de la fin du nom de chambre (dernier caractère)
-            char roomType = assignedRoom.charAt(assignedRoom.length() - 1);
+                // Extraire le type de chambre à partir de la fin du nom de chambre
+                char roomType = assignedRoom.charAt(assignedRoom.length() - 1);
 
-            // Déterminer la couleur selon le type de chambre
-            String bgColor;
-            switch (roomType) {
-                case 'L':
-                    bgColor = "#D8C4EC"; // Luxe
-                    break;
-                case 'B':
-                    bgColor = "#BFDFFF"; // Business
-                    break;
-                case 'E':
-                    bgColor = "#FFE5B4"; // Économique
-                    break;
-                default:
-                    bgColor = BUTTON_BG_COLOR_DEFAULT; // couleur par défaut si inconnu
+                // Déterminer la couleur selon le type de chambre
+                String bgColor;
+                String textColor = "black"; // Texte en noir pour assurer une bonne lisibilité
+                switch (roomType) {
+                    case 'B':
+                        bgColor = "#BFDFFF"; // Business (bleu très clair)
+                        break;
+                    case 'E':
+                        bgColor = "#FFE5B4"; // Économique (jaune pâle)
+                        break;
+                    case 'L':
+                        bgColor = "#D8C4EC"; // Luxe (lavande clair)
+                        break;
+                    default:
+                        bgColor = "#BDC3C7"; // Par défaut (gris clair)
+                }
+
+                // Mettre à jour le texte et la couleur du bouton
+                String newText = String.format("%s.%s\n%s%s",
+                        reservation.prenom.charAt(0),
+                        reservation.nom,
+                        floorPrefix,
+                        assignedRoom
+                );
+
+                // Appliquer la couleur de fond et le style du texte
+                reservationButton.setText(newText);
+                reservationButton.setStyle(String.format(
+                        "-fx-background-color: %s; -fx-text-fill: %s; -fx-font-size: %dpx; -fx-padding: %dpx; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 1;",
+                        bgColor,
+                        textColor,
+                        FONT_SIZE_BUTTON,
+                        BUTTON_PADDING
+                ));
             }
-
-            // Mettre à jour le texte et la couleur du bouton
-            String newText = String.format("%s.%s\n%s%s",
-                    reservation.prenom.charAt(0),
-                    reservation.nom,
-                    floorPrefix,
-                    assignedRoom
-            );
-
-            reservationButton.setText(newText);
-            reservationButton.setStyle(String.format(
-                    "-fx-background-color: %s; -fx-text-fill: %s; -fx-font-size: %dpx; -fx-padding: %dpx; -fx-border-radius: 5;",
-                    bgColor,
-                    BUTTON_TEXT_FILL,
-                    FONT_SIZE_BUTTON,
-                    BUTTON_PADDING
-            ));
-        }
+        });
     }
+
 
 
 
