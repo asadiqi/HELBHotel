@@ -36,6 +36,8 @@ public class HELBHotel_Controller {
 
         // Set up reservations
         view.setupReservations(allReservations);
+
+        handleModeSelection();
     }
 
     private List<Reservation> fetchAllRequests() {
