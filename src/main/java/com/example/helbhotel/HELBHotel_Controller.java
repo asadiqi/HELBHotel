@@ -22,47 +22,20 @@ public class HELBHotel_Controller {
     public HELBHotel_Controller(Stage stage) {
         configParser  = new HConfigParser(HCONFIG_FILE_PATH);
         requestParser = new ReservationParser(CSV_FILE_PATH);
-
         allReservations = fetchAllRequests();
 
         view = new HELBHotel_View(stage, this);
-
         view.setupLegend();
         view.setupRoomGrid(configParser.getChambreConfig());
-        // Obtenir l'étage sélectionné par défaut
-        String defaultFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
-        if (defaultFloor != null && !defaultFloor.isEmpty()) {
-            String floorPrefix = defaultFloor.replaceAll("[^A-Za-z]", "");
-            view.updateRoomGrid(configParser.getChambreConfig(), floorPrefix);
-        }
 
+        // Configure floor selector
+        view.getFloorSelector().setOnAction(e -> updateRoomGridForSelectedFloor());
+
+        // Configure mode selector
+        view.getModeSelector().setOnAction(e -> handleModeSelection());
+
+        // Set up reservations
         view.setupReservations(allReservations);
-
-        view.getModeSelector().setOnAction(e -> {
-            String selected = view.getModeSelector().getSelectionModel().getSelectedItem();
-            if ("Random Assignment".equals(selected)) {
-                List<String> roomNames = fetchAllRoomNamesWithFloors(); // ➡️ nouvelle méthode ici !
-
-                Collections.shuffle(roomNames); // bien mélanger toutes les chambres
-
-                view.updateReservationButtonsRandomly(roomNames, ""); // plus besoin de prefix ici, ils sont déjà dedans
-            }
-
-        });
-
-        view.getFloorSelector().setOnAction(e -> {
-            String selectedFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
-            if (selectedFloor != null && !selectedFloor.isEmpty()) {
-                // Extraire uniquement les lettres
-                String floorPrefix = selectedFloor.replaceAll("[^A-Za-z]", "");
-
-                // Mettre à jour la grille avec le préfixe de lettres
-                view.updateRoomGrid(configParser.getChambreConfig(), floorPrefix);
-
-            }
-        });
-
-
     }
 
     private List<Reservation> fetchAllRequests() {
@@ -122,4 +95,22 @@ public class HELBHotel_Controller {
         return this.allReservations;
     }
 
+    // Centralized method to update the room grid based on the selected floor prefix
+    private void updateRoomGridForSelectedFloor() {
+        String selectedFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
+        if (selectedFloor != null && !selectedFloor.isEmpty()) {
+            String floorPrefix = selectedFloor.replaceAll("[^A-Za-z]", "");
+            view.updateRoomGrid(configParser.getChambreConfig(), floorPrefix);
+        }
+    }
+
+    // Handle "Random Assignment" mode selection
+    private void handleModeSelection() {
+        String selected = view.getModeSelector().getSelectionModel().getSelectedItem();
+        if ("Random Assignment".equals(selected)) {
+            List<String> roomNames = fetchAllRoomNamesWithFloors();
+            Collections.shuffle(roomNames);
+            view.updateReservationButtonsRandomly(roomNames, "");
+        }
+    }
 }
