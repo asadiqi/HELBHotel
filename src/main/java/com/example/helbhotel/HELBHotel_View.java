@@ -387,17 +387,46 @@ public class HELBHotel_View {
             Button reservationButton = (Button) buttonPanel.getChildren().get(i);
             Reservation reservation = allReservations.get(i);
 
-            // Ajout du floorPrefix AVANT le nom de chambre
+            String assignedRoom = roomNames.get(i);
+
+            // Extraire le type de chambre à partir de la fin du nom de chambre (dernier caractère)
+            char roomType = assignedRoom.charAt(assignedRoom.length() - 1);
+
+            // Déterminer la couleur selon le type de chambre
+            String bgColor;
+            switch (roomType) {
+                case 'L':
+                    bgColor = "#D8C4EC"; // Luxe
+                    break;
+                case 'B':
+                    bgColor = "#BFDFFF"; // Business
+                    break;
+                case 'E':
+                    bgColor = "#FFE5B4"; // Économique
+                    break;
+                default:
+                    bgColor = BUTTON_BG_COLOR_DEFAULT; // couleur par défaut si inconnu
+            }
+
+            // Mettre à jour le texte et la couleur du bouton
             String newText = String.format("%s.%s\n%s%s",
                     reservation.prenom.charAt(0),
                     reservation.nom,
                     floorPrefix,
-                    roomNames.get(i)
+                    assignedRoom
             );
 
             reservationButton.setText(newText);
+            reservationButton.setStyle(String.format(
+                    "-fx-background-color: %s; -fx-text-fill: %s; -fx-font-size: %dpx; -fx-padding: %dpx; -fx-border-radius: 5;",
+                    bgColor,
+                    BUTTON_TEXT_FILL,
+                    FONT_SIZE_BUTTON,
+                    BUTTON_PADDING
+            ));
         }
     }
+
 
 
 }

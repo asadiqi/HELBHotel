@@ -7,6 +7,7 @@ import com.example.helbhotel.parser.ReservationParser;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HELBHotel_Controller {
@@ -40,20 +41,14 @@ public class HELBHotel_Controller {
         view.getModeSelector().setOnAction(e -> {
             String selected = view.getModeSelector().getSelectionModel().getSelectedItem();
             if ("Random Assignment".equals(selected)) {
-                List<String> roomNames = fetchAllFullRoomNames();
+                List<String> roomNames = fetchAllRoomNamesWithFloors(); // ➡️ nouvelle méthode ici !
 
-                String selectedFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
-                String floorPrefix = "";
-                if (selectedFloor != null && !selectedFloor.isEmpty()) {
-                    floorPrefix = selectedFloor.replaceAll("[^A-Za-z]", ""); // par exemple "A" pour "A1"
-                }
+                Collections.shuffle(roomNames); // bien mélanger toutes les chambres
 
-                view.updateReservationButtonsRandomly(roomNames, floorPrefix);
+                view.updateReservationButtonsRandomly(roomNames, ""); // plus besoin de prefix ici, ils sont déjà dedans
             }
+
         });
-
-
-
 
         view.getFloorSelector().setOnAction(e -> {
             String selectedFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
@@ -101,30 +96,26 @@ public class HELBHotel_Controller {
         view.showInfoAlert("Informations sur la chambre", "Chambre: " + roomName);
     }
 
-    public List<String> fetchAllFullRoomNames() {
-        List<String> roomNames = new ArrayList<>();
+    public List<String> fetchAllRoomNamesWithFloors() {
+        List<String> allRooms = new ArrayList<>();
 
-        int counter = 1;
-        String floorPrefix = "";
+        int nombreEtages = getNombreEtages(); // nombre total d'étages
+        for (int i = 0; i < nombreEtages; i++) {
+            String floorPrefix = (i < 26) ? String.valueOf((char)('A' + i)) : getFloorLabel(i);
 
-        int nombreEtages = getNombreEtages();
-        for (int etage = 0; etage < nombreEtages; etage++) {
-            floorPrefix = getFloorLabel(etage); // Par exemple "A", "B", "C", etc.
-
-            counter = 1; // Reset le numéro de chambre pour chaque étage
-
+            int counter = 1;
             for (List<String> row : configParser.getChambreConfig()) {
                 for (String roomType : row) {
-                    if (!"Z".equals(roomType)) {
-                        String roomName = Room.generateRoomName(counter, roomType, floorPrefix);
-                        roomNames.add(roomName);
+                    if (!"Z".equals(roomType)) { // Z = pas de chambre
+                        String roomName = floorPrefix + counter + roomType;
+                        allRooms.add(roomName);
                         counter++;
                     }
                 }
             }
         }
 
-        return roomNames;
+        return allRooms;
     }
 
     public List<Reservation> getAllReservations() {
