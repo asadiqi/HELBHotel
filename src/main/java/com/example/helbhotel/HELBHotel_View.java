@@ -44,9 +44,8 @@ public class HELBHotel_View {
 
     private final int BUTTON_PADDING = 10;
 
-    private final String BUTTON_BG_COLOR_RESERVATION = "";
-    private final String BUTTON_BG_COLOR_DEFAULT = "#9E9E9E";
-    private final String BUTTON_TEXT_FILL = "white";
+    private final String BUTTON_BG_COLOR_DEFAULT = "D9E1E8";
+    private final String BUTTON_TEXT_FILL = "black";
 
     private final double BUTTON_PREF_WIDTH = 100;
     private final double BUTTON_PREF_HEIGHT = 60;
@@ -204,7 +203,7 @@ public class HELBHotel_View {
         VBox verifyButtonContainer = new VBox(5);
         verifyButtonContainer.setAlignment(Pos.CENTER_RIGHT);
 
-        Button verifyButton = createButton("Verify Code", BUTTON_BG_COLOR_DEFAULT);
+        Button verifyButton = createButton("Verify Code", "",true);
         verifyButton.setPrefSize(180, BUTTON_PREF_HEIGHT);
         verifyButton.setOnAction(e -> showInfoAlert("Verification", "Button clicked"));
 
@@ -261,17 +260,19 @@ public class HELBHotel_View {
         return label;
     }
 
-    private Button createButton(String text, String bgColor) {
+    private Button createButton(String text, String bgColor, boolean isBold) {
+        String fontWeight = isBold ? "-fx-font-weight: bold;" : ""; // Applique "bold" si isBold est true
         Button btn = new Button(text);
         btn.setStyle(String.format(
-                "-fx-background-color: %s; -fx-text-fill: %s; -fx-font-size: %dpx; -fx-padding: %dpx; -fx-border-radius: 5;",
-                bgColor,
+                "-fx-background-color: transparent; -fx-text-fill: %s; -fx-font-size: %dpx; %s -fx-padding: %dpx; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 1;",
                 BUTTON_TEXT_FILL,
                 FONT_SIZE_BUTTON,
+                fontWeight,  // Appliquer le style gras si nécessaire
                 BUTTON_PADDING
         ));
         return btn;
     }
+
 
     public void showInfoAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -351,7 +352,7 @@ public class HELBHotel_View {
 
     private Button createReservationButton(Reservation r) {
         String text = String.format("%s.%s", r.prenom.charAt(0), r.nom);
-        Button btn = createButton(text, BUTTON_BG_COLOR_RESERVATION);
+        Button btn = createButton(text, "",false);
         btn.setPrefSize(BUTTON_PREF_WIDTH, BUTTON_PREF_HEIGHT);
         btn.setOnAction(e -> controller.handleReservationSelection(r));
         return btn;
