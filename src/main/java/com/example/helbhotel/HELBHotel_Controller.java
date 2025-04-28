@@ -4,6 +4,7 @@ import com.example.helbhotel.room.Room;
 import com.example.helbhotel.parser.HConfigParser;
 import com.example.helbhotel.parser.Reservation;
 import com.example.helbhotel.parser.ReservationParser;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -22,7 +23,7 @@ public class HELBHotel_Controller {
     private VBox buttonPanel;
 
     public HELBHotel_Controller(Stage stage) {
-        configParser  = new HConfigParser(HCONFIG_FILE_PATH);
+        configParser = new HConfigParser(HCONFIG_FILE_PATH);
         requestParser = new ReservationParser(CSV_FILE_PATH);
         allReservations = fetchAllRequests();
 
@@ -39,9 +40,9 @@ public class HELBHotel_Controller {
         // Set up reservations
         view.setupReservations(allReservations);
 
-<<<<<<< Updated upstream
+
         handleModeSelection();
-=======
+
         view.getModeSelector().setOnAction(e -> {
             String selected = view.getModeSelector().getSelectionModel().getSelectedItem();
             if ("Random Assignment".equals(selected)) {
@@ -66,7 +67,6 @@ public class HELBHotel_Controller {
         });
 
 
->>>>>>> Stashed changes
     }
 
     private List<Reservation> fetchAllRequests() {
@@ -101,13 +101,13 @@ public class HELBHotel_Controller {
         view.showInfoAlert("Informations sur la chambre", "Chambre: " + roomName);
     }
 
-<<<<<<< Updated upstream
+
     public List<String> fetchAllRoomNamesWithFloors() {
         List<String> allRooms = new ArrayList<>();
 
         int nombreEtages = getNombreEtages(); // nombre total d'étages
         for (int i = 0; i < nombreEtages; i++) {
-            String floorPrefix = (i < 26) ? String.valueOf((char)('A' + i)) : getFloorLabel(i);
+            String floorPrefix = (i < 26) ? String.valueOf((char) ('A' + i)) : getFloorLabel(i);
 
             int counter = 1;
             for (List<String> row : configParser.getChambreConfig()) {
@@ -144,34 +144,33 @@ public class HELBHotel_Controller {
             List<String> roomNames = fetchAllRoomNamesWithFloors();
             Collections.shuffle(roomNames);
             view.updateReservationButtonsRandomly(roomNames, "");
-=======
-    private List<String> getAllRoomNames() {
-        List<String> roomNames = new ArrayList<>();
-        // Accédez à la configuration des chambres (peut-être dans `configParser`)
-        for (List<String> row : configParser.getChambreConfig()) {
-            for (String roomType : row) {
-                if (!"Z".equals(roomType)) { // Ignorer les chambres vides ou non configurées
-                    String roomName = generateRoomName(row.indexOf(roomType), roomType); // Générez un nom
-                    roomNames.add(roomName);
+
+            private List<String> getAllRoomNames () {
+                List<String> roomNames = new ArrayList<>();
+                // Accédez à la configuration des chambres (peut-être dans `configParser`)
+                for (List<String> row : configParser.getChambreConfig()) {
+                    for (String roomType : row) {
+                        if (!"Z".equals(roomType)) { // Ignorer les chambres vides ou non configurées
+                            String roomName = generateRoomName(row.indexOf(roomType), roomType); // Générez un nom
+                            roomNames.add(roomName);
+                        }
+                    }
+                }
+                return roomNames;
+            }
+
+            private void updateReservationButtons (List < String > roomNames) {
+                view.getButtonPanel().getChildren().clear(); // Vider les boutons existants
+                for (String roomName : roomNames) {
+                    Button btn = createReservationButton(roomName);
+                    view.getButtonPanel().getChildren().add(btn); // Ajouter les nouveaux boutons
+
                 }
             }
+
+
         }
-        return roomNames;
+
+
     }
-
-    private void updateReservationButtons(List<String> roomNames) {
-        view.getButtonPanel().getChildren().clear(); // Vider les boutons existants
-        for (String roomName : roomNames) {
-            Button btn = createReservationButton(roomName);
-            view.getButtonPanel().getChildren().add(btn); // Ajouter les nouveaux boutons
->>>>>>> Stashed changes
-        }
-    }
-
-
-<<<<<<< Updated upstream
 }
-=======
-
-}
->>>>>>> Stashed changes
