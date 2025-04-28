@@ -85,43 +85,43 @@ public class HELBHotel_View {
         rootLayout.setPadding(new Insets(0)); // pas de padding
 
         // Cadre horizontal en haut
-        HBox topFrame = new HBox();
-        topFrame.setAlignment(Pos.CENTER);
-        topFrame.setPadding(new Insets(10));
-        topFrame.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+        HBox topBoxe = new HBox();
+        topBoxe.setAlignment(Pos.CENTER);
+        topBoxe.setPadding(new Insets(10));
+        topBoxe.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
         Label reservationLabel = new Label("Reservation Window");
-        topFrame.getChildren().add(reservationLabel);
-        BorderPane.setMargin(topFrame, new Insets(30, 20, 0, 20)); 
+        topBoxe.getChildren().add(reservationLabel);
+        BorderPane.setMargin(topBoxe, new Insets(30, 20, 0, 20));
 
         // Deux cadres verticaux en bas
-        HBox bottomFrames = new HBox();
-        bottomFrames.setAlignment(Pos.CENTER);
-        bottomFrames.setPadding(new Insets(0)); // Pas de padding pour le moment
-        bottomFrames.setSpacing(0); // Pas d'espacement entre les cadres
+        HBox bottomBoxes = new HBox();
+        bottomBoxes.setAlignment(Pos.CENTER);
+        bottomBoxes.setPadding(new Insets(0)); // Pas de padding pour le moment
+        bottomBoxes.setSpacing(0); // Pas d'espacement entre les cadres
 
-        VBox leftFrame = new VBox();
-        leftFrame.setAlignment(Pos.CENTER);
-        leftFrame.setPadding(new Insets(0)); // Pas de padding pour le moment
-        leftFrame.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
-        leftFrame.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(leftFrame, Priority.ALWAYS); // permet de grandir
+        VBox leftBoxe = new VBox();
+        leftBoxe.setAlignment(Pos.CENTER);
+        leftBoxe.setPadding(new Insets(0)); // Pas de padding pour le moment
+        leftBoxe.setStyle("-fx-border-color: black; -fx-border-width: 0px 0px 2px 2px;");
+        leftBoxe.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(leftBoxe, Priority.ALWAYS); // permet de grandir
 
-        VBox rightFrame = new VBox();
-        rightFrame.setAlignment(Pos.CENTER);
-        rightFrame.setPadding(new Insets(0)); // Pas de padding pour le moment
-        rightFrame.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
-        rightFrame.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(rightFrame, Priority.ALWAYS); // permet de grandir
+        VBox rightBoxe = new VBox();
+        rightBoxe.setAlignment(Pos.CENTER);
+        rightBoxe.setPadding(new Insets(0)); // Pas de padding pour le moment
+        rightBoxe.setStyle("-fx-border-color: black; -fx-border-width: 0px 2px 2px 2px;");
+        rightBoxe.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(rightBoxe, Priority.ALWAYS); // permet de grandir
 
-        bottomFrames.getChildren().addAll(leftFrame, rightFrame);
-        bottomFrames.setPadding(new Insets(0, 20, 20, 20)); // En haut, à droite, en bas, à gauche
+        bottomBoxes.getChildren().addAll(leftBoxe, rightBoxe);
+        bottomBoxes.setPadding(new Insets(0, 20, 20, 20)); // En haut, à droite, en bas, à gauche
 
         // Ajouter un espace en bas du BorderPane
         rootLayout.setBottom(new Region()); // Crée une région vide qui ajoutera un espace au bas
 
         // Organisation dans le BorderPane
-        rootLayout.setTop(topFrame);
-        rootLayout.setCenter(bottomFrames);
+        rootLayout.setTop(topBoxe);
+        rootLayout.setCenter(bottomBoxes);
 
         // Création de la scène
         Scene popupScene = new Scene(rootLayout, 700, 500);
