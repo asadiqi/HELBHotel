@@ -309,10 +309,26 @@ public class HELBHotel_View {
         return btn;
     }
 
-    public void showReservationPopup(String prenom, String nom) {
-        showInfoAlert("Informations de Réservation", "Prénom: " + prenom + "\nNom: " + nom);
-    }
+    public void reservationDetailView(String prenom, String nom) {
+        Stage popupStage = new Stage();
+        popupStage.setTitle("Détail de la Réservation");
 
+        VBox popupLayout = new VBox(15);
+        popupLayout.setPadding(new Insets(20));
+        popupLayout.setAlignment(Pos.CENTER);
+
+        Label prenomLabel = new Label("Prénom : " + prenom);
+        Label nomLabel = new Label("Nom : " + nom);
+
+        Button closeButton = new Button("Fermer");
+        closeButton.setOnAction(e -> popupStage.close());
+
+        popupLayout.getChildren().addAll(prenomLabel, nomLabel, closeButton);
+
+        Scene popupScene = new Scene(popupLayout, 700, 500);
+        popupStage.setScene(popupScene);
+        popupStage.show();
+    }
     private HBox createLegend(String text, String color) {
         HBox box = new HBox(HBOX_SPACING);
         box.setAlignment(Pos.CENTER);

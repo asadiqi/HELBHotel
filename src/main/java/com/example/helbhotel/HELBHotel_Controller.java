@@ -49,8 +49,9 @@ public class HELBHotel_Controller {
     }
 
     public void handleReservationSelection(Reservation req) {
-        HELBHotelReservationDetailView.show(req);
+        view.reservationDetailView(req.prenom, req.nom);
     }
+
 
     public static String getFloorLabel(int n) {
         StringBuilder sb = new StringBuilder();
