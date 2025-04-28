@@ -75,6 +75,62 @@ public class HELBHotel_View {
 
     }
 
+
+    public void reservationDetailView(String prenom, String nom) {
+        Stage popupStage = new Stage();
+        popupStage.setTitle("Détail de la Réservation");
+
+        // Cadre principal
+        BorderPane rootLayout = new BorderPane();
+        rootLayout.setPadding(new Insets(0)); // pas de padding
+
+        // Cadre horizontal en haut
+        HBox topFrame = new HBox();
+        topFrame.setAlignment(Pos.CENTER);
+        topFrame.setPadding(new Insets(10));
+        topFrame.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+        Label reservationLabel = new Label("Reservation Window");
+        topFrame.getChildren().add(reservationLabel);
+        BorderPane.setMargin(topFrame, new Insets(30, 20, 0, 20)); 
+
+        // Deux cadres verticaux en bas
+        HBox bottomFrames = new HBox();
+        bottomFrames.setAlignment(Pos.CENTER);
+        bottomFrames.setPadding(new Insets(0)); // Pas de padding pour le moment
+        bottomFrames.setSpacing(0); // Pas d'espacement entre les cadres
+
+        VBox leftFrame = new VBox();
+        leftFrame.setAlignment(Pos.CENTER);
+        leftFrame.setPadding(new Insets(0)); // Pas de padding pour le moment
+        leftFrame.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+        leftFrame.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(leftFrame, Priority.ALWAYS); // permet de grandir
+
+        VBox rightFrame = new VBox();
+        rightFrame.setAlignment(Pos.CENTER);
+        rightFrame.setPadding(new Insets(0)); // Pas de padding pour le moment
+        rightFrame.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+        rightFrame.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(rightFrame, Priority.ALWAYS); // permet de grandir
+
+        bottomFrames.getChildren().addAll(leftFrame, rightFrame);
+        bottomFrames.setPadding(new Insets(0, 20, 20, 20)); // En haut, à droite, en bas, à gauche
+
+        // Ajouter un espace en bas du BorderPane
+        rootLayout.setBottom(new Region()); // Crée une région vide qui ajoutera un espace au bas
+
+        // Organisation dans le BorderPane
+        rootLayout.setTop(topFrame);
+        rootLayout.setCenter(bottomFrames);
+
+        // Création de la scène
+        Scene popupScene = new Scene(rootLayout, 700, 500);
+        popupStage.setScene(popupScene);
+        popupStage.show();
+    }
+
+
+
     public ComboBox<String> getModeSelector() {
         return modeSelector;
     }
@@ -309,26 +365,6 @@ public class HELBHotel_View {
         return btn;
     }
 
-    public void reservationDetailView(String prenom, String nom) {
-        Stage popupStage = new Stage();
-        popupStage.setTitle("Détail de la Réservation");
-
-        VBox popupLayout = new VBox(15);
-        popupLayout.setPadding(new Insets(20));
-        popupLayout.setAlignment(Pos.CENTER);
-
-        Label prenomLabel = new Label("Prénom : " + prenom);
-        Label nomLabel = new Label("Nom : " + nom);
-
-        Button closeButton = new Button("Fermer");
-        closeButton.setOnAction(e -> popupStage.close());
-
-        popupLayout.getChildren().addAll(prenomLabel, nomLabel, closeButton);
-
-        Scene popupScene = new Scene(popupLayout, 700, 500);
-        popupStage.setScene(popupScene);
-        popupStage.show();
-    }
     private HBox createLegend(String text, String color) {
         HBox box = new HBox(HBOX_SPACING);
         box.setAlignment(Pos.CENTER);
