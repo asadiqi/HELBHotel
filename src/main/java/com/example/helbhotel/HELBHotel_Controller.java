@@ -4,6 +4,7 @@ import com.example.helbhotel.room.Room;
 import com.example.helbhotel.parser.HConfigParser;
 import com.example.helbhotel.parser.Reservation;
 import com.example.helbhotel.parser.ReservationParser;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class HELBHotel_Controller {
     private static final String CSV_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/reservation.csv";
     private static final String HCONFIG_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/hconfig";
     private List<Reservation> allReservations;
+    private VBox buttonPanel;
 
     public HELBHotel_Controller(Stage stage) {
         configParser  = new HConfigParser(HCONFIG_FILE_PATH);
@@ -37,7 +39,34 @@ public class HELBHotel_Controller {
         // Set up reservations
         view.setupReservations(allReservations);
 
+<<<<<<< Updated upstream
         handleModeSelection();
+=======
+        view.getModeSelector().setOnAction(e -> {
+            String selected = view.getModeSelector().getSelectionModel().getSelectedItem();
+            if ("Random Assignment".equals(selected)) {
+                List<String> roomNames = getAllRoomNames(); // Récupérer les noms des chambres
+                Collections.shuffle(roomNames); // Mélanger la liste des chambres
+
+                updateReservationButtons(roomNames); // Mettre à jour les boutons de réservation
+            }
+        });
+
+
+        view.getFloorSelector().setOnAction(e -> {
+            String selectedFloor = view.getFloorSelector().getSelectionModel().getSelectedItem();
+            if (selectedFloor != null && !selectedFloor.isEmpty()) {
+                // Extraire uniquement les lettres
+                String floorPrefix = selectedFloor.replaceAll("[^A-Za-z]", "");
+
+                // Mettre à jour la grille avec le préfixe de lettres
+                view.updateRoomGrid(configParser.getChambreConfig(), floorPrefix);
+
+            }
+        });
+
+
+>>>>>>> Stashed changes
     }
 
     private List<Reservation> fetchAllRequests() {
@@ -72,6 +101,7 @@ public class HELBHotel_Controller {
         view.showInfoAlert("Informations sur la chambre", "Chambre: " + roomName);
     }
 
+<<<<<<< Updated upstream
     public List<String> fetchAllRoomNamesWithFloors() {
         List<String> allRooms = new ArrayList<>();
 
@@ -114,8 +144,34 @@ public class HELBHotel_Controller {
             List<String> roomNames = fetchAllRoomNamesWithFloors();
             Collections.shuffle(roomNames);
             view.updateReservationButtonsRandomly(roomNames, "");
+=======
+    private List<String> getAllRoomNames() {
+        List<String> roomNames = new ArrayList<>();
+        // Accédez à la configuration des chambres (peut-être dans `configParser`)
+        for (List<String> row : configParser.getChambreConfig()) {
+            for (String roomType : row) {
+                if (!"Z".equals(roomType)) { // Ignorer les chambres vides ou non configurées
+                    String roomName = generateRoomName(row.indexOf(roomType), roomType); // Générez un nom
+                    roomNames.add(roomName);
+                }
+            }
+        }
+        return roomNames;
+    }
+
+    private void updateReservationButtons(List<String> roomNames) {
+        view.getButtonPanel().getChildren().clear(); // Vider les boutons existants
+        for (String roomName : roomNames) {
+            Button btn = createReservationButton(roomName);
+            view.getButtonPanel().getChildren().add(btn); // Ajouter les nouveaux boutons
+>>>>>>> Stashed changes
         }
     }
 
 
+<<<<<<< Updated upstream
 }
+=======
+
+}
+>>>>>>> Stashed changes
