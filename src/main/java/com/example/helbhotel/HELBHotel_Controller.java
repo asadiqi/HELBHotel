@@ -49,7 +49,7 @@ public class HELBHotel_Controller {
     }
 
     public void handleReservationSelection(Reservation req) {
-        view.showReservationPopup(req.prenom, req.nom);
+        HELBHotelReservationDetailView.show(req);
     }
 
     public static String getFloorLabel(int n) {
@@ -115,4 +115,6 @@ public class HELBHotel_Controller {
             view.updateReservationButtonsRandomly(roomNames, "");
         }
     }
+
+
 }
