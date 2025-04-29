@@ -4,6 +4,7 @@ import com.example.helbhotel.room.Room;
 import com.example.helbhotel.parser.HConfigParser;
 import com.example.helbhotel.parser.Reservation;
 import com.example.helbhotel.parser.ReservationParser;
+import com.example.helbhotel.view.HELBReservationDetailView;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class HELBHotel_Controller {
     private HELBHotel_View view;
+    private HELBReservationDetailView reservationDetailView;
     private HConfigParser configParser;
     private ReservationParser requestParser;
 
@@ -29,6 +31,7 @@ public class HELBHotel_Controller {
         view.setupRoomGrid(configParser.getChambreConfig());
 
         // Configure floor selector
+
         view.getFloorSelector().setOnAction(e -> updateRoomGridForSelectedFloor());
 
         // Configure mode selector
@@ -37,6 +40,8 @@ public class HELBHotel_Controller {
         // Set up reservations
         view.setupReservations(allReservations);
 
+        //Setup Reservation detail View
+        reservationDetailView = new HELBReservationDetailView();
         handleModeSelection();
     }
 
@@ -49,7 +54,7 @@ public class HELBHotel_Controller {
     }
 
     public void handleReservationSelection(Reservation req) {
-        view.reservationDetailView(req.prenom, req.nom);
+        reservationDetailView.openView();
     }
 
     public static String getFloorLabel(int n) {
