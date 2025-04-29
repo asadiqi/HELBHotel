@@ -1,6 +1,5 @@
 package com.example.helbhotel;
 
-import com.example.helbhotel.room.Room;
 import com.example.helbhotel.parser.HConfigParser;
 import com.example.helbhotel.parser.Reservation;
 import com.example.helbhotel.parser.ReservationParser;
