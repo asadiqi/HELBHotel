@@ -1,6 +1,5 @@
 package com.example.helbhotel;
 
-import com.example.helbhotel.model.Hotel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

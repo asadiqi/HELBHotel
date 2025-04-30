@@ -1,0 +1,93 @@
+package com.example.helbhotel.view;
+
+import com.example.helbhotel.controller.HELBHotelController;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
+public class HELBHotelView {
+
+
+    private HELBHotelController controller;
+
+    private  VBox root;
+    private  VBox mainWrapper;
+    private  HBox mainContent;
+    public  VBox leftPanel;
+    private  VBox rightPanel;
+    private VBox buttonPanel;
+
+    public HELBHotelView(HELBHotelController controller) {
+        this.controller = controller;
+
+    }
+
+    private void initiateViews() {
+        // initiate root
+        root = new VBox();
+        root = new VBox();
+        root.setPadding(new Insets(HELBHotelViewStyle.PADDING_GENERAL));
+
+        // Set up the main wrapper
+        VBox wrapper = new VBox();
+        wrapper.setPadding(new Insets(HELBHotelViewStyle.PADDING_GENERAL));
+        wrapper.setSpacing(HELBHotelViewStyle.SPACING_MAIN_WRAPPER);
+        wrapper.setStyle(String.format(
+                "-fx-background-color: %s; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: %d; -fx-background-radius: %d;",
+                HELBHotelViewStyle.COLOR_BACKGROUND, HELBHotelViewStyle.COLOR_BORDER, HELBHotelViewStyle.BORDER_WIDTH,
+                HELBHotelViewStyle.BORDER_RADIUS, HELBHotelViewStyle.BORDER_RADIUS));
+
+        wrapper.setMaxWidth(Double.MAX_VALUE);
+        wrapper.setMaxHeight(Double.MAX_VALUE);
+        VBox.setVgrow(wrapper, Priority.ALWAYS);
+        this.mainWrapper = wrapper;
+
+        // Setup mainContent
+        HBox content = new HBox();
+        content.setSpacing(HELBHotelViewStyle.SPACING_MAIN_CONTENT);
+        content.setPadding(new Insets(HELBHotelViewStyle.PADDING_MAIN_CONTENT));
+        VBox.setVgrow(content, Priority.ALWAYS);
+        this.mainContent = content;
+
+        // Set up the left and right panels
+        VBox panel = new VBox();
+        panel.setStyle(String.format("-fx-background-color: white; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: 15; -fx-background-radius: 15;", HELBHotelViewStyle.COLOR_BORDER, HELBHotelViewStyle.BORDER_WIDTH));
+        panel.setMinWidth(HELBHotelViewStyle.PANEL_MIN_WIDTH);
+        panel.setPrefHeight(HELBHotelViewStyle.PANEL_PREF_HEIGHT);
+        panel.setAlignment(Pos.CENTER);
+
+        // Set up the leftpanel
+        this.leftPanel = new VBox();
+        this.leftPanel.setStyle(String.format(
+                "-fx-background-color: white; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: 15; -fx-background-radius: 15;",
+                HELBHotelViewStyle.COLOR_BORDER, HELBHotelViewStyle.BORDER_WIDTH));
+        this.leftPanel.setMinWidth(HELBHotelViewStyle.PANEL_MIN_WIDTH);
+        this.leftPanel.setPrefHeight(HELBHotelViewStyle.PANEL_PREF_HEIGHT);
+        this.leftPanel.setAlignment(Pos.CENTER);
+        StackPane gridWrapper = new StackPane();
+        gridWrapper.setPrefSize(HELBHotelViewStyle.PANEL_MIN_WIDTH, HELBHotelViewStyle.PANEL_PREF_HEIGHT);
+        gridWrapper.setPadding(new Insets(10));
+        this.leftPanel.getChildren().add(gridWrapper);
+        HBox.setHgrow(this.leftPanel, Priority.ALWAYS);
+
+        // Set up the rightpanel
+        this.rightPanel = new VBox();
+        this.rightPanel.setStyle(String.format(
+                "-fx-background-color: white; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: 15; -fx-background-radius: 15;",
+                HELBHotelViewStyle.COLOR_BORDER, HELBHotelViewStyle.BORDER_WIDTH));
+        this.rightPanel.setMinWidth(HELBHotelViewStyle.PANEL_MIN_WIDTH);
+        this.rightPanel.setPrefHeight(HELBHotelViewStyle.PANEL_PREF_HEIGHT);
+        this.rightPanel.setAlignment(Pos.CENTER);
+        this.buttonPanel = new VBox(HELBHotelViewStyle.SPACING_BUTTON_PANEL);
+        this.buttonPanel.setAlignment(Pos.CENTER);
+        ScrollPane rightScrollPane = new ScrollPane(buttonPanel);
+        rightScrollPane.setFitToWidth(true);
+        rightScrollPane.setPrefHeight(HELBHotelViewStyle.SCROLLPANE_PREF_HEIGHT);
+        rightPanel.getChildren().add(rightScrollPane);
+    }
+
+}

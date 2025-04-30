@@ -1,5 +1,6 @@
 package com.example.helbhotel;
 
+import com.example.helbhotel.controller.HELBHotelController;
 import com.example.helbhotel.parser.Reservation;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -47,11 +48,13 @@ public class HELBHotel_View {
     private final VBox rightPanel;
     private VBox buttonPanel;
     private final HELBHotel_Controller controller;
+    private final HELBHotelController domainController;
     private ComboBox<String> floorSelector;
     private ComboBox<String> modeSelector;
 
-    public HELBHotel_View(Stage stage, HELBHotel_Controller controller) {
+    public HELBHotel_View(Stage stage, HELBHotel_Controller controller, HELBHotelController domainController) {
         this.controller = controller;
+        this.domainController = domainController;
         root = new VBox();
         root.setPadding(new Insets(PADDING_GENERAL));
         stage.setTitle("HELBHotel");
@@ -261,7 +264,7 @@ public class HELBHotel_View {
         grid.setPadding(new Insets(10));
         grid.setAlignment(Pos.CENTER);
         int counter = 1;
-        for (int row = 0; row < config.size(); row++) {
+       /* for (int row = 0; row < config.size(); row++) {
             for (int col = 0; col < config.get(row).size(); col++) {
                 String type = config.get(row).get(col);
                 if ("Z".equals(type)) continue;
@@ -272,6 +275,8 @@ public class HELBHotel_View {
         }
         StackPane wrapper = (StackPane) leftPanel.getChildren().get(0);
         wrapper.getChildren().setAll(grid);
+
+        */
     }
 
     private Button createRoomButton(String roomName, String type) {
