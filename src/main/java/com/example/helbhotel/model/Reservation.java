@@ -5,19 +5,12 @@ public class Reservation {
     private String fullName;
     private int numberOfPeople;
     private boolean isSmoker;
-    private StayPurpose stayPurpose;
+    private String stayPurpose;
     private int numberOfChildren;
-
-    // Enumeration for the purpose of stay
-    public enum StayPurpose {
-        TOURISM,
-        BUSINESS,
-        OTHER
-    }
 
     // Constructor
     public Reservation(String fullName, int numberOfPeople, boolean isSmoker,
-                       StayPurpose stayPurpose, int numberOfChildren) {
+                       String stayPurpose, int numberOfChildren) {
         // Validation of constraints
         if (fullName == null || fullName.trim().isEmpty()) {
             throw new IllegalArgumentException("Full name cannot be empty");
@@ -55,7 +48,7 @@ public class Reservation {
         return isSmoker;
     }
 
-    public StayPurpose getStayPurpose() {
+    public String getStayPurpose() {
         return stayPurpose;
     }
 
@@ -85,7 +78,7 @@ public class Reservation {
         this.isSmoker = isSmoker;
     }
 
-    public void setStayPurpose(StayPurpose stayPurpose) {
+    public void setStayPurpose(String stayPurpose) {
         this.stayPurpose = stayPurpose;
     }
 

@@ -31,7 +31,7 @@ public class Hotel {
         for (int i = 0; i < amountOfFloors; i++) {
             building.add(this.floor);
         }
-        
+
     }
 
 
