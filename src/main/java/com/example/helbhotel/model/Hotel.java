@@ -2,15 +2,16 @@ package com.example.helbhotel.model;
 
 import com.example.helbhotel.parser.HConfigParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Hotel {
 
     private int amountOfFloors;
+    private List <Room [][]> building = new ArrayList<Room [][]>();
     private Room [][] floor = new Room[3][3];
     private HConfigParser configParser;
     private static final String HCONFIG_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/hconfig";
-
 
     public Hotel() {
         configParser  = new HConfigParser(HCONFIG_FILE_PATH);
@@ -27,6 +28,10 @@ public class Hotel {
             }
         }
 
+        for (int i = 0; i < amountOfFloors; i++) {
+            building.add(this.floor);
+        }
+        
     }
 
 
