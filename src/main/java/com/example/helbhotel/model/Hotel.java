@@ -14,20 +14,25 @@ public class Hotel {
     private static final String HCONFIG_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/hconfig";
 
     public Hotel() {
-        configParser  = new HConfigParser(HCONFIG_FILE_PATH);
+        configParser = new HConfigParser(HCONFIG_FILE_PATH);
         amountOfFloors = configParser.getNombreEtages();
         List<List<String>> floor = configParser.getChambreConfig();
 
-        int roomNumber = 1;
-        for (int i = 0; i < floor.size(); i++) {
-            for (int j = 0; j < floor.get(i).size(); j++) {
-               String roomChar = floor.get(i).get(j);
-               this.floor[i][j] = new RoomFactory().createRoom(roomChar.charAt(0),"A",roomNumber);
-                roomNumber++;
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for (int floorNumber = 0; floorNumber < amountOfFloors; floorNumber++) {
+            String letter = getFloorLabel(floorNumber);
+
+            int roomNumber = 1;
+            for (int i = 0; i < floor.size(); i++) {
+                for (int j = 0; j < floor.get(i).size(); j++) {
+                    String roomChar = floor.get(i).get(j);
+                    this.floor[i][j] = new RoomFactory().createRoom(roomChar.charAt(0), letter, roomNumber);
+                    roomNumber++;
+                }
             }
-        }
-        for (int i = 0; i < amountOfFloors; i++) {
             building.add(this.floor);
+
         }
     }
 
@@ -55,5 +60,15 @@ public class Hotel {
         return roomInformation;
     }
 
+    public static String getFloorLabel(int n) {
+        StringBuilder sb = new StringBuilder();
+        n++;
+        while (n > 0) {
+            n--;
+            sb.insert(0, (char) ('A' + (n % 26)));
+            n /= 26;
+        }
+        return sb.toString();
+    }
 
 }
