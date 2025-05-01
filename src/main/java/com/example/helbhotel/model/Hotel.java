@@ -26,11 +26,33 @@ public class Hotel {
                 roomNumber++;
             }
         }
-
         for (int i = 0; i < amountOfFloors; i++) {
             building.add(this.floor);
         }
+    }
 
+    public List<String[]> getRoomsInformation() {
+        List<String[]> roomInformation = new ArrayList<>();
+
+        // Create some string arrays with 2 places each
+        String[] luxeRoom = new String[2];
+        luxeRoom[0] = "Luxe";
+        luxeRoom[1] = "#D8C4EC";
+
+        String[] economicRoom = new String[2];
+        economicRoom[0] = "Economic";
+        economicRoom[1] = "#FFE5B4";
+
+        String[] businessRoom = new String[2];
+        businessRoom[0] = "Business";
+        businessRoom[1] = "#BFDFFF";
+
+        // Add the arrays to the list
+        roomInformation.add(luxeRoom);
+        roomInformation.add(economicRoom);
+        roomInformation.add(businessRoom);
+
+        return roomInformation;
     }
 
 

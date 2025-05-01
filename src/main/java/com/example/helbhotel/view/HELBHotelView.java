@@ -4,11 +4,9 @@ import com.example.helbhotel.controller.HELBHotelController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 public class HELBHotelView {
 
@@ -22,10 +20,12 @@ public class HELBHotelView {
     public  VBox leftPanel;
     private  VBox rightPanel;
     private VBox buttonPanel;
+    private HBox topBox;
 
     public HELBHotelView(HELBHotelController controller) {
         this.controller = controller;
         initiateViews();
+        setupLegend();
         this.scene = new Scene(this.root, HELBHotelViewStyle.WINDOW_WIDTH, HELBHotelViewStyle.WINDOW_HEIGHT);
     }
 
@@ -91,6 +91,33 @@ public class HELBHotelView {
         rightScrollPane.setFitToWidth(true);
         rightScrollPane.setPrefHeight(HELBHotelViewStyle.SCROLLPANE_PREF_HEIGHT);
         rightPanel.getChildren().add(rightScrollPane);
+
+        // Add topBox
+        this.topBox = new HBox(20);
+        topBox.setPadding(new Insets(0, 0, 10, 0));
+        topBox.setAlignment(Pos.CENTER_LEFT);
+
+        // Assemble view together!
+        mainContent.getChildren().addAll(this.leftPanel, this.rightPanel);
+        mainWrapper.getChildren().addAll(this.topBox, this.mainContent);
+        ScrollPane outerScroll = new ScrollPane(mainWrapper);
+        outerScroll.setFitToWidth(true);
+        outerScroll.setFitToHeight(true);
+        root.getChildren().add(outerScroll);
     }
+
+    public void setupLegend() {
+        HBox legendBox = new HBox(HELBHotelViewStyle.SPACING_LEGEND_BOX);
+        legendBox.setPadding(new Insets(HELBHotelViewStyle.PADDING_LEGEND));
+        legendBox.setAlignment(Pos.CENTER_LEFT);
+
+        for (int i = 0; i < controller.getRoomsInformation().size(); i++) {
+           String[] info = controller.getRoomsInformation().get(i);
+           legendBox.getChildren().add(HELBHotelViewComponents.createLegend(info[0], info[1]));
+        }
+
+        mainWrapper.getChildren().add(0, legendBox);
+    }
+
 
 }
