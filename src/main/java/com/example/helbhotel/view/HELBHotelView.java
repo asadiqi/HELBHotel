@@ -3,6 +3,7 @@ package com.example.helbhotel.view;
 import com.example.helbhotel.controller.HELBHotelController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -12,8 +13,9 @@ import javafx.scene.layout.VBox;
 public class HELBHotelView {
 
 
-    private HELBHotelController controller;
 
+    private HELBHotelController controller;
+    public Scene scene;
     private  VBox root;
     private  VBox mainWrapper;
     private  HBox mainContent;
@@ -23,7 +25,8 @@ public class HELBHotelView {
 
     public HELBHotelView(HELBHotelController controller) {
         this.controller = controller;
-
+        initiateViews();
+        this.scene = new Scene(this.root, HELBHotelViewStyle.WINDOW_WIDTH, HELBHotelViewStyle.WINDOW_HEIGHT);
     }
 
     private void initiateViews() {

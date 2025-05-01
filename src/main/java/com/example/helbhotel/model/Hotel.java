@@ -9,7 +9,7 @@ public class Hotel {
 
     private int amountOfFloors;
     private List <Room [][]> building = new ArrayList<Room [][]>();
-    private Room [][] floor = new Room[3][3];
+    private Room [][] floor = new Room[4][4];
     private HConfigParser configParser;
     private static final String HCONFIG_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/hconfig";
 
@@ -22,8 +22,7 @@ public class Hotel {
         for (int i = 0; i < floor.size(); i++) {
             for (int j = 0; j < floor.get(i).size(); j++) {
                String roomChar = floor.get(i).get(j);
-                System.out.println(floor.get(i).get(j));
-                this.floor[i][j] = new RoomFactory().createRoom(roomChar.charAt(0),"A",roomNumber);
+               this.floor[i][j] = new RoomFactory().createRoom(roomChar.charAt(0),"A",roomNumber);
                 roomNumber++;
             }
         }

@@ -25,7 +25,7 @@ public class HELBHotel_Controller {
         requestParser = new ReservationParser(CSV_FILE_PATH);
         allReservations = fetchAllRequests();
 
-        view = new HELBHotel_View(stage, this);
+       // view = new HELBHotel_View(stage, this);
         view.setupLegend();
         view.setupRoomGrid(configParser.getChambreConfig());
 
