@@ -8,30 +8,31 @@ import java.util.List;
 public class Hotel {
 
     private int amountOfFloors;
-    private List <Room [][]> building = new ArrayList<Room [][]>();
-    private Room [][] floor = new Room[4][4];
+    private List<Room[][]> building = new ArrayList<Room[][]>();
+    private Room[][] floor = new Room[4][4];
     private HConfigParser configParser;
     private static final String HCONFIG_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/hconfig";
 
     public Hotel() {
         configParser = new HConfigParser(HCONFIG_FILE_PATH);
         amountOfFloors = configParser.getNombreEtages();
-        List<List<String>> floor = configParser.getChambreConfig();
-
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        List<List<String>> floorData = configParser.getChambreConfig();
 
         for (int floorNumber = 0; floorNumber < amountOfFloors; floorNumber++) {
-            String letter = getFloorLabel(floorNumber);
-
+            this.floor= new Room[4][4];
             int roomNumber = 1;
-            for (int i = 0; i < floor.size(); i++) {
-                for (int j = 0; j < floor.get(i).size(); j++) {
-                    String roomChar = floor.get(i).get(j);
-                    this.floor[i][j] = new RoomFactory().createRoom(roomChar.charAt(0), letter, roomNumber);
+            for (int i = 0; i < floorData.size(); i++) {
+                for (int j = 0; j < floorData.get(i).size(); j++) {
+                    String roomChar = floorData.get(i).get(j);
+                    this.floor[i][j] = new RoomFactory().createRoom(roomChar.charAt(0),
+                            getFloorLabel(floorNumber),
+                            roomNumber);
+                    if(roomChar.equals("Z")) continue;
                     roomNumber++;
+
                 }
             }
-            building.add(this.floor);
+            building.addLast(this.floor);
 
         }
     }
@@ -61,14 +62,14 @@ public class Hotel {
     }
 
     public static String getFloorLabel(int n) {
-        StringBuilder sb = new StringBuilder();
-        n++;
-        while (n > 0) {
-            n--;
-            sb.insert(0, (char) ('A' + (n % 26)));
-            n /= 26;
-        }
-        return sb.toString();
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        return String.valueOf(alphabet.charAt(n));
+    }
+
+    public Room[][] getFloor(String floorLabel) {
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int floorNumber = alphabet.indexOf(floorLabel);
+        return building.get(floorNumber);
     }
 
 }

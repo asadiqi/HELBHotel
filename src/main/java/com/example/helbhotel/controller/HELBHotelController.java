@@ -1,6 +1,7 @@
 package com.example.helbhotel.controller;
 
 import com.example.helbhotel.model.Hotel;
+import com.example.helbhotel.model.Room;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,5 +18,10 @@ public class HELBHotelController {
 
         return  hotel.getRoomsInformation();
     }
+
+    public Room[][] getFloor(String floorLabel) {
+        return hotel.getFloor(floorLabel);
+    }
+
 
 }

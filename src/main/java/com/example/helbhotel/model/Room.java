@@ -13,5 +13,16 @@ public abstract class Room {
         this.roomNumber = roomNumber;
 
     }
+    public String getName() {
+        return floor + roomNumber + roomType;
+    }
 
+    public String getColor() {
+        return roomColor;
+    }
+
+    public String getRoomType() {
+        return String.valueOf(roomType);
+    }
 }
+

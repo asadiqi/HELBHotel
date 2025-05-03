@@ -1,9 +1,11 @@
 package com.example.helbhotel.view;
 
 import com.example.helbhotel.controller.HELBHotelController;
+import com.example.helbhotel.model.Room;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -26,6 +28,7 @@ public class HELBHotelView {
         this.controller = controller;
         initiateViews();
         setupLegend();
+        setupRooms("A");
         this.scene = new Scene(this.root, HELBHotelViewStyle.WINDOW_WIDTH, HELBHotelViewStyle.WINDOW_HEIGHT);
     }
 
@@ -118,6 +121,35 @@ public class HELBHotelView {
 
         mainWrapper.getChildren().add(0, legendBox);
     }
+
+    public void setupRooms(String floorLabel) {
+        GridPane grid = new GridPane();
+        grid.setHgap(18);
+        grid.setVgap(20);
+        grid.setPadding(new Insets(10));
+        grid.setAlignment(Pos.CENTER);
+
+        Room[][] floor = controller.getFloor(floorLabel);
+
+        for (int row = 0; row < floor.length; row++) {
+            for (int col = 0; col < floor[row].length; col++) {
+                Room room = floor[row][col];
+
+                if (room == null)
+                {
+                    continue;
+                };
+
+
+
+                Button btn = HELBHotelViewComponents.createRoomButton(room, e -> controller.getClass());
+                grid.add(btn, col, row);
+            }
+        }
+        StackPane wrapper = (StackPane) leftPanel.getChildren().get(0);
+        wrapper.getChildren().setAll(grid);
+    }
+
 
 
 }
