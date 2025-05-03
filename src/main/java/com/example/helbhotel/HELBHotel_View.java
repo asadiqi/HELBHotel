@@ -160,6 +160,8 @@ public class HELBHotel_View {
         return box;
     }
 
+
+
     public void updateRoomGrid(List<List<String>> config, String floorPrefix) {
         setupRoomGrid(config, floorPrefix);
     }

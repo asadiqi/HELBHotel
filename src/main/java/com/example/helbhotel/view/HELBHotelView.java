@@ -6,9 +6,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+
+import java.util.List;
 
 public class HELBHotelView {
 
@@ -23,13 +26,16 @@ public class HELBHotelView {
     private  VBox rightPanel;
     private VBox buttonPanel;
     private HBox topBox;
+    private ComboBox<String> floorSelector;
 
     public HELBHotelView(HELBHotelController controller) {
         this.controller = controller;
         initiateViews();
         setupLegend();
         setupRooms("A");
+        setupFloorSelector();
         this.scene = new Scene(this.root, HELBHotelViewStyle.WINDOW_WIDTH, HELBHotelViewStyle.WINDOW_HEIGHT);
+
     }
 
     private void initiateViews() {
@@ -122,6 +128,27 @@ public class HELBHotelView {
         mainWrapper.getChildren().add(0, legendBox);
     }
 
+    public void setupFloorSelector() {
+        HBox box = new HBox(10);
+        box.setAlignment(Pos.CENTER_LEFT);
+        box.setPadding(new Insets(10));
+        Label floorLabel = HELBHotelViewComponents.createLabel("Floor :", HELBHotelViewStyle.LABEL_WIDTH, Pos.CENTER,
+                true);
+        this.floorSelector = new ComboBox<>();
+        floorSelector.setOnAction(e -> setupRooms(floorSelector.getValue()));
+        List<String> floorLabels = controller.getFloorNames();
+
+        for (int i = 0; i < floorLabels.size(); i++) {
+            floorSelector.getItems().add(floorLabels.get(i));
+        }
+
+        floorSelector.getSelectionModel().selectFirst();
+        box.getChildren().addAll(floorLabel, floorSelector);
+        HBox.setHgrow(box, Priority.ALWAYS);
+        box.setMaxWidth(Double.MAX_VALUE);
+        topBox.getChildren().add(box);
+    }
+
     public void setupRooms(String floorLabel) {
         GridPane grid = new GridPane();
         grid.setHgap(18);
@@ -140,8 +167,6 @@ public class HELBHotelView {
                     continue;
                 };
 
-
-
                 Button btn = HELBHotelViewComponents.createRoomButton(room, e -> controller.getClass());
                 grid.add(btn, col, row);
             }
@@ -149,7 +174,6 @@ public class HELBHotelView {
         StackPane wrapper = (StackPane) leftPanel.getChildren().get(0);
         wrapper.getChildren().setAll(grid);
     }
-
 
 
 }

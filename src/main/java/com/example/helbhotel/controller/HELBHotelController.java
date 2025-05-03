@@ -23,5 +23,14 @@ public class HELBHotelController {
         return hotel.getFloor(floorLabel);
     }
 
+    public List<String> getFloorNames() {
+        int amountOfFloors = hotel.getAmountOfFloors();
+        List<String> floorLabels = new ArrayList<>();
+        for (int i = 0; i < amountOfFloors; i++) {
+            String floorLabel = hotel.getFloorLabel(i);
+            floorLabels.addLast(floorLabel);
+        }
+        return floorLabels;
+    }
 
 }

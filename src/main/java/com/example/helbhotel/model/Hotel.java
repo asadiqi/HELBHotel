@@ -61,7 +61,7 @@ public class Hotel {
         return roomInformation;
     }
 
-    public static String getFloorLabel(int n) {
+    public String getFloorLabel(int n) {
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         return String.valueOf(alphabet.charAt(n));
     }
@@ -72,4 +72,7 @@ public class Hotel {
         return building.get(floorNumber);
     }
 
+    public int getAmountOfFloors() {
+        return configParser.getNombreEtages();
+    }
 }
