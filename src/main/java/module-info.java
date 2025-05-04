@@ -7,4 +7,6 @@ module com.example.helbhotel {
     exports com.example.helbhotel;
     exports com.example.helbhotel.parser;
     opens com.example.helbhotel.parser to javafx.fxml;
+    exports com.example.helbhotel.strategy;
+    opens com.example.helbhotel.strategy to javafx.fxml;
 }

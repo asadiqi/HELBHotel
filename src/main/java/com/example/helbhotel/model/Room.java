@@ -7,12 +7,18 @@ public abstract class Room {
     protected char roomType; // L B E
     protected String roomTypeFullName;
     protected String roomColor;
+    private boolean isAvailable;
 
     public Room(String floor, int roomNumber) {
         this.floor = floor;
         this.roomNumber = roomNumber;
 
     }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
     public String getName() {
         return floor + roomNumber + roomType;
     }
@@ -24,5 +30,14 @@ public abstract class Room {
     public String getRoomType() {
         return String.valueOf(roomType);
     }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
 }
 

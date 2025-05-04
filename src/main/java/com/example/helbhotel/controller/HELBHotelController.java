@@ -6,6 +6,7 @@ import com.example.helbhotel.model.Room;
 import com.example.helbhotel.parser.HConfigParser;
 import com.example.helbhotel.parser.Reservation;
 import com.example.helbhotel.parser.ReservationParser;
+import com.example.helbhotel.strategy.*;
 import com.example.helbhotel.view.HELBHotelView;
 import com.example.helbhotel.view.HELBReservationDetailView;
 
@@ -18,6 +19,7 @@ public class HELBHotelController {
     private HELBHotelView view;
 
     private HELBReservationDetailView reservationDetailView;
+    private RoomAssignmentContext context;
     private HConfigParser configParser;
     private ReservationParser requestParser;
     private static final String CSV_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/reservation.csv";
@@ -72,5 +74,23 @@ public class HELBHotelController {
         }
         return list;
     }
+
+    public void setAssignmentStrategy(String mode) {
+        switch (mode) {
+            case "Random":
+                context.setStrategy(new RandomAssignmentStrategy());
+                break;
+            case "Quiet":
+                context.setStrategy(new QuietZoneAssignmentStrategy());
+                break;
+            case "Stay Purpose":
+                context.setStrategy(new StayPurposeAssignmentStrategy());
+                break;
+            case "Sequential":
+                context.setStrategy(new SequentialAssignmentStrategy());
+                break;
+        }
+    }
+
 
 }

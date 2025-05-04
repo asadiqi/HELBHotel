@@ -26,7 +26,7 @@ public class HELBHotelView {
     private VBox buttonPanel;
     private HBox topBox;
     private ComboBox<String> floorSelector;
-    private ComboBox<String> modeSelector;
+    private ComboBox<String> reservationModeSelector;
 
     public HELBHotelView(HELBHotelController controller) {
         this.controller = controller;
@@ -34,7 +34,7 @@ public class HELBHotelView {
         setupLegend();
         setupRooms("A");
         setupFloorSelector();
-        topBox.getChildren().add(verifyModeSortBoxContainer());
+        setupReservationActionBoxes();
         this.scene = new Scene(this.root, HELBHotelViewStyle.WINDOW_WIDTH, HELBHotelViewStyle.WINDOW_HEIGHT);
     }
 
@@ -178,27 +178,32 @@ public class HELBHotelView {
     }
 
 
-    // Assembler tous les éléments dans un HBox final
-    private HBox createVerifyModeSortBox(Button verifyButton, ComboBox<String> modeSelector, HBox sortContainer) {
-        VBox verifyButtonContainer = new VBox(5);
-        verifyButtonContainer.setAlignment(Pos.CENTER_RIGHT);
-        verifyButtonContainer.getChildren().addAll(verifyButton, modeSelector);
-        verifyButtonContainer.getChildren().add(sortContainer);
+    private void setupReservationActionBoxes() {
+        VBox reservationActionBoxesContainer = new VBox(5);
+        reservationActionBoxesContainer.setAlignment(Pos.CENTER_RIGHT);
 
-        HBox verifyButtonBox = new HBox();
-        verifyButtonBox.setAlignment(Pos.CENTER_RIGHT);
-        verifyButtonBox.setPadding(new Insets(0, 20, 0, 0));
-        verifyButtonBox.getChildren().add(verifyButtonContainer);
+        Button verifyCodeButton = HELBHotelViewComponents.createVerifyCodeButton(null);
+        this.reservationModeSelector = HELBHotelViewComponents.createReservationModeSelector(new String[]{"Mode"},
+                e -> controller.setAssignmentStrategy(reservationModeSelector.getValue()));
 
-        return verifyButtonBox;
-    }
+        HBox sortContainer = new HBox(10);
+        sortContainer.setAlignment(Pos.CENTER_LEFT);
+        sortContainer.setPrefWidth(180);
+        sortContainer.setMaxWidth(180);
 
-    // Méthode principale qui assemble tout
-    private HBox verifyModeSortBoxContainer() {
-        Button verifyButton = HELBHotelViewComponents.createVerifyButton();
-        ComboBox<String> modeSelector = HELBHotelViewComponents.createModeSelector();
-        HBox sortContainer = HELBHotelViewComponents.createSortContainer();
-        return createVerifyModeSortBox(verifyButton, modeSelector, sortContainer);
+        Label sortLabel = HELBHotelViewComponents.createLabel("Sort by:", 70, Pos.CENTER, true);
+        sortLabel.setStyle(sortLabel.getStyle() +
+                "-fx-font-size: 13px;" +
+                "-fx-border-width: 1;" +
+                "-fx-border-radius: 5;" +
+                "-fx-background-radius: 5;" +
+                "-fx-padding: 5 10;");
+
+        ComboBox<String> sortComboBox = HELBHotelViewComponents.createSortByParamComboBox(new String[]{"Param"}, null);
+        sortContainer.getChildren().addAll(sortLabel, sortComboBox);
+
+        reservationActionBoxesContainer.getChildren().addAll(verifyCodeButton, reservationModeSelector, sortContainer);
+        topBox.getChildren().add(reservationActionBoxesContainer);
     }
 
 
