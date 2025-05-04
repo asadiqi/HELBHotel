@@ -1,6 +1,5 @@
 package com.example.helbhotel.controller;
 
-import com.example.helbhotel.HELBHotel_View;
 import com.example.helbhotel.model.Hotel;
 import com.example.helbhotel.model.Room;
 import com.example.helbhotel.parser.HConfigParser;
