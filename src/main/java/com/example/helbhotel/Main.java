@@ -11,6 +11,7 @@ public class Main extends Application {
      //   new HELBHotel_Controller(stage);
         HELBHotelController controller = new HELBHotelController();
         HELBHotelView hotelView = new HELBHotelView(controller);
+        controller.setView(hotelView);
         stage.setScene(hotelView.scene);
         stage.show();
     }

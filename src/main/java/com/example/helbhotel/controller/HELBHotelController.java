@@ -1,9 +1,12 @@
 package com.example.helbhotel.controller;
 
+import com.example.helbhotel.HELBHotel_View;
 import com.example.helbhotel.model.Hotel;
 import com.example.helbhotel.model.Room;
+import com.example.helbhotel.parser.HConfigParser;
 import com.example.helbhotel.parser.Reservation;
 import com.example.helbhotel.parser.ReservationParser;
+import com.example.helbhotel.view.HELBHotelView;
 import com.example.helbhotel.view.HELBReservationDetailView;
 
 import java.util.ArrayList;
@@ -12,15 +15,32 @@ import java.util.List;
 public class HELBHotelController {
 
     private Hotel hotel;
+    private HELBHotelView view;
+
     private HELBReservationDetailView reservationDetailView;
+    private HConfigParser configParser;
     private ReservationParser requestParser;
+    private static final String CSV_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/reservation.csv";
+    private static final String HCONFIG_FILE_PATH = "src/main/java/com/example/helbhotel/Parser/hconfig";
+
     private List<Reservation> allReservations;
+
 
 
     public HELBHotelController() {
         this.hotel = new Hotel();
+        configParser  = new HConfigParser(HCONFIG_FILE_PATH);
+        requestParser = new ReservationParser(CSV_FILE_PATH);
+        allReservations = fetchAllRequests();
 
     }
+
+    public void setView(HELBHotelView view) {
+        this.view = view;
+        view.setupReservations(allReservations);
+        this.reservationDetailView = new HELBReservationDetailView();
+    }
+
 
     public List<String[]> getRoomsInformation() {
 
