@@ -7,9 +7,9 @@ import java.util.List;
 
 public class SequentialAssignmentStrategy implements RoomAssignmentStrategy {
     @Override
-    public Room assignRoom(List<Room> availableRooms, Reservation reservation) {
+    public Room assignRoom(Hotel hotel, Reservation reservation) {
         // Trier par numéro de chambre pour la proximité
-        availableRooms.sort((a, b) -> a.getRoomNumber() - b.getRoomNumber());
+        /*availableRooms.sort((a, b) -> a.getRoomNumber() - b.getRoomNumber());
 
         for (Room room : availableRooms) {
             if ("Affaire".equalsIgnoreCase(reservation.motifSejour) && room instanceof BusinessRoom) {
@@ -22,6 +22,8 @@ public class SequentialAssignmentStrategy implements RoomAssignmentStrategy {
                 }
             }
         }
+
+         */
         return null;
     }
 }

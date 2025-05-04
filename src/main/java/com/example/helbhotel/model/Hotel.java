@@ -80,4 +80,19 @@ public class Hotel {
     public int getAmountOfFloors() {
         return configParser.getNombreEtages();
     }
+
+    boolean areAllRoomsBooked() {
+        for (int i = 0; i < building.size(); i++) {
+            for (int j = 0; j < building.get(i).length; j++) {
+               /* if (building.get(i).length) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+/*
+
+
+
 }

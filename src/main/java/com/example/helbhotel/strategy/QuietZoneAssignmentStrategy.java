@@ -1,5 +1,6 @@
 package com.example.helbhotel.strategy;
 
+import com.example.helbhotel.model.Hotel;
 import com.example.helbhotel.model.Room;
 import com.example.helbhotel.parser.Reservation;
 
@@ -11,8 +12,8 @@ import java.util.stream.Collectors;
 
 public class QuietZoneAssignmentStrategy implements RoomAssignmentStrategy {
     @Override
-    public Room assignRoom(List<Room> availableRooms, Reservation reservation) {
-        List<Room> filtered = availableRooms.stream()
+    public Room assignRoom(Hotel hotel, Reservation reservation) {
+       /* List<Room> filtered = availableRooms.stream()
                 .filter(room -> {
                     // Si le client a des enfants et cherche une chambre calme, on l'évite
                     if (reservation.nombreEnfants > 0 && !roomHasNonChildrenNearby(room)) return false;
@@ -20,9 +21,15 @@ public class QuietZoneAssignmentStrategy implements RoomAssignmentStrategy {
                     if (reservation.fumeur && !isWindowRoom(room)) return false;
                     return true;
                 })
-                .collect(Collectors.toList());
+              .collect(Collectors.toList());
+
+
 
         return filtered.isEmpty() ? null : filtered.get(0); // ou random
+
+        */
+
+        return  null;
     }
 
     private boolean roomHasNonChildrenNearby(Room room) {

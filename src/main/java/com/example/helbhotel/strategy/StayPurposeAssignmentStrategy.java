@@ -7,8 +7,8 @@ import java.util.List;
 
 public class StayPurposeAssignmentStrategy implements RoomAssignmentStrategy {
     @Override
-    public Room assignRoom(List<Room> availableRooms, Reservation reservation) {
-        for (Room room : availableRooms) {
+    public Room assignRoom(Hotel hotel, Reservation reservation) {
+      /*  for (Room room : availableRooms) {
             if ("Affaire".equalsIgnoreCase(reservation.motifSejour) && room instanceof BusinessRoom) {
                 return room;
             } else if (("Tourisme".equalsIgnoreCase(reservation.motifSejour) || "Autre".equalsIgnoreCase(reservation.motifSejour))) {
@@ -17,6 +17,8 @@ public class StayPurposeAssignmentStrategy implements RoomAssignmentStrategy {
                 }
             }
         }
+
+       */
         return null;
     }
 }
