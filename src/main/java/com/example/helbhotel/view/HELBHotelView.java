@@ -135,12 +135,19 @@ public class HELBHotelView {
         Label floorLabel = HELBHotelViewComponents.createLabel("Floor :", HELBHotelViewStyle.LABEL_WIDTH, Pos.CENTER,
                 true);
         this.floorSelector = new ComboBox<>();
-        floorSelector.setOnAction(e -> setupRooms(floorSelector.getValue()));
+        floorSelector.setOnAction(e -> {
+            String fullLabel = floorSelector.getValue(); // Ex: A1
+            String actualLabel = fullLabel.substring(0, 1); // "A"
+            setupRooms(actualLabel);
+        });
         List<String> floorLabels = controller.getFloorNames();
 
         for (int i = 0; i < floorLabels.size(); i++) {
-            floorSelector.getItems().add(floorLabels.get(i));
+            String label = floorLabels.get(i);
+            String displayLabel = label + (i + 1); // A1, B2, ...
+            floorSelector.getItems().add(displayLabel);
         }
+
 
         floorSelector.getSelectionModel().selectFirst();
         box.getChildren().addAll(floorLabel, floorSelector);
