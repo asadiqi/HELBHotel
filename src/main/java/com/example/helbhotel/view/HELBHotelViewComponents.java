@@ -3,11 +3,14 @@ package com.example.helbhotel.view;
 import com.example.helbhotel.model.Room;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
 public class HELBHotelViewComponents {
 
@@ -54,4 +57,62 @@ public class HELBHotelViewComponents {
         btn.setOnAction(eventHandler);
         return btn;
     }
+
+    public static final Button createButton(String text, String bgColor, boolean isBold) {
+        String fontWeight = isBold ? "-fx-font-weight: bold;" : "";
+        Button btn = new Button(text);
+        btn.setStyle(String.format(
+                "-fx-background-color: transparent; -fx-text-fill: %s; -fx-font-size: %dpx; %s -fx-padding: %dpx; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 1;",
+                HELBHotelViewStyle.BUTTON_TEXT_FILL,
+                HELBHotelViewStyle.FONT_SIZE_BUTTON,
+                fontWeight,
+                HELBHotelViewStyle.BUTTON_PADDING
+        ));
+        return btn;
+    }
+
+    // Méthode pour créer un ComboBox pour trier les éléments
+    public static final ComboBox<String> createSortComboBox() {
+        ComboBox<String> sortComboBox = new ComboBox<>();
+        sortComboBox.getItems().addAll("Name", "Room order");
+        sortComboBox.getSelectionModel().selectFirst();
+        sortComboBox.setPrefWidth(100);
+        return sortComboBox;
+    }
+    public static final Button createVerifyButton() {
+        Button verifyButton = createButton("Verify Code", "", true);
+        verifyButton.setPrefSize(180, HELBHotelViewStyle.BUTTON_PREF_HEIGHT);
+        return verifyButton;
+    }
+
+    public static final ComboBox<String> createModeSelector() {
+        ComboBox<String> modeSelector = new ComboBox<>();
+        modeSelector.getItems().addAll("Random Assignment", "Quiet Zone", "Stay Purpose", "Sequential Assignment");
+        modeSelector.getSelectionModel().selectFirst();
+        modeSelector.setStyle("-fx-font-size: 12px; -fx-background-radius: 5; -fx-padding: 4 8;");
+        modeSelector.setPrefWidth(180);
+        return modeSelector;
+    }
+
+    public static final HBox createSortContainer() {
+        HBox sortContainer = new HBox(10);
+        sortContainer.setAlignment(Pos.CENTER_LEFT);
+        sortContainer.setPrefWidth(180);
+        sortContainer.setMaxWidth(180);
+
+        Label sortLabel = createLabel("Sort by:", 70, Pos.CENTER, true);
+        sortLabel.setStyle(sortLabel.getStyle() +
+                "-fx-font-size: 13px;" +
+                "-fx-border-width: 1;" +
+                "-fx-border-radius: 5;" +
+                "-fx-background-radius: 5;" +
+                "-fx-padding: 5 10;");
+
+        ComboBox<String> sortComboBox = createSortComboBox();
+        sortContainer.getChildren().addAll(sortLabel, sortComboBox);
+        return sortContainer;
+    }
+
+
+
 }

@@ -2,6 +2,7 @@ package com.example.helbhotel.view;
 
 import com.example.helbhotel.controller.HELBHotelController;
 import com.example.helbhotel.model.Room;
+import com.example.helbhotel.parser.Reservation;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,18 +16,17 @@ import java.util.List;
 
 public class HELBHotelView {
 
-
-
     private HELBHotelController controller;
     public Scene scene;
-    private  VBox root;
-    private  VBox mainWrapper;
-    private  HBox mainContent;
-    public  VBox leftPanel;
-    private  VBox rightPanel;
+    private VBox root;
+    private VBox mainWrapper;
+    private HBox mainContent;
+    public VBox leftPanel;
+    private VBox rightPanel;
     private VBox buttonPanel;
     private HBox topBox;
     private ComboBox<String> floorSelector;
+    private ComboBox<String> modeSelector;
 
     public HELBHotelView(HELBHotelController controller) {
         this.controller = controller;
@@ -34,17 +34,14 @@ public class HELBHotelView {
         setupLegend();
         setupRooms("A");
         setupFloorSelector();
+        topBox.getChildren().add(verifyModeSortBoxContainer());
         this.scene = new Scene(this.root, HELBHotelViewStyle.WINDOW_WIDTH, HELBHotelViewStyle.WINDOW_HEIGHT);
-
     }
 
     private void initiateViews() {
-        // initiate root
-        root = new VBox();
         root = new VBox();
         root.setPadding(new Insets(HELBHotelViewStyle.PADDING_GENERAL));
 
-        // Set up the main wrapper
         VBox wrapper = new VBox();
         wrapper.setPadding(new Insets(HELBHotelViewStyle.PADDING_GENERAL));
         wrapper.setSpacing(HELBHotelViewStyle.SPACING_MAIN_WRAPPER);
@@ -58,21 +55,18 @@ public class HELBHotelView {
         VBox.setVgrow(wrapper, Priority.ALWAYS);
         this.mainWrapper = wrapper;
 
-        // Setup mainContent
         HBox content = new HBox();
         content.setSpacing(HELBHotelViewStyle.SPACING_MAIN_CONTENT);
         content.setPadding(new Insets(HELBHotelViewStyle.PADDING_MAIN_CONTENT));
         VBox.setVgrow(content, Priority.ALWAYS);
         this.mainContent = content;
 
-        // Set up the left and right panels
         VBox panel = new VBox();
         panel.setStyle(String.format("-fx-background-color: white; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: 15; -fx-background-radius: 15;", HELBHotelViewStyle.COLOR_BORDER, HELBHotelViewStyle.BORDER_WIDTH));
         panel.setMinWidth(HELBHotelViewStyle.PANEL_MIN_WIDTH);
         panel.setPrefHeight(HELBHotelViewStyle.PANEL_PREF_HEIGHT);
         panel.setAlignment(Pos.CENTER);
 
-        // Set up the leftpanel
         this.leftPanel = new VBox();
         this.leftPanel.setStyle(String.format(
                 "-fx-background-color: white; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: 15; -fx-background-radius: 15;",
@@ -86,7 +80,6 @@ public class HELBHotelView {
         this.leftPanel.getChildren().add(gridWrapper);
         HBox.setHgrow(this.leftPanel, Priority.ALWAYS);
 
-        // Set up the rightpanel
         this.rightPanel = new VBox();
         this.rightPanel.setStyle(String.format(
                 "-fx-background-color: white; -fx-border-color: %s; -fx-border-width: %d; -fx-border-radius: 15; -fx-background-radius: 15;",
@@ -101,12 +94,10 @@ public class HELBHotelView {
         rightScrollPane.setPrefHeight(HELBHotelViewStyle.SCROLLPANE_PREF_HEIGHT);
         rightPanel.getChildren().add(rightScrollPane);
 
-        // Add topBox
         this.topBox = new HBox(20);
         topBox.setPadding(new Insets(0, 0, 10, 0));
         topBox.setAlignment(Pos.CENTER_LEFT);
 
-        // Assemble view together!
         mainContent.getChildren().addAll(this.leftPanel, this.rightPanel);
         mainWrapper.getChildren().addAll(this.topBox, this.mainContent);
         ScrollPane outerScroll = new ScrollPane(mainWrapper);
@@ -121,8 +112,8 @@ public class HELBHotelView {
         legendBox.setAlignment(Pos.CENTER_LEFT);
 
         for (int i = 0; i < controller.getRoomsInformation().size(); i++) {
-           String[] info = controller.getRoomsInformation().get(i);
-           legendBox.getChildren().add(HELBHotelViewComponents.createLegend(info[0], info[1]));
+            String[] info = controller.getRoomsInformation().get(i);
+            legendBox.getChildren().add(HELBHotelViewComponents.createLegend(info[0], info[1]));
         }
 
         mainWrapper.getChildren().add(0, legendBox);
@@ -132,8 +123,7 @@ public class HELBHotelView {
         HBox box = new HBox(10);
         box.setAlignment(Pos.CENTER_LEFT);
         box.setPadding(new Insets(10));
-        Label floorLabel = HELBHotelViewComponents.createLabel("Floor :", HELBHotelViewStyle.LABEL_WIDTH, Pos.CENTER,
-                true);
+        Label floorLabel = HELBHotelViewComponents.createLabel("Floor :", HELBHotelViewStyle.LABEL_WIDTH, Pos.CENTER, true);
         this.floorSelector = new ComboBox<>();
         floorSelector.setOnAction(e -> {
             String fullLabel = floorSelector.getValue(); // Ex: A1
@@ -155,7 +145,6 @@ public class HELBHotelView {
             floorSelector.getItems().add(displayLabel);
         }
 
-
         floorSelector.getSelectionModel().selectFirst();
         box.getChildren().addAll(floorLabel, floorSelector);
         HBox.setHgrow(box, Priority.ALWAYS);
@@ -176,10 +165,9 @@ public class HELBHotelView {
             for (int col = 0; col < floor[row].length; col++) {
                 Room room = floor[row][col];
 
-                if (room == null)
-                {
+                if (room == null) {
                     continue;
-                };
+                }
 
                 Button btn = HELBHotelViewComponents.createRoomButton(room, e -> controller.getClass());
                 grid.add(btn, col, row);
@@ -188,6 +176,48 @@ public class HELBHotelView {
         StackPane wrapper = (StackPane) leftPanel.getChildren().get(0);
         wrapper.getChildren().setAll(grid);
     }
+
+
+    // Assembler tous les éléments dans un HBox final
+    private HBox createVerifyModeSortBox(Button verifyButton, ComboBox<String> modeSelector, HBox sortContainer) {
+        VBox verifyButtonContainer = new VBox(5);
+        verifyButtonContainer.setAlignment(Pos.CENTER_RIGHT);
+        verifyButtonContainer.getChildren().addAll(verifyButton, modeSelector);
+        verifyButtonContainer.getChildren().add(sortContainer);
+
+        HBox verifyButtonBox = new HBox();
+        verifyButtonBox.setAlignment(Pos.CENTER_RIGHT);
+        verifyButtonBox.setPadding(new Insets(0, 20, 0, 0));
+        verifyButtonBox.getChildren().add(verifyButtonContainer);
+
+        return verifyButtonBox;
+    }
+
+    // Méthode principale qui assemble tout
+    private HBox verifyModeSortBoxContainer() {
+        Button verifyButton = HELBHotelViewComponents.createVerifyButton();
+        ComboBox<String> modeSelector = HELBHotelViewComponents.createModeSelector();
+        HBox sortContainer = HELBHotelViewComponents.createSortContainer();
+        return createVerifyModeSortBox(verifyButton, modeSelector, sortContainer);
+    }
+
+
+    public void setupReservations(List<Reservation> reservations) {
+        buttonPanel.getChildren().clear();
+        for (Reservation r : reservations) {
+            buttonPanel.getChildren().add(createReservationButton(r));
+        }
+    }
+
+    private Button createReservationButton(Reservation r) {
+        String text = String.format("%s.%s", r.prenom.charAt(0), r.nom);
+        Button btn = HELBHotelViewComponents.createButton(text, "", false);
+        btn.setPrefSize(HELBHotelViewStyle.BUTTON_PREF_WIDTH, HELBHotelViewStyle.BUTTON_PREF_HEIGHT);
+        btn.setOnAction(e -> controller.handleReservationSelection(r));
+        return btn;
+    }
+
+
 
 
 }

@@ -2,6 +2,9 @@ package com.example.helbhotel.controller;
 
 import com.example.helbhotel.model.Hotel;
 import com.example.helbhotel.model.Room;
+import com.example.helbhotel.parser.Reservation;
+import com.example.helbhotel.parser.ReservationParser;
+import com.example.helbhotel.view.HELBReservationDetailView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +12,14 @@ import java.util.List;
 public class HELBHotelController {
 
     private Hotel hotel;
+    private HELBReservationDetailView reservationDetailView;
+    private ReservationParser requestParser;
+    private List<Reservation> allReservations;
+
 
     public HELBHotelController() {
         this.hotel = new Hotel();
+
     }
 
     public List<String[]> getRoomsInformation() {
@@ -31,6 +39,18 @@ public class HELBHotelController {
             floorLabels.add(floorLabel);
         }
         return floorLabels;
+    }
+
+    public void handleReservationSelection(Reservation req) {
+        reservationDetailView.openView();
+    }
+
+    private List<Reservation> fetchAllRequests() {
+        List<Reservation> list = new ArrayList<>();
+        while (requestParser.hasNextRequest()) {
+            list.add(requestParser.getNextReservationRequest());
+        }
+        return list;
     }
 
 }
