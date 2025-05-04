@@ -145,6 +145,13 @@ public class HELBHotelView {
         for (int i = 0; i < floorLabels.size(); i++) {
             String label = floorLabels.get(i);
             String displayLabel = label + (i + 1); // A1, B2, ...
+
+            if (i < 26) {
+                displayLabel = label + (i + 1); // A1, B2, ..., Z26
+            } else {
+                displayLabel = label; // AA, AB, ...
+            }
+
             floorSelector.getItems().add(displayLabel);
         }
 

@@ -33,7 +33,6 @@ public class Hotel {
                 }
             }
             building.addLast(this.floor);
-
         }
     }
 
@@ -61,9 +60,15 @@ public class Hotel {
         return roomInformation;
     }
 
-    public String getFloorLabel(int n) {
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        return String.valueOf(alphabet.charAt(n));
+    public static String getFloorLabel(int n) {
+        StringBuilder sb = new StringBuilder();
+        n++;
+        while (n > 0) {
+            n--;
+            sb.insert(0, (char) ('A' + (n % 26)));
+            n /= 26;
+        }
+        return sb.toString();
     }
 
     public Room[][] getFloor(String floorLabel) {
